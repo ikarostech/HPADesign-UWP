@@ -125,9 +125,9 @@ namespace HPADesign.Models
 
 
             //まず拡大
-            for (int i = 0; i < Foil.Coordinate321.Count; i++)
+            for (int i = 0; i < Foil.Coordinate.Coordinate321.Count; i++)
             {
-                var o_point = new double[2] { Foil.Coordinate321[i].x * Chord, Foil.Coordinate321[i].y * Chord };
+                var o_point = new double[2] { Foil.Coordinate.Coordinate321[i].x * Chord, Foil.Coordinate321[i].y * Chord };
 
                 OuterFoil.Add(o_point);
             }
