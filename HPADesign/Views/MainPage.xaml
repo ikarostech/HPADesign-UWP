@@ -1,0 +1,152 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:helpers="using:HPADesign.Helpers"
+    xmlns:Custom="using:HPADesign.Styles"
+    xmlns:services="using:HPADesign.Services"
+    x:Class="HPADesign.Views.MainPage"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Key="ListViewItemContainerStyle" TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid
+        x:Name="ContentArea"
+        Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock
+            Grid.Row="0"
+            x:Uid="Main_Title"
+            Style="{StaticResource PageTitleStyle}" />
+        <Grid
+            Grid.Row="1" 
+            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
+                Place your content here.-->
+
+            <Pivot HorizontalAlignment="Left" Height="1060" Title="HPA Design" VerticalAlignment="Top" Width="1900" Background="White" Foreground="Black">
+                <PivotItem Header="Concept" Height="980" Margin="10,0,0,0">
+                    <Grid Height="Auto" Width="Auto">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=" 50"/>
+                            <RowDefinition Height="46"/>
+                            <RowDefinition Height="46"/>
+                            <RowDefinition Height="46"/>
+                            <RowDefinition Height="122"/>
+                            <RowDefinition Height="670"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="300" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="0*"/>
+                            <ColumnDefinition Width="1140"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="設計機速" VerticalAlignment="Center" Width="164" FontSize="24" Margin="0,6,0,5"/>
+                        <Custom:EditableTextBlock DataContext="{x:Bind Mode=TwoWay, Path=conceptviewmodel.TheoricalSpeed.Value}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Height="32"  VerticalAlignment="Center" Width="208" Margin="0,7" ToolTipService.ToolTip="機体の目標機速(気速)を入力してください"/>
+                        <ComboBox SelectedIndex="0" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Margin="0,6,0,5">
+                            <ComboBoxItem Content="m/s" />
+                            <ComboBoxItem Content="km/h" />
+                            <ComboBoxItem Content="kt" />
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="パイロット荷重" VerticalAlignment="Top" Width="164" FontSize="24" Grid.Column="1"/>
+                        <TextBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Height="32"  TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="208" Margin="0,7" ToolTipService.ToolTip="パイロットの目標体重を入力してください" />
+                        <ComboBox Grid.Row="2" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Grid.Column="3" SelectedIndex="0" Margin="0,6,0,5">
+                            <ComboBoxItem Content="kg" />
+                            <ComboBoxItem Content="N" />
+                            <ComboBoxItem Content="Pb" />
+                        </ComboBox>
+                        <TextBlock Grid.Row="3" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="機体荷重" VerticalAlignment="Top" Width="164" FontSize="24" Grid.Column="1"/>
+                        <TextBox Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" Height="32"  TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="208" Margin="0,0,0,14" ToolTipService.ToolTip="パイロット荷重を除いた機体の乾燥重量を入力してください" />
+                        <ComboBox Grid.Row="3" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Grid.Column="3" SelectedIndex="0" Margin="0,0,0,11">
+                            <ComboBoxItem Content="kg" />
+                            <ComboBoxItem Content="N" />
+                            <ComboBoxItem Content="Pb" />
+                        </ComboBox>
+                        <TextBlock Grid.Column="1" Grid.Row="4" FontSize="24" HorizontalAlignment="Left" Height="34" Margin="0,80,0,10" TextWrapping="Wrap" Text="翼分割構成" VerticalAlignment="Top" Width="306"/>
+
+                        <ListView ItemsSource="{x:Bind conceptviewmodel.Wingsections, Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="375" Grid.Row="5" VerticalAlignment="Top" Width="838" Grid.ColumnSpan="5" Margin="0,10,0,0">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Custom:EditableTextBlock DataContext="{Binding Id}" Width="50" HorizontalAlignment="Left" />
+                                        <Custom:EditableTextBlock DataContext="{Binding Length}" Width="100" HorizontalAlignment="Left" Margin="50,0"/>
+                                        <Custom:EditableTextBlock DataContext="{Binding MaxChord}" Width="100" HorizontalAlignment="Left" Margin="150,0"/>
+                                        <Custom:EditableTextBlock DataContext="{Binding MinChord}" Width="100" HorizontalAlignment="Left" Margin="250,0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="翼分割数を増やす" Command="{x:Bind conceptviewmodel.AddWingSection}"/>
+                                    <MenuFlyoutItem Text="翼分割数を減らす" />
+                                </MenuFlyout>
+                            </ListView.ContextFlyout>
+
+                        </ListView>
+                        <Button Command="{x:Bind conceptviewmodel.AddWingSection}" Content="+" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="0,0,0,-4"/>
+                    </Grid>
+                </PivotItem>
+                <PivotItem Header="Lift and Drag">
+                    <Grid/>
+                </PivotItem>
+                <PivotItem Header="Spar and Deflection"/>
+                <PivotItem Header="Airfoil" HorizontalAlignment="Stretch" Margin="18,3,6,-3" VerticalAlignment="Stretch">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="442*"/>
+                            <RowDefinition Height="523*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="28" HorizontalAlignment="Left" Height="42" Margin="67,80,0,0" Text="Airfoil List" TextWrapping="Wrap" VerticalAlignment="Top" Width="201"/>
+                        <Button Content="Add" Command="{x:Bind airfoilviewmodel.AddAirfoil}" HorizontalAlignment="Left" Height="36" Margin="74,151,0,0" VerticalAlignment="Top" Width="69"/>
+                        <Button Content="Delete" HorizontalAlignment="Left" Height="36" Margin="153,151,0,0" VerticalAlignment="Top" Width="69"/>
+
+                        <TextBlock FontSize="20" Text="Name" Height="30" Width="200" HorizontalAlignment="Left" Margin="65,224,0,188"/>
+                        <TextBlock FontSize="20" Text="Thickness" Height="30" Width="100" HorizontalAlignment="Left" Margin="265,224,0,188" VerticalAlignment="Stretch" />
+                        <TextBlock FontSize="20" Text="at" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="365,224,0,0" />
+                        <TextBlock FontSize="20" Text="Camber" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="465,224,0,0" />
+                        <TextBlock FontSize="20" Text="at" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="565,224,0,0" />
+                        <ListView  ItemsSource="{x:Bind airfoilviewmodel.AirfoilList}" SelectionMode="Extended" ItemContainerStyle="{StaticResource ListViewItemContainerStyle}" BorderBrush="Gray" HorizontalAlignment="Left" Height="207" Margin="64,261,0,0" VerticalAlignment="Top" Width="900">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock Text="{Binding Name}" Width="200" HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding MaxThickness}" Margin="200,0" Width="100" HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding AtMaxThickness}" Margin="300,0" Width="200" HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding MaxCamber}" Margin="400,0" Width="100"  HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding AtMaxCamber}" Margin="500,0" Width="200" HorizontalAlignment="Left"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                        </ListView>
+                        <Polyline HorizontalAlignment="Left" VerticalAlignment="Top" Height="266" Width="399" Margin="733,168,0,0" />
+                        <ItemsControl HorizontalAlignment="Left" VerticalAlignment="Top" Height="266" Width="399" Margin="733,168,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Polyline Stroke="Gray" Points="{Binding AirfoilPolyLines}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="266" Width="399" Margin="733,168,0,0" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Custom:Plot HorizontalAlignment="Left" Height="400" Margin="102,432,0,0" VerticalAlignment="Top" Width="700" Grid.RowSpan="2"/>
+
+                    </Grid>
+
+                </PivotItem>
+            </Pivot>
+
+        </Grid>
+    </Grid>
+</Page>
