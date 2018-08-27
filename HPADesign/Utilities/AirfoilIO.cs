@@ -8,34 +8,34 @@ using HPADesign.Models;
 
 namespace HPADesign.Utilities
 {
-    interface AirfoilDetect
+    interface ICoordinateDetect
     {
-        IAirfoil Detect();
+        ICoordinate Detect();
         void Close();
     }
-    interface AirfoilRead
+    interface IAirfoilRead
     {
-        IAirfoil Read();
+        Airfoil Read();
         void Close();
     }
     interface AirfoilWrite
     {
         
     }
-    public class AirfoilDetector : AirfoilDetect
+    public class CoordinateDetector : ICoordinateDetect
     {
         StreamReader sr;
         string file;
-        public AirfoilDetector(string file)
+        public CoordinateDetector(string file)
         {
             this.file = file;
         }
-        public AirfoilDetector(Stream stream)
+        public CoordinateDetector(Stream stream)
         {
             sr = new StreamReader(stream);
             file = sr.ReadToEnd();
         }
-        public IAirfoil Detect()
+        public ICoordinate Detect()
         {
             string[] datstring = file.Split(' ');
             for (int i = 0; i < datstring.Length; i++)
@@ -50,19 +50,19 @@ namespace HPADesign.Utilities
                 if (x > 0.1)
                 {
                     //Seligパターン
-                    Seligfoil selig = new Seligfoil();
+                    var selig = new SeligCoordinate();
 
                     return selig;
                 }
                 else
                 {
                     //Lednicerパターン
-                    Lednicerfoil lednicer = new Lednicerfoil();
+                    var lednicer = new LednicerCoordinate();
 
                     return lednicer;
                 }
             }
-            return new Nullfoil();
+            return new NullCoordinate();
         }
         public void Close()
         {
@@ -70,7 +70,7 @@ namespace HPADesign.Utilities
                 sr.Dispose();
         }
     }
-    public class AirfoilReader : AirfoilRead
+    public class AirfoilReader : IAirfoilRead
     {
         private string name;
         private string file;
@@ -94,14 +94,15 @@ namespace HPADesign.Utilities
             this.file = sr.ReadToEnd();
         }
 
-        public IAirfoil Read()
+        public Airfoil Read()
         {
             
-            var detector = new AirfoilDetector(file);
-            IAirfoil result = detector.Detect();
+            var detector = new CoordinateDetector(file);
+            var result = new Airfoil();
+            result.Name = name;
+            result.Coordinate = detector.Detect();
             detector.Close();
 
-            result.Name = this.name;
             string[] datstring = file.Split(' ');
             //いったん格納して後から二つずつPosにぶち込む
             List<double> posraw = new List<double>();
@@ -117,14 +118,14 @@ namespace HPADesign.Utilities
             if (posraw.Count % 2 == 1)
             {
                 //エラーとして空のAirfoilインスタンスを投げる
-                return new Nullfoil();
+                return null;
             }
             List<Pos> Coordinate = new List<Pos>();
             for (int i = 0; i < posraw.Count / 2; i++)
             {
                 Coordinate.Add(new Pos(posraw[2*i], posraw[2*i + 1]));
             }
-            result.Coordinate = Coordinate;
+            result.Coordinate.Coordinate = Coordinate;
             return result;
         }
         public void Close()

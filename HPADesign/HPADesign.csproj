@@ -114,6 +114,7 @@
     <Compile Include="BackgroundTasks\BackgroundTask.cs" />
     <Compile Include="BackgroundTasks\BackgroundTask1.cs" />
     <Compile Include="Calculations\TR797.cs" />
+    <Compile Include="Converter\TwoWayBindingConverter.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Models\PartWing.cs" />
@@ -142,6 +143,7 @@
       <DependentUpon>Plot.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\RibGenerator.cs" />
+    <Compile Include="ViewModels\AeroDynamicsViewModel.cs" />
     <Compile Include="ViewModels\AirfoilViewModel.cs" />
     <Compile Include="ViewModels\ConceptViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">

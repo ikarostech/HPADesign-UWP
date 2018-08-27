@@ -16,5 +16,7 @@ namespace HPADesign.Models
 
         public int MinChord { get; set; } = 0;
         public int MaxChord { get; set; } = 0;
+
+        public int RibCount { get; set; } = 10;
     }
 }

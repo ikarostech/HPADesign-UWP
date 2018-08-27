@@ -12,9 +12,9 @@ namespace HPADesign.Models
     public interface IAirfoil
     {
         string Name { get; set; }
-        CoordinateType Type { get; }
+        //CoordinateType Type { get; }
         ICoordinate Coordinate { get; set; }
-        List<Pos> Coordiante321 { get; }
+        List<Pos> Coordinate321 { get; }
         double yValue(double xPos, int AirfoilSide);
         Pos yValue(Pos x, int AirfoilSide);
 
@@ -156,22 +156,89 @@ namespace HPADesign.Models
             return result;
         }
     }
+    public class NullCoordinate : ICoordinate
+    {
+        public CoordinateType Type
+        {
+            get { return CoordinateType.Null; }
+        }
+        public List<Pos> Coordinate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public List<Pos> Coordinate321 { get { return null; } }
+    }
 
     public class Airfoil : IAirfoil
     {
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public CoordinateType Type => throw new NotImplementedException();
+        public string Name { get; set; }
 
         public ICoordinate Coordinate { get; set; }
         public List<Pos> Coordinate321 { get { return Coordinate.Coordinate321; } }
-        public double MaxThickness => throw new NotImplementedException();
 
-        public double AtMaxThickness => throw new NotImplementedException();
+        public double MaxThickness
+        {
+            get
+            {
+                double result = 0;
+                const int N = 160;
+                for (int i = 0; i < N; i++)
+                {
+                    double temp = Coordinate321[i].y - Coordinate321[Coordinate321.Count - i - 1].y;
 
-        public double MaxCamber => throw new NotImplementedException();
+                    if (temp > result)
+                    {
+                        result = temp;
+                    }
+                }
+                return result;
+            }
+        }
 
-        public double AtMaxCamber => throw new NotImplementedException();
+        public double AtMaxThickness
+        {
+            get
+            {
+                double result = 0;
+                const int N = 160;
+                for (int i = 0; i < N; i++)
+                {
+                    double temp = Coordinate321[i].y - Coordinate321[Coordinate321.Count - i - 1].y;
+
+                    if (temp > result)
+                    {
+                        result = (double)i / N;
+                    }
+                }
+                return result;
+            }
+        }
+
+        public double MaxCamber
+        {
+            get
+            {
+                double result = 0;
+                const int N = 160;
+                for (int i = 0; i < N; i++)
+                {
+                    double temp = Coordinate321[i].y + Coordinate321[Coordinate321.Count - i - 1].y;
+                    temp /= 2;
+                    if (temp > result)
+                    {
+                        result = temp;
+                    }
+                }
+                return result;
+            }
+        }
+
+        //TODO
+        public double AtMaxCamber
+        {
+            get
+            {
+                return 0;
+            }
+        }
 
         public double yValue(double xPos, int AirfoilSide)
         {
@@ -184,31 +251,5 @@ namespace HPADesign.Models
         }
     }
 
-    public class Nullfoil : IAirfoil
-    {
-        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public CoordinateType Type { get { return CoordinateType.Null; } }
-
-        public ICoordinate Coordinate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public double MaxThickness => throw new NotImplementedException();
-
-        public double AtMaxThickness => throw new NotImplementedException();
-
-        public double MaxCamber => throw new NotImplementedException();
-
-        public double AtMaxCamber => throw new NotImplementedException();
-
-        public double yValue(double xPos, int AirfoilSide)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Pos yValue(Pos x, int AirfoilSide)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
 }

@@ -13,6 +13,11 @@
         <Style x:Key="ListViewItemContainerStyle" TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
+        <Style x:Key="TitleTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
     </Page.Resources>
 
     <Grid
@@ -53,7 +58,7 @@
                             <ColumnDefinition Width="1140"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="設計機速" VerticalAlignment="Center" Width="164" FontSize="24" Margin="0,6,0,5"/>
-                        <Custom:EditableTextBlock DataContext="{x:Bind Mode=TwoWay, Path=conceptviewmodel.TheoricalSpeed.Value}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Height="32"  VerticalAlignment="Center" Width="208" Margin="0,7" ToolTipService.ToolTip="機体の目標機速(気速)を入力してください"/>
+                        <TextBox DataContext="{x:Bind Mode=TwoWay, Path=conceptviewmodel.TheoricalSpeed.Value}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Height="32"  VerticalAlignment="Center" Width="208" Margin="0,7" ToolTipService.ToolTip="機体の目標機速(気速)を入力してください"/>
                         <ComboBox SelectedIndex="0" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Margin="0,6,0,5">
                             <ComboBoxItem Content="m/s" />
                             <ComboBoxItem Content="km/h" />
@@ -75,18 +80,26 @@
                             <ComboBoxItem Content="Pb" />
                         </ComboBox>
                         <TextBlock Grid.Column="1" Grid.Row="4" FontSize="24" HorizontalAlignment="Left" Height="34" Margin="0,80,0,10" TextWrapping="Wrap" Text="翼分割構成" VerticalAlignment="Top" Width="306"/>
-
-                        <ListView ItemsSource="{x:Bind conceptviewmodel.Wingsections, Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="375" Grid.Row="5" VerticalAlignment="Top" Width="838" Grid.ColumnSpan="5" Margin="0,10,0,0">
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left" Height="50" Grid.Row="5" VerticalAlignment="Top" Width="838" Grid.ColumnSpan="5" Margin="0,0,0,0">
+                            <TextBlock Text="翼番号" Width="80" Style="{StaticResource TitleTextBlockStyle}" />
+                            <TextBlock Text="翼スパン" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
+                            <TextBlock Text="最大翼弦長" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
+                            <TextBlock Text="最小翼弦長" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
+                            <TextBlock Text="リブ数" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
+                        </StackPanel>
+                        <ListView ItemsSource="{x:Bind conceptviewmodel.Wingsections, Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="375" Grid.Row="5" VerticalAlignment="Top" Width="838" Grid.ColumnSpan="5" Margin="0,50,0,0">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
-                                        <Custom:EditableTextBlock DataContext="{Binding Id}" Width="50" HorizontalAlignment="Left" />
-                                        <Custom:EditableTextBlock DataContext="{Binding Length}" Width="100" HorizontalAlignment="Left" Margin="50,0"/>
-                                        <Custom:EditableTextBlock DataContext="{Binding MaxChord}" Width="100" HorizontalAlignment="Left" Margin="150,0"/>
-                                        <Custom:EditableTextBlock DataContext="{Binding MinChord}" Width="100" HorizontalAlignment="Left" Margin="250,0"/>
-                                    </Grid>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
+                                        <TextBox Text="{Binding Id}" Width="80" HorizontalAlignment="Stretch" />
+                                        <TextBox Text="{Binding Length}" Width="100" HorizontalAlignment="Stretch"/>
+                                        <TextBox Text="{Binding MaxChord}" Width="100" HorizontalAlignment="Stretch"/>
+                                        <TextBox Text="{Binding MinChord}" Width="100" HorizontalAlignment="Stretch"/>
+                                        <TextBox Text="{Binding RibCount}" Width="100" HorizontalAlignment="Stretch" />
+                                    </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
+                            
                             <ListView.ContextFlyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem Text="翼分割数を増やす" Command="{x:Bind conceptviewmodel.AddWingSection}"/>

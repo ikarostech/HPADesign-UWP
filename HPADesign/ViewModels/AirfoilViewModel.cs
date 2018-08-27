@@ -40,7 +40,7 @@ namespace HPADesign.ViewModels
                 {
                     Stream stream = await file.OpenStreamForReadAsync();
                     AirfoilReader ar = new AirfoilReader(stream);
-                    IAirfoil airfoil = ar.Read();
+                    Airfoil airfoil = ar.Read();
                     AirfoilList.Add(airfoil);
                 }
 
