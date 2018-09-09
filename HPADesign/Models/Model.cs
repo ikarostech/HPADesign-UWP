@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 
 namespace HPADesign.Models
-{
-    class Model
-    {
-    }
-    
+{  
     static class Cal
     {
         public static double rho { get { return 1.19; } }
@@ -19,22 +15,18 @@ namespace HPADesign.Models
         {
             return data1 + (data2 - data1) * rate;
         }
-        public static double Lerp(double[] point1, double[] point2, double target)
-        {
-            double rate = (target - point1[0]) / (point2[0] - point1[0]);
-            return Lerp(point1[1], point2[1], rate);
-        }
+
         public static double Lerp(Pos p1, Pos p2, double target)
         {
             double rate = (target - p1.x) / (p2.x - p1.x);
             return Lerp(p1.y, p2.y, rate);
         }
         //座標点データから
-        public static double Lerp(List<double[]> point, double target)
+        public static double Value(List<Pos> point, double target)
         {
             for (int i = 0; i < point.Count - 1; i++)
             {
-                if (point[i][0] <= target && target < point[i + 1][0])
+                if (point[i].x <= target && target < point[i + 1].x)
                 {
                     return Lerp(point[i], point[i + 1], target);
                 }
@@ -42,7 +34,8 @@ namespace HPADesign.Models
             //できなかったらNaNを投げる
             return double.NaN;
         }
-        public static double Lerp(List<Pos> point, double target, int start)
+
+        public static double Value(List<Pos> point, double target, int start)
         {
             for (int i = start; i < point.Count - 1; i++)
             {

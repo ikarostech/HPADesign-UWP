@@ -18,6 +18,7 @@ namespace HPADesign.Models
         public double Lift { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private double cruisevel;
         public double CruiseVel
         { 
@@ -25,11 +26,7 @@ namespace HPADesign.Models
             set
             {
                 cruisevel = value;
-                var h = PropertyChanged;
-                if(h!=null)
-                {
-                    h(this, new PropertyChangedEventArgs("CruiseVel"));
-                }
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CruiseVel"));
             }
         }
         

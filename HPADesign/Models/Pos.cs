@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HPADesign.Models
 {
-    public class Pos
+    public class Pos : IComparable
     {
         public double x { get; set; }
         public double y { get; set; }
@@ -127,6 +127,11 @@ namespace HPADesign.Models
         {
             Pos Normal = NormalVector(To);
             return Normal / Normal.Magnitude;
+        }
+
+        public int CompareTo(object obj)
+        {
+            return x.CompareTo(obj);
         }
     }
 

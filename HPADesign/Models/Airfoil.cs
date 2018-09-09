@@ -18,6 +18,8 @@ namespace HPADesign.Models
         double yValue(double xPos, int AirfoilSide);
         Pos yValue(Pos x, int AirfoilSide);
 
+        Distribution Camber { get; }
+
         double MaxThickness { get;  }
         double AtMaxThickness { get; }
         double MaxCamber { get;  }
@@ -29,6 +31,7 @@ namespace HPADesign.Models
         CoordinateType Type { get; }
         List<Pos> Coordinate { get; set; }
         List<Pos> Coordinate321 { get; }
+        Pos Value(double x, AirfoilSide airfoilSide);
     }
 
     public class SeligCoordinate : ICoordinate
@@ -66,6 +69,10 @@ namespace HPADesign.Models
                 }
                 return result;
             }
+        }
+        public Pos Value(double x,AirfoilSide airfoilSide)
+        {
+            return null;
         }
         /// <summary>
         /// 1->0->1の座標点を0->1,0->1の座標点形式に変換します
@@ -173,6 +180,20 @@ namespace HPADesign.Models
 
         public ICoordinate Coordinate { get; set; }
         public List<Pos> Coordinate321 { get { return Coordinate.Coordinate321; } }
+
+
+        public Distribution Camber
+        {
+            get
+            {
+                var result = new List<Pos>();
+                for(int i=0; i<160; i++)
+                {
+                    result.Insert(0, new Pos(Coordinate321[i].x, (Coordinate321[i].y + Coordinate321[320 - i].y)/2));
+                }
+                return null;
+            }
+        }
 
         public double MaxThickness
         {

@@ -10,11 +10,13 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using HPADesign.Models;
 
 namespace HPADesign.Views
 {
     public sealed partial class MainPage : Page
     {
+        Wing wing { get; set; }
         ConceptViewModel conceptviewmodel { get; } = new ConceptViewModel();
         AirfoilViewModel airfoilviewmodel { get; } = new AirfoilViewModel();
         public MainPage()
