@@ -13,6 +13,11 @@ namespace HPADesign.Models
     /// </summary>
     public class Wing : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 部分翼
+        /// </summary>
+        public List<PartWing> partWings { get; set; }
+
         public int CN { get; set; }
         public int RN { get; set; }
         public double Lift { get; set; }
@@ -31,12 +36,22 @@ namespace HPADesign.Models
         }
         
 
-
+        /// <summary>
+        /// 両翼スパン
+        /// </summary>
         public double span { get { return span; } set { span = value; le = value / 2; } }
-        //片翼の
+        /// <summary>
+        /// 片翼スパン
+        /// </summary>
         public double le { get { return le; } set { le = value; span = value * 2; } }
 
+        /// <summary>
+        /// 揚力分布
+        /// </summary>
         public Distribution LiftDistribution { get; set; }
+        /// <summary>
+        /// 実効揚力分布
+        /// </summary>
         public Distribution TheoricalLiftDistribution { get; set; }
 
         //楕円分布

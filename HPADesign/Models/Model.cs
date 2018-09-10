@@ -71,7 +71,7 @@ namespace HPADesign.Models
             return result;
         }
     }
-    class Rib
+    public class Rib
     {
         //リブの名前
         public double Name { get; set; }

@@ -22,7 +22,7 @@ namespace HPADesign.Models
         public void DataInsert(Pos newdata)
         {
             Data.Add(newdata);
-
+            Data.Sort();
         }
         /// <summary>
         /// 座標点横軸データの任意の点から縦軸データの線形補間データを返します

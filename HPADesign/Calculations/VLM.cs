@@ -12,6 +12,8 @@ namespace HPADesign.Calculations
     /// </summary>
     public class WingElement
     {
+        
+
         Airfoil airfoil;
         Pos lf { get; set; }
         Pos lr { get; set; }
@@ -37,10 +39,29 @@ namespace HPADesign.Calculations
     }
     public class VLM
     {
-        
-        public VLM()
-        {
+        List<List<WingElement>> Elements;
 
+        //VLMコンディションはこちらに
+        public double Dihedral { get; set; }
+        public double Twist { get; set; }
+        public int xnum { get; set; }
+        public int ynum { get; set; }
+        public double xoffset { get; set; }
+        public double ypos { get; set; }
+        public double chord { get; set; }
+
+        /// <summary>
+        /// wingからElementsを作成
+        /// </summary>
+        /// <param name="wing"></param>
+        public VLM(Wing wing)
+        {
+            //パネルデータ生成
+            Pos rf, rr, tf, tr;
+
+            double yk, ck, osk, dk, ak, xnumk, ynumk, dam0, dam1, dam2, ykp1, ckp1, oskp1, dkp1, akp1, xnumkp1, ynumkp1;
+
+            
         }
     }
 }
