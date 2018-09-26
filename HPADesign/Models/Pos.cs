@@ -326,7 +326,34 @@ namespace HPADesign.Models
                 }
 
                 Matrix result = new Matrix(N, N);
-                return null;
+
+                //ここら辺は最適化できそう？？？
+                for(int i=0; i<N; i++)
+                {
+                    //L要素の算出
+                    for (int j=0; j<=i; j++)
+                    {
+                        double lu = Entry[i, j];
+                        for(int k=0; k<j; k++)
+                        {
+                            lu -= Entry[i, k] * Entry[k, j];
+                        }
+                        result.Entry[i, j] = lu;
+                    }
+                    //U要素の算出
+                    for (int j =i+1; j<N; j++)
+                    {
+                        double lu = Entry[i, j];
+                        for(int k=0; k<i; k++)
+                        {
+                            lu -= Entry[i, k] * Entry[k, j];
+                        }
+                        //ここがおっかない
+                        ///TODO
+                        result.Entry[i, j] = lu / Entry[i, i];
+                    }
+                }
+                return result;
             }
         }
     }
