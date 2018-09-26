@@ -144,22 +144,59 @@ namespace HPADesign.Models
         {
             get
             {
+                Matrix tmp = new Matrix(Entry);
                 if(M!=N)
                 {
+                    //正則行列以外では行列式を定義できない
                     return double.NaN;
                 }
-                double result = 0;
-                double buf;
+
+                //計算しやすいように行列を入れ替えていくぜ
+                for(int i=0; i<N; i++)
+                {
+                    if(tmp.Entry[i,i]!=0)
+                    {
+                        continue;
+                    }
+                    int j;
+                    for(j=0; j<N; j++)
+                    {
+                        if (tmp.Entry[j, i] != 0)
+                        {
+                            break;
+                        }
+                    }
+                    if(j==N)
+                    {
+                        //ある列がすべて0→detA=0
+                        return 0;
+                    }
+                    for(int k=0; k<N; k++)
+                    {
+                        tmp.Entry[i, k] += tmp.Entry[j, k];
+                    }
+                }
+                double result = 1;
+                
                 for(int i=0; i<N; i++)
                 {
                     for(int j=0; j<N; j++)
                     {
-                        if(i<j)
+                        if (i == j)
                         {
-                            buf = Entry[j, i] / Entry[i, i];
+                            continue;
                         }
-                        for(int k=0;)
+                        double buf = tmp.Entry[j, i] / tmp.Entry[i, i];
+                        
+                        for(int k=0; k<N; k++)
+                        {
+                            tmp.Entry[j,k] -= buf * tmp.Entry[i,k];
+                        }
                     }
+                }
+                for(int i=0; i<N; i++)
+                {
+                    result *= tmp.Entry[i, i];
                 }
                 return result;
             }
@@ -278,11 +315,18 @@ namespace HPADesign.Models
 
         
 
-        public (Matrix,Matrix) LUSeparate()
+        public Matrix LUSeparate
         {
-            if(M!=N)
+            get
             {
+                if (M != N)
+                {
+                    //正則行列でない場合はエラー
+                    return Zero(M,N);
+                }
 
+                Matrix result = new Matrix(N, N);
+                return null;
             }
         }
     }
