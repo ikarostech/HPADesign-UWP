@@ -134,5 +134,170 @@ namespace HPADesign.Models
             return x.CompareTo(obj);
         }
     }
+    public class Matrix
+    {
+        public double[,] Entry { get; set; }
+        public int M { get { return Entry.GetLength(0); } }
+        public int N { get { return Entry.GetLength(1); } }
 
+        public double det
+        {
+            get
+            {
+                if(M!=N)
+                {
+                    return double.NaN;
+                }
+                double result = 0;
+                double buf;
+                for(int i=0; i<N; i++)
+                {
+                    for(int j=0; j<N; j++)
+                    {
+                        if(i<j)
+                        {
+                            buf = Entry[j, i] / Entry[i, i];
+                        }
+                        for(int k=0;)
+                    }
+                }
+                return result;
+            }
+        }
+
+        public Matrix(int m, int n)
+        {
+            Entry = new double[m, n];
+        }
+        public Matrix(double[,] vs)
+        {
+            Entry = vs;
+        }
+
+        public static Matrix Zero(int M,int N)
+        {
+            var result = new Matrix(M, N);
+            for(int i=0; i<M; i++)
+            {
+                for(int j=0; j<N; j++)
+                {
+                    result.Entry[i, j] = 0;
+                }
+            }
+            return result;
+        }
+        public static Matrix E(int N)
+        {
+            var result = Zero(N, N);
+            for(int i=0; i<N; i++)
+            {
+                result.Entry[i, i] = 1;
+            }
+            return result;
+        }
+
+        public static Matrix operator +(Matrix A, Matrix B)
+        {
+            if (A.M != B.M || A.N != B.N)
+            {
+                throw new InvalidOperationException();
+            }
+            var result = new Matrix(A.Entry);
+            for (int i = 0; i < A.M; i++)
+            {
+                for (int j = 0; j < A.N; j++)
+                {
+                    result.Entry[i, j] += B.Entry[i, j];
+                }
+            }
+            return result;
+        }
+        public static Matrix operator -(Matrix A, Matrix B)
+        {
+            if (A.M != B.M || A.N != B.N)
+            {
+                throw new InvalidOperationException();
+            }
+            var result = new Matrix(A.Entry);
+            for (int i = 0; i < A.M; i++)
+            {
+                for (int j = 0; j < A.N; j++)
+                {
+                    result.Entry[i, j] -= B.Entry[i, j];
+                }
+            }
+            return result;
+        }
+
+        public static Matrix operator *(Matrix A, double scaler)
+        {
+            var result = new Matrix(A.Entry);
+            for(int i=0; i<A.M; i++)
+            {
+                for(int j=0; i<A.N; i++)
+                {
+                    result.Entry[i,j] *= scaler;
+                }
+            }
+            return result;
+        }
+        public static Matrix operator /(Matrix A, double scaler)
+        {
+            var result = new Matrix(A.Entry);
+            for (int i = 0; i < A.M; i++)
+            {
+                for (int j = 0; i < A.N; i++)
+                {
+                    result.Entry[i, j] /= scaler;
+                }
+            }
+            return result;
+        }
+
+        public static Matrix operator *(Matrix A, Matrix B)
+        {
+            if(A.N!=B.M)
+            {
+                throw new InvalidOperationException();
+            }
+            var result = Zero(A.M,B.N);
+
+            //ループを回します…
+            for (int i = 0; i < result.M; i++)
+            {
+                for (int j = 0; j < result.N; j++)
+                {
+                    for(int k=0; k< A.N; k++)
+                    {
+                        result.Entry[i, j] += A.Entry[i, k] * B.Entry[k, j];
+                    }
+                }
+            }
+            return result;
+        }
+
+        
+
+        public (Matrix,Matrix) LUSeparate()
+        {
+            if(M!=N)
+            {
+
+            }
+        }
+    }
+
+    public class Vector
+    {
+        double[] Entry { get; set; }
+        int N { get { return Entry.Length; } }
+        public Vector(int n)
+        {
+            Entry = new double[n];
+        }
+        public Vector(double[] vs)
+        {
+            Entry = vs;
+        }
+    }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace HPADesign.Calculations
 {
     
-    class TR797
+    class TR797 : Solver
     {
         public int CN { get; set; }
         public int RN { get; set; }
@@ -38,7 +38,8 @@ namespace HPADesign.Calculations
                 return result;
             }
         }
-        public void CAL(double beta)
+        double beta { get; set; }
+        public void Solve()
         {
             /*
              * Optimum Design of Nonplanar wings-Minimum Induced Drag

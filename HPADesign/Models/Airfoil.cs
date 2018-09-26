@@ -31,7 +31,7 @@ namespace HPADesign.Models
         CoordinateType Type { get; }
         List<Pos> Coordinate { get; set; }
         List<Pos> Coordinate321 { get; }
-        Pos Value(double x, AirfoilSide airfoilSide);
+        //Pos Value(double x, AirfoilSide airfoilSide);
     }
 
     public class SeligCoordinate : ICoordinate

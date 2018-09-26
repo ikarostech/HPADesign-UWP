@@ -37,9 +37,11 @@ namespace HPADesign.Calculations
         double Downwash { get; set; }
         double Cp { get; set; }
     }
-    public class VLM
+    public class VLM : Solver
     {
         List<List<WingElement>> Elements;
+
+        double Alpha { get; set; }
 
         //VLMコンディションはこちらに
         public double Dihedral { get; set; }
@@ -61,6 +63,11 @@ namespace HPADesign.Calculations
 
             double yk, ck, osk, dk, ak, xnumk, ynumk, dam0, dam1, dam2, ykp1, ckp1, oskp1, dkp1, akp1, xnumkp1, ynumkp1;
 
+            
+        }
+        public void Solve()
+        {
+            //ビオサバールの影響係数を計算
             
         }
     }
