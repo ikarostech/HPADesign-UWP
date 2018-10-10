@@ -11,7 +11,7 @@ namespace HPADesign.Models
         public double x { get; set; }
         public double y { get; set; }
         public double z { get; set; }
-
+        public double[] Entity { get { return new double[3] { x, y, z }; } }
         public Pos()
         {
             x = 0;
@@ -50,13 +50,13 @@ namespace HPADesign.Models
             return new Pos(p.x / a, p.y / a, p.z / a);
         }
 
-        public double InnerProduct(Pos To)
+        public static double InnerProduct(Pos A,Pos B)
         {
-            return x * To.x + y * To.y + z * To.z;
+            return A.x * B.x + A.y * B.y + A.z * B.z;
         }
-        public Pos CrossProduct(Pos To)
+        public static Pos CrossProduct(Pos A,Pos B)
         {
-            return new Pos(y * To.z - To.y * z, z * To.x - To.z * x, x * To.y - To.x * y);
+            return new Pos(A.y * B.z - B.y * A.z, A.z * B.x - B.z * A.x, A.x * B.y - B.x * A.y);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace HPADesign.Models
         {
             get
             {
-                return Math.Sqrt(InnerProduct(this));
+                return Math.Sqrt(InnerProduct(this,this));
             }
         }
 
@@ -92,6 +92,21 @@ namespace HPADesign.Models
                 x * Cal.Cos(theta) - y * Cal.Sin(theta),
                 x * Cal.Sin(theta) + y * Cal.Cos(theta)
                 );
+        }
+
+        /// <summary>
+        /// 単位ベクトルを返します
+        /// </summary>
+        /// <returns></returns>
+        public Pos UnitVector
+        {
+            get
+            {
+                return new Pos(
+                    x / Magnitude,
+                    y / Magnitude,
+                    z / Magnitude);
+            }
         }
 
         /// <summary>

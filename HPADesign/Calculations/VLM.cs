@@ -14,16 +14,16 @@ namespace HPADesign.Calculations
     {
         
 
-        Airfoil airfoil;
-        Pos lf { get; set; }
-        Pos lr { get; set; }
-        Pos rf { get; set; }
-        Pos rr { get; set; }
+        public Airfoil airfoil;
+        public Pos lf { get; set; }
+        public Pos lr { get; set; }
+        public Pos rf { get; set; }
+        public Pos rr { get; set; }
 
-        Pos pl { get; set; }
-        Pos pr { get; set; }
+        public Pos pl { get; set; }
+        public Pos pr { get; set; }
 
-        Pos pcp { get; set; }
+        public Pos pcp { get; set; }
 
         double phi { get; set; }
         double seta { get; set; }
@@ -39,7 +39,7 @@ namespace HPADesign.Calculations
     }
     public class VLM : Solver
     {
-        List<List<WingElement>> Elements;
+        List<WingElement> Elements;
 
         double Alpha { get; set; }
 
@@ -68,7 +68,38 @@ namespace HPADesign.Calculations
         public void Solve()
         {
             //ビオサバールの影響係数を計算
-            
+            Matrix Qizj = new Matrix(Elements.Count, Elements.Count);
+
+            for(int i=0; i<Elements.Count; i++)
+            {
+                for(int j=0; j<Elements.Count; j++)
+                {
+                    Pos[] r = new Pos[3];
+
+                    for(int k=0; k<3; k++)
+                    {
+                        r[k] = new Pos(Elements[j].pr.Entity[k] - Elements[j].pl.Entity[k],
+                            Elements[i].pcp.Entity[k]-Elements[j].pl.Entity[k],
+                            Elements[i].pcp.Entity[k]-Elements[j].pr.Entity[k]);
+                    }
+                    double qpsirel = 0;
+
+                    //Opt.TODO
+                    for(int k=0; k<3; k++)
+                    {
+                        qpsirel += r[0].Entity[k] * (r[1].UnitVector.Entity[k] - r[2].UnitVector.Entity[k]);
+                    }
+
+                    Pos phidrel = Pos.CrossProduct(r[0],r[1]);
+
+                    //後曳渦(左)
+                    double vaexrel = 0.0;
+                    double vaeyrel = r[1].Entity[2] /
+                        (new Pos(0, r[1].Entity[1], r[1].Entity[2]).Magnitude) *
+                        (1 + r[1].UnitVector.Entity[0]);
+                    //後曳渦(右)
+                }
+            }
         }
     }
 }
