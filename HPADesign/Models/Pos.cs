@@ -6,69 +6,69 @@ using System.Threading.Tasks;
 
 namespace HPADesign.Models
 {
-    public class Pos : IComparable
+    public class Pos : Vector, IComparable
     {
-        public double x { get; set; }
-        public double y { get; set; }
-        public double z { get; set; }
-        public double[] Entity { get { return new double[3] { x, y, z }; } }
-        public Pos()
+        public double x
+        {
+            get
+            {
+                return Entry[0];
+            }
+            set
+            {
+                Entry[0] = value;
+            }
+        }
+        public double y
+        {
+            get
+            {
+                return Entry[1];
+            }
+            set
+            {
+                Entry[1] = value;
+            }
+        }
+        public double z
+        {
+            get
+            {
+                return Entry[2];
+            }
+            set
+            {
+                Entry[2] = value;
+            }
+        }
+
+
+        public new int N { get { return 3; } }
+
+        public Pos() : base(new double[3])
         {
             x = 0;
             y = 0;
             z = 0;
         }
-        public Pos(double x, double y)
+        public Pos(double x, double y) : base(new double[3])
         {
             this.x = x;
             this.y = y;
             z = 0;
         }
-        public Pos(double x, double y, double z)
+        public Pos(double x, double y, double z) : base(new double[3])
         {
-            this.x = x;
-            this.y = y;
-            this.z = z;
+            Entry = new double[3] { x, y, z };
         }
 
         public bool is2D { get; set; }
 
-        public static Pos operator +(Pos a, Pos b)
-        {
-            return new Pos(a.x + b.x, a.y + b.y, a.z + b.z);
-        }
-        public static Pos operator -(Pos a, Pos b)
-        {
-            return new Pos(a.x - b.x, a.y - b.y, a.z - b.z);
-        }
-        public static Pos operator *(double a, Pos p)
-        {
-            return new Pos(a * p.x, a * p.y, a * p.z);
-        }
-        public static Pos operator /(Pos p, double a)
-        {
-            return new Pos(p.x / a, p.y / a, p.z / a);
-        }
-
-        public static double InnerProduct(Pos A,Pos B)
-        {
-            return A.x * B.x + A.y * B.y + A.z * B.z;
-        }
-        public static Pos CrossProduct(Pos A,Pos B)
+        public static Pos CrossProduct(Pos A, Pos B)
         {
             return new Pos(A.y * B.z - B.y * A.z, A.z * B.x - B.z * A.x, A.x * B.y - B.x * A.y);
         }
 
-        /// <summary>
-        /// 原点からの位置ベクトルの大きさを返します
-        /// </summary>
-        public double Magnitude
-        {
-            get
-            {
-                return Math.Sqrt(InnerProduct(this,this));
-            }
-        }
 
         /// <summary>
         /// 原点基準のΘ角(x-y偏角)を返します
@@ -93,41 +93,7 @@ namespace HPADesign.Models
                 x * Cal.Sin(theta) + y * Cal.Cos(theta)
                 );
         }
-
-        /// <summary>
-        /// 単位ベクトルを返します
-        /// </summary>
-        /// <returns></returns>
-        public Pos UnitVector
-        {
-            get
-            {
-                return new Pos(
-                    x / Magnitude,
-                    y / Magnitude,
-                    z / Magnitude);
-            }
-        }
-
-        /// <summary>
-        /// Toベクターへの方向ベクトルを返します
-        /// </summary>
-        /// <param name="To"></param>
-        /// <returns></returns>
-        public Pos DirectionVector(Pos To)
-        {
-            return new Pos(To.x - x, To.y - y, To.z - z);
-        }
-        /// <summary>
-        /// Toベクターへの単位方向ベクトルを返します
-        /// </summary>
-        /// <param name="To"></param>
-        /// <returns></returns>
-        public Pos DirectionUnitVector(Pos To)
-        {
-            Pos Direction = DirectionVector(To);
-            return Direction / Direction.Magnitude;
-        }
+       
         /// <summary>
         /// 2次元方向ベクトルに対して左方向に向かう法線ベクトルを取得します
         /// </summary>
@@ -135,13 +101,13 @@ namespace HPADesign.Models
         /// <returns></returns>
         public Pos NormalVector(Pos To)
         {
-            Pos Direction = DirectionVector(To);
+            Pos Direction = (Pos)DirectionVector(To);
             return new Pos(-Direction.y, Direction.x, 0);
         }
         public Pos NormalUnitVector(Pos To)
         {
             Pos Normal = NormalVector(To);
-            return Normal / Normal.Magnitude;
+            return (Pos)(Normal / Normal.Magnitude);
         }
 
         public int CompareTo(object obj)
@@ -375,8 +341,8 @@ namespace HPADesign.Models
 
     public class Vector
     {
-        double[] Entry { get; set; }
-        int N { get { return Entry.Length; } }
+        public double[] Entry { get; set; }
+        public int N { get { return Entry.Length; } }
         public Vector(int n)
         {
             Entry = new double[n];
@@ -384,6 +350,111 @@ namespace HPADesign.Models
         public Vector(double[] vs)
         {
             Entry = vs;
+        }
+
+        public static Vector operator + (Vector A ,Vector B)
+        {
+            if(A.N!=B.N)
+            {
+                throw new InvalidOperationException();
+            }
+            Vector result = new Vector(A.N);
+            for(int i=0; i<A.N; i++)
+            {
+                result.Entry[i] = A.Entry[i] + B.Entry[i];
+            }
+            return result;
+        }
+
+        public static Vector operator -(Vector A, Vector B)
+        {
+            if (A.N != B.N)
+            {
+                throw new InvalidOperationException();
+            }
+            Vector result = new Vector(A.N);
+            for (int i = 0; i < A.N; i++)
+            {
+                result.Entry[i] = A.Entry[i] - B.Entry[i];
+            }
+            return result;
+        }
+
+        public static Vector operator *(double A, Vector B)
+        {
+            Vector result = new Vector(B.Entry);
+            for (int i = 0; i < B.N; i++)
+            {
+                result.Entry[i] *= A;
+            }
+            return result;
+        }
+        public static Vector operator *(Matrix A,Vector x)
+        {
+            //xを計算のためにMatrixに変換
+            Matrix X = new Matrix(1, x.N);
+            Matrix Y = A * X;
+            Vector result = new Vector(x.N);
+            for(int i=0; i<x.N; i++)
+            {
+                result.Entry[i] = Y.Entry[1, i];
+            }
+            return result;
+        }
+        public static Vector operator /(Vector B, double A)
+        {
+            Vector result = new Vector(B.Entry);
+            for (int i = 0; i < B.N; i++)
+            {
+                result.Entry[i] /= A;
+            }
+            return result;
+        }
+
+        public static double InnerProduct(Vector A,Vector B)
+        {
+            if (A.N != B.N)
+            {
+                throw new InvalidOperationException();
+            }
+            double result = 0;
+            for (int i = 0; i < A.N; i++)
+            {
+                result += A.Entry[i] * B.Entry[i];
+            }
+            return result;
+        }
+        //Vectorでは一般的な外積は定義できない
+
+        public double Magnitude
+        {
+            get
+            {
+                double result = 0;
+                for(int i=0; i<N; i++)
+                {
+                    result += Math.Pow(Entry[i], 2);
+                }
+                return result;
+            }
+        }
+
+        public Vector UnitVector
+        {
+            get
+            {
+                return new Vector(Entry) / Magnitude;
+            }
+        }
+
+        public Vector DirectionVector(Vector To)
+        {
+            return this - To;
+        }
+
+        public Vector DirectionUnitVector(Vector To)
+        {
+            return DirectionVector(To).UnitVector;
         }
     }
 }

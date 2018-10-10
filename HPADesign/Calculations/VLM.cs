@@ -78,26 +78,46 @@ namespace HPADesign.Calculations
 
                     for(int k=0; k<3; k++)
                     {
-                        r[k] = new Pos(Elements[j].pr.Entity[k] - Elements[j].pl.Entity[k],
-                            Elements[i].pcp.Entity[k]-Elements[j].pl.Entity[k],
-                            Elements[i].pcp.Entity[k]-Elements[j].pr.Entity[k]);
+                        r[k] = new Pos(Elements[j].pr.Entry[k] - Elements[j].pl.Entry[k],
+                            Elements[i].pcp.Entry[k]-Elements[j].pl.Entry[k],
+                            Elements[i].pcp.Entry[k]-Elements[j].pr.Entry[k]);
                     }
                     double qpsirel = 0;
 
                     //Opt.TODO
                     for(int k=0; k<3; k++)
                     {
-                        qpsirel += r[0].Entity[k] * (r[1].UnitVector.Entity[k] - r[2].UnitVector.Entity[k]);
+                        qpsirel += r[0].Entry[k] * (r[1].UnitVector.Entry[k] - r[2].UnitVector.Entry[k]);
                     }
 
                     Pos phidrel = Pos.CrossProduct(r[0],r[1]);
-
+                    Pos vabrel = (Pos)(qpsirel * phidrel);
                     //後曳渦(左)
-                    double vaexrel = 0.0;
-                    double vaeyrel = r[1].Entity[2] /
-                        (new Pos(0, r[1].Entity[1], r[1].Entity[2]).Magnitude) *
-                        (1 + r[1].UnitVector.Entity[0]);
+                    Pos vae = new Pos();
+                    
+                    vae.y = r[1].Entry[2] /
+                        (new Pos(0, r[1].Entry[1], r[1].Entry[2]).Magnitude) *
+                        (1 + r[1].UnitVector.Entry[0]);
+
+                    vae.z = -r[1].Entry[1] /
+                        new Pos(0, r[1].Entry[1], r[1].Entry[2]).Magnitude *
+                        (1 + r[1].UnitVector.Entry[0]);
+
                     //後曳渦(右)
+                    Pos veb = new Pos();
+                    veb.y=r[2].Entry[2] /
+                        (new Pos(0, r[2].Entry[1], r[2].Entry[2]).Magnitude) *
+                        (1 + r[2].UnitVector.Entry[0]);
+
+                    veb.z = -r[2].Entry[1] /
+                        new Pos(0, r[1].Entry[1], r[1].Entry[2]).Magnitude *
+                        (1 + r[1].UnitVector.Entry[0]);
+
+                    Pos vij = (Pos)((vabrel + vae + veb) / (4.0 * Math.PI));
+
+                    Qizj[i][j]=
+                    //qijzを計算
+
                 }
             }
         }
