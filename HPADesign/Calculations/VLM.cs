@@ -115,7 +115,7 @@ namespace HPADesign.Calculations
 
                     Pos vij = (Pos)((vabrel + vae + veb) / (4.0 * Math.PI));
 
-                    Qizj[i][j]=
+                    Matrix Phi = new Matrix(Cal.Cos(Elements[i].Phi))
                     //qijzを計算
 
                 }
