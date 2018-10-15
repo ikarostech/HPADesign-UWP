@@ -25,17 +25,17 @@ namespace HPADesign.Calculations
 
         public Pos pcp { get; set; }
 
-        double phi { get; set; }
-        double seta { get; set; }
+        public double phi { get; set; }
+        public double seta { get; set; }
 
-        double ds { get; set; }
-        double dl { get; set; }
-        double dc { get; set; }
+        public double ds { get; set; }
+        public double dl { get; set; }
+        public double dc { get; set; }
 
-        double dzdx { get; set; }
-        double ganma { get; set; }
-        double Downwash { get; set; }
-        double Cp { get; set; }
+        public double dzdx { get; set; }
+        public double ganma { get; set; }
+        public double Downwash { get; set; }
+        public double Cp { get; set; }
     }
     public class VLM : Solver
     {
@@ -65,36 +65,37 @@ namespace HPADesign.Calculations
 
             
         }
-        public void Solve()
-        {
-            //ビオサバールの影響係数を計算
-            Matrix Qizj = new Matrix(Elements.Count, Elements.Count);
 
-            for(int i=0; i<Elements.Count; i++)
+        private Matrix Qizj { get; set; }
+
+        private void SolveQijz()
+        {
+            Qizj= new Matrix(Elements.Count, Elements.Count);
+            for (int i = 0; i < Elements.Count; i++)
             {
-                for(int j=0; j<Elements.Count; j++)
+                for (int j = 0; j < Elements.Count; j++)
                 {
                     Pos[] r = new Pos[3];
 
-                    for(int k=0; k<3; k++)
+                    for (int k = 0; k < 3; k++)
                     {
                         r[k] = new Pos(Elements[j].pr.Entry[k] - Elements[j].pl.Entry[k],
-                            Elements[i].pcp.Entry[k]-Elements[j].pl.Entry[k],
-                            Elements[i].pcp.Entry[k]-Elements[j].pr.Entry[k]);
+                            Elements[i].pcp.Entry[k] - Elements[j].pl.Entry[k],
+                            Elements[i].pcp.Entry[k] - Elements[j].pr.Entry[k]);
                     }
                     double qpsirel = 0;
 
                     //Opt.TODO
-                    for(int k=0; k<3; k++)
+                    for (int k = 0; k < 3; k++)
                     {
                         qpsirel += r[0].Entry[k] * (r[1].UnitVector.Entry[k] - r[2].UnitVector.Entry[k]);
                     }
 
-                    Pos phidrel = Pos.CrossProduct(r[0],r[1]);
+                    Pos phidrel = Pos.CrossProduct(r[0], r[1]);
                     Pos vabrel = (Pos)(qpsirel * phidrel);
                     //後曳渦(左)
                     Pos vae = new Pos();
-                    
+
                     vae.y = r[1].Entry[2] /
                         (new Pos(0, r[1].Entry[1], r[1].Entry[2]).Magnitude) *
                         (1 + r[1].UnitVector.Entry[0]);
@@ -105,7 +106,7 @@ namespace HPADesign.Calculations
 
                     //後曳渦(右)
                     Pos veb = new Pos();
-                    veb.y=r[2].Entry[2] /
+                    veb.y = r[2].Entry[2] /
                         (new Pos(0, r[2].Entry[1], r[2].Entry[2]).Magnitude) *
                         (1 + r[2].UnitVector.Entry[0]);
 
@@ -115,11 +116,32 @@ namespace HPADesign.Calculations
 
                     Pos vij = (Pos)((vabrel + vae + veb) / (4.0 * Math.PI));
 
-                    Matrix Phi = new Matrix(Cal.Cos(Elements[i].Phi))
+                    Matrix Phi = new Matrix(new double[3, 3]
+                    {
+                        { Cal.Cos(Elements[i].phi), 0, 0 },
+                        { 0,Cal.Sin(Elements[i].phi),0},
+                        { 0,0,Cal.Cos(Elements[i].phi)}
+                    });
+
+                    Matrix Seta = new Matrix(new double[3, 3]
+                    {
+                        { Cal.Cos(Elements[i].seta), 0, 0 },
+                        { 0,Cal.Sin(Elements[i].seta),0},
+                        { 0,0,Cal.Cos(Elements[i].seta)}
+                    });
                     //qijzを計算
+                    Qizj.Entry[i, j] = Vector.InnerProduct(Phi * Seta * vij, new Vector(new double[3] { 1, 1, 1 }));
 
                 }
             }
+        }
+        public void Solve()
+        {
+            //Qijz行列を作成
+            SolveQijz();
+
+            Matrix c = new Matrix(Qizj.Entry);
+
         }
     }
 }
