@@ -121,6 +121,13 @@ namespace HPADesign.Models
         public int M { get { return Entry.GetLength(0); } }
         public int N { get { return Entry.GetLength(1); } }
 
+        /// <summary>
+        /// TODO SVM法により行列の回数を求めます
+        /// </summary>
+        public int rank
+        {
+            get; set;
+        }
         public double det
         {
             get
@@ -336,6 +343,11 @@ namespace HPADesign.Models
                 }
                 return result;
             }
+        }
+        private Vector Lforward(Vector x)
+        {
+            Vector y = new Vector(x.N);
+            return y;
         }
     }
 
