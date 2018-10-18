@@ -109,6 +109,7 @@
 
                         </ListView>
                         <Button Command="{x:Bind conceptviewmodel.AddWingSection}" Content="+" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="0,0,0,-4"/>
+                        <Button Command="{x:Bind conceptviewmodel.DelWingSection}" Content="-" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="60,0,0,-4"/>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Lift and Drag">
@@ -153,7 +154,7 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <Custom:Plot HorizontalAlignment="Left" Height="400" Margin="102,432,0,0" VerticalAlignment="Top" Width="700" Grid.RowSpan="2"/>
+                        
 
                     </Grid>
 

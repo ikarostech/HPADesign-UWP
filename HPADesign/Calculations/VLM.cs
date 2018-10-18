@@ -119,7 +119,7 @@ namespace HPADesign.Calculations
                     Matrix Phi = new Matrix(new double[3, 3]
                     {
                         { Cal.Cos(Elements[i].phi), 0, 0 },
-                        { 0,Cal.Sin(Elements[i].phi),0},
+                        { 0,-Cal.Sin(Elements[i].phi),0},
                         { 0,0,Cal.Cos(Elements[i].phi)}
                     });
 
