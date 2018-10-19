@@ -10,7 +10,7 @@ namespace HPADesign.ViewModels
     {
         public ReactiveProperty<double> TheoricalSpeed { get; set; } = new ReactiveProperty<double>(10);
 
-        public ReactiveProperty<Wing> Wingsections { get; set; }
+        public ReactiveCollection<PartWing> Wingsections { get; set; }
         
 
 
@@ -28,8 +28,8 @@ namespace HPADesign.ViewModels
             ReadFoil = new ReactiveCommand();
             ReadFoil.Subscribe(_ => { wing.CruiseVel = 12; });
 
-            Wingsections = new ReactiveProperty<Wing>();
-            
+            Wingsections = new ReactiveCollection<PartWing>();
+            Wingsections.Subscribe=wing.To
 
             AddWingSection = new ReactiveCommand();
             AddWingSection.Subscribe(_ =>
