@@ -113,7 +113,9 @@
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Lift and Drag">
-                    <Grid/>
+                    <Grid>
+                        <ListView ItemsSource="{x:Bind conceptviewmodel.Wingsections}"/>
+                    </Grid>
                 </PivotItem>
                 <PivotItem Header="Spar and Deflection"/>
                 <PivotItem Header="Airfoil" HorizontalAlignment="Stretch" Margin="18,3,6,-3" VerticalAlignment="Stretch">

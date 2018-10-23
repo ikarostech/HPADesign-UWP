@@ -16,13 +16,14 @@ namespace HPADesign.Views
 {
     public sealed partial class MainPage : Page
     {
-        Wing wing { get; set; }
-        ConceptViewModel conceptviewmodel { get; } = new ConceptViewModel();
+        public Wing wing { get; set; }
+        ConceptViewModel conceptviewmodel { get; }
         AirfoilViewModel airfoilviewmodel { get; } = new AirfoilViewModel();
         public MainPage()
         {
             //MainViewModel ViewModel => DataContext as MainViewModel;
-
+            wing = new Wing();
+            conceptviewmodel = new ConceptViewModel(wing);
             
             InitializeComponent();
 

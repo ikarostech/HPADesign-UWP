@@ -11,7 +11,7 @@
     <AssemblyName>HPADesign</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -119,7 +119,6 @@
     <Compile Include="Converter\TwoWayBindingConverter.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\Observable.cs" />
-    <Compile Include="Manager\PartWingManager.cs" />
     <Compile Include="Models\PartWing.cs" />
     <Compile Include="Models\Rib.cs" />
     <Compile Include="Services\PointCollectionConverter.cs" />
@@ -150,7 +149,6 @@
     <Compile Include="ViewModels\AeroDynamicsViewModel.cs" />
     <Compile Include="ViewModels\AirfoilViewModel.cs" />
     <Compile Include="ViewModels\ConceptViewModel.cs" />
-    <Compile Include="ViewModels\PartWingViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

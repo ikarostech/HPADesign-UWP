@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,9 @@ namespace HPADesign.Models
     /// </summary>
     public class PartWing : INotifyPropertyChanged
     {
-        public List<Rib> Ribs { get; set; }
+        public ObservableCollection<Rib> Ribs { get; set; }
         public int Id { get; set; }
-        public int length = 3000;
+        public int length;
         public int Length
         {
             get

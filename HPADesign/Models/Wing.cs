@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Reactive.Bindings;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace HPADesign.Models
 {
@@ -16,7 +17,7 @@ namespace HPADesign.Models
         /// <summary>
         /// 部分翼
         /// </summary>
-        public List<PartWing> partWings { get; set; }
+        public ObservableCollection<PartWing> PartWing { get; set; } = new ObservableCollection<PartWing>();
 
         public int CN { get; set; }
         public int RN { get; set; }
@@ -63,6 +64,12 @@ namespace HPADesign.Models
 
                 return result;
             }
+        }
+
+        public Wing()
+        {
+            //PartWing.Add(new PartWing());
+            //PartWingSource[]
         }
     }
 
