@@ -29,5 +29,14 @@ namespace HPADesign.Views
 
             this.DataContext = this;
         }
+
+        private void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            TestBlock.Text = "";
+            foreach(PartWing p in conceptviewmodel.Wingsections)
+            {
+                TestBlock.Text += p.Length.ToString() + Environment.NewLine;
+            }
+        }
     }
 }

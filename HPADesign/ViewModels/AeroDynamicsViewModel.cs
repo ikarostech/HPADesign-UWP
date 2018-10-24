@@ -16,11 +16,11 @@ namespace HPADesign.ViewModels
     {
         private Wing WingModel { get; }
 
-        private ReactiveCollection<Rib> Ribs {get;set;}
+        private ReadOnlyReactiveCollection<Rib> Ribs {get;set;}
         public AeroDynamicsViewModel(Wing wing)
         {
             WingModel = wing;
-            Ribs = WingModel.PartWing.SelectMany(x => x.Ribs).ToReadOnlyReactiveCollection(x=>x);
+            //Ribs = WingModel.PartWing.SelectMany(x => x.Ribs).ToReadOnlyReactiveCollection();
         }
     }
 }

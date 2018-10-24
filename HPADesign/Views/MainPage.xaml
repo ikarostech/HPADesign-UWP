@@ -110,6 +110,8 @@
                         </ListView>
                         <Button Command="{x:Bind conceptviewmodel.AddWingSection}" Content="+" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="0,0,0,-4"/>
                         <Button Command="{x:Bind conceptviewmodel.DelWingSection}" Content="-" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="60,0,0,-4"/>
+                        <TextBlock Name="TestBlock" Text="Test" TextWrapping="Wrap" />
+                        <Button Click="Button_Click"  Content="TestStart" Height="40" Width="100"/>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Lift and Drag">
@@ -120,45 +122,7 @@
                 <PivotItem Header="Spar and Deflection"/>
                 <PivotItem Header="Airfoil" HorizontalAlignment="Stretch" Margin="18,3,6,-3" VerticalAlignment="Stretch">
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="442*"/>
-                            <RowDefinition Height="523*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock FontSize="28" HorizontalAlignment="Left" Height="42" Margin="67,80,0,0" Text="Airfoil List" TextWrapping="Wrap" VerticalAlignment="Top" Width="201"/>
-                        <Button Content="Add" Command="{x:Bind airfoilviewmodel.AddAirfoil}" HorizontalAlignment="Left" Height="36" Margin="74,151,0,0" VerticalAlignment="Top" Width="69"/>
-                        <Button Content="Delete" HorizontalAlignment="Left" Height="36" Margin="153,151,0,0" VerticalAlignment="Top" Width="69"/>
-
-                        <TextBlock FontSize="20" Text="Name" Height="30" Width="200" HorizontalAlignment="Left" Margin="65,224,0,188"/>
-                        <TextBlock FontSize="20" Text="Thickness" Height="30" Width="100" HorizontalAlignment="Left" Margin="265,224,0,188" VerticalAlignment="Stretch" />
-                        <TextBlock FontSize="20" Text="at" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="365,224,0,0" />
-                        <TextBlock FontSize="20" Text="Camber" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="465,224,0,0" />
-                        <TextBlock FontSize="20" Text="at" Height="30" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="565,224,0,0" />
-                        <ListView  ItemsSource="{x:Bind airfoilviewmodel.AirfoilList}" SelectionMode="Extended" ItemContainerStyle="{StaticResource ListViewItemContainerStyle}" BorderBrush="Gray" HorizontalAlignment="Left" Height="207" Margin="64,261,0,0" VerticalAlignment="Top" Width="900">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <TextBlock Text="{Binding Name}" Width="200" HorizontalAlignment="Left"/>
-                                        <TextBlock Text="{Binding MaxThickness}" Margin="200,0" Width="100" HorizontalAlignment="Left"/>
-                                        <TextBlock Text="{Binding AtMaxThickness}" Margin="300,0" Width="200" HorizontalAlignment="Left"/>
-                                        <TextBlock Text="{Binding MaxCamber}" Margin="400,0" Width="100"  HorizontalAlignment="Left"/>
-                                        <TextBlock Text="{Binding AtMaxCamber}" Margin="500,0" Width="200" HorizontalAlignment="Left"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-
-                        </ListView>
-                        <Polyline HorizontalAlignment="Left" VerticalAlignment="Top" Height="266" Width="399" Margin="733,168,0,0" />
-                        <ItemsControl HorizontalAlignment="Left" VerticalAlignment="Top" Height="266" Width="399" Margin="733,168,0,0">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Polyline Stroke="Gray" Points="{Binding AirfoilPolyLines}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="266" Width="399" Margin="733,168,0,0" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <!--Custom:Plot HorizontalAlignment="Left" Height="400" Margin="102,432,0,0" VerticalAlignment="Top" Width="700" Grid.RowSpan="2"/>-->
-
-                    </Grid>
+                    
 
                 </PivotItem>
             </Pivot>
