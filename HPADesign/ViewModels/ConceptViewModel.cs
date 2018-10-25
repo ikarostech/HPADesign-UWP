@@ -6,6 +6,9 @@ using Reactive.Bindings.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Reactive.Bindings.Binding;
+using Prism.Mvvm;
+using Prism.Commands;
+
 namespace HPADesign.ViewModels
 {
     public class ConceptViewModel : Observable
@@ -18,12 +21,14 @@ namespace HPADesign.ViewModels
         /// </summary>
         private ReactiveProperty<ObservableCollection<PartWing>> PartWingVM { get; set; }
         public ReadOnlyReactiveCollection<PartWing> Wingsections { get; set; }
-        
+
+        //private InteractionRequest<Confirmation> alertRequest{get;set;}
 
 
         public ReactiveCommand ReadFoil { get; set; }
         public ReactiveCommand AddWingSection { get; set; }
         public ReactiveCommand DelWingSection { get; set; }
+        public ReactiveCommand EditWingSection { get; set; }
 
         //Bindingの初期設定など
         public ConceptViewModel(Wing wing)

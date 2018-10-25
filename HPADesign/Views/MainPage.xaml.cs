@@ -19,6 +19,7 @@ namespace HPADesign.Views
         public Wing wing { get; set; }
         ConceptViewModel conceptviewmodel { get; }
         AirfoilViewModel airfoilviewmodel { get; } = new AirfoilViewModel();
+        PartWingEditViewModel partwingeditviewmodel { get; } = new PartWingEditViewModel();
         public MainPage()
         {
             //MainViewModel ViewModel => DataContext as MainViewModel;
@@ -32,11 +33,9 @@ namespace HPADesign.Views
 
         private void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            TestBlock.Text = "";
-            foreach(PartWing p in conceptviewmodel.Wingsections)
-            {
-                TestBlock.Text += p.Length.ToString() + Environment.NewLine;
-            }
+            PartWing p = new PartWing();
+            p.Length = 200;
+            wing.PartWing.Add(p);
         }
     }
 }

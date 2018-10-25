@@ -87,15 +87,17 @@
                             <TextBlock Text="最小翼弦長" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
                             <TextBlock Text="リブ数" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
                         </StackPanel>
-                        <ListView ItemsSource="{x:Bind conceptviewmodel.Wingsections, Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="375" Grid.Row="5" VerticalAlignment="Top" Width="838" Grid.ColumnSpan="5" Margin="0,50,0,0">
+                        <ListView Name="PartWingListView" ItemsSource="{x:Bind conceptviewmodel.Wingsections, Mode=TwoWay}" SelectedItem="{x:Bind conceptviewmodel.SelectedPartWing, Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="375" Grid.Row="5" VerticalAlignment="Top" Width="838" Grid.ColumnSpan="5" Margin="0,50,0,0">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
-                                        <TextBox Text="{Binding Id}" Width="80" HorizontalAlignment="Stretch" />
-                                        <TextBox Text="{Binding Length}" Width="100" HorizontalAlignment="Stretch"/>
-                                        <TextBox Text="{Binding MaxChord}" Width="100" HorizontalAlignment="Stretch"/>
-                                        <TextBox Text="{Binding MinChord}" Width="100" HorizontalAlignment="Stretch"/>
-                                        <TextBox Text="{Binding RibCount}" Width="100" HorizontalAlignment="Stretch" />
+                                        <TextBlock Text="{Binding Id}" Width="80" HorizontalAlignment="Stretch" />
+                                        <TextBox Text="{Binding Length}" Width="100" HorizontalAlignment="Stretch">
+                                            
+                                        </TextBox>
+                                        <TextBlock Text="{Binding MaxChord}" Width="100" HorizontalAlignment="Stretch"/>
+                                        <TextBlock Text="{Binding MinChord}" Width="100" HorizontalAlignment="Stretch"/>
+                                        <TextBlock Text="{Binding RibCount}" Width="100" HorizontalAlignment="Stretch" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -110,6 +112,7 @@
                         </ListView>
                         <Button Command="{x:Bind conceptviewmodel.AddWingSection}" Content="+" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="0,0,0,-4"/>
                         <Button Command="{x:Bind conceptviewmodel.DelWingSection}" Content="-" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="60,0,0,-4"/>
+                        
                         <TextBlock Name="TestBlock" Text="Test" TextWrapping="Wrap" />
                         <Button Click="Button_Click"  Content="TestStart" Height="40" Width="100"/>
                     </Grid>
