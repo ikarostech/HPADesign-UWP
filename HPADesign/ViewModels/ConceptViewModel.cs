@@ -6,8 +6,8 @@ using Reactive.Bindings.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Reactive.Bindings.Binding;
-using Prism.Mvvm;
-using Prism.Commands;
+using Microsoft.Xaml.Interactivity;
+using Microsoft.Xaml.Interactions.Core;
 
 namespace HPADesign.ViewModels
 {
@@ -28,6 +28,8 @@ namespace HPADesign.ViewModels
         public ReactiveCommand ReadFoil { get; set; }
         public ReactiveCommand AddWingSection { get; set; }
         public ReactiveCommand DelWingSection { get; set; }
+
+        public RelayCommand EditPartWing { get; set; }
         public ReactiveCommand EditWingSection { get; set; }
 
         //Bindingの初期設定など
@@ -55,8 +57,16 @@ namespace HPADesign.ViewModels
                 WingModel.PartWing.Add(section);
 
             });
+
+            EditPartWing = new RelayCommand(TextBoxUpdate);
         }
 
-
+        //TextBoxの更新
+        public void TextBoxUpdate()
+        {
+            var section = new PartWing();
+            section.Length = 30;
+            WingModel.PartWing.Add(section);
+        }
     }
 }
