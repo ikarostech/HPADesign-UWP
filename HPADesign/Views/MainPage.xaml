@@ -89,17 +89,13 @@
                             <TextBlock Text="最小翼弦長" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
                             <TextBlock Text="リブ数" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
                         </StackPanel>
-                        <ListView Name="PartWingListView" ItemsSource="{x:Bind conceptviewmodel.Wingsections, Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="375" Grid.Row="5" VerticalAlignment="Top" Width="838" Grid.ColumnSpan="5" Margin="0,50,0,0">
+                        <ListView Name="PartWingListView" Tapped="{x:Bind conceptviewmodel.TextBoxUpdate}" ItemsSource="{x:Bind conceptviewmodel.Wingsections, Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="375" Grid.Row="5" VerticalAlignment="Top" Width="838" Grid.ColumnSpan="5" Margin="0,50,0,0">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
                                         <TextBlock Text="{Binding Id}" Width="80" HorizontalAlignment="Stretch" />
-                                        <TextBox Text="{Binding Length}" Width="100" HorizontalAlignment="Stretch">
-                                            <i:Interaction.Behaviors>
-                                                <core:EventTriggerBehavior EventName="Leave">
-                                                    <core:InvokeCommandAction Command="{x:Bind conceptviewmodel.EditPartWing}" />
-                                                </core:EventTriggerBehavior>
-                                            </i:Interaction.Behaviors>
+                                        <TextBox Text="{Binding Length}"  Width="100" HorizontalAlignment="Stretch">
+                                            
                                         </TextBox>
                                         <TextBlock Text="{Binding MaxChord}" Width="100" HorizontalAlignment="Stretch"/>
                                         <TextBlock Text="{Binding MinChord}" Width="100" HorizontalAlignment="Stretch"/>

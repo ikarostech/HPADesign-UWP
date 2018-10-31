@@ -9,9 +9,10 @@ using HPADesign.Models;
 
 namespace HPADesign.ViewModels
 {
-    public class PartWingEditViewModel
+    public class PartWingViewModel
     {
-        //ReactiveProperty<string> TextBoxString { get; set; }
-        //ReactiveProperty<PartWing> SelectedPartWing { get; set; }
+        ReactiveProperty<PartWing> Data { get; set; }
+
+
     }
 }

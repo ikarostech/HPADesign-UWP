@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using Reactive.Bindings.Binding;
 using Microsoft.Xaml.Interactivity;
 using Microsoft.Xaml.Interactions.Core;
+using Windows.UI.Xaml.Input;
 
 namespace HPADesign.ViewModels
 {
@@ -21,7 +22,7 @@ namespace HPADesign.ViewModels
         /// </summary>
         private ReactiveProperty<ObservableCollection<PartWing>> PartWingVM { get; set; }
         public ReadOnlyReactiveCollection<PartWing> Wingsections { get; set; }
-
+        public ReadOnlyReactiveCollection<PartWingViewModel> PartWings { get; set; }
         //private InteractionRequest<Confirmation> alertRequest{get;set;}
 
 
@@ -58,11 +59,11 @@ namespace HPADesign.ViewModels
 
             });
 
-            EditPartWing = new RelayCommand(TextBoxUpdate);
+            //EditPartWing = new RelayCommand(TextBoxUpdate);
         }
 
         //TextBoxの更新
-        public void TextBoxUpdate()
+        public void TextBoxUpdate(TappedRoutedEventArgs e)
         {
             var section = new PartWing();
             section.Length = 30;
