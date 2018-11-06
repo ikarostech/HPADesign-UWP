@@ -63,7 +63,7 @@ namespace HPADesign.ViewModels
         }
 
         //TextBoxの更新
-        public void TextBoxUpdate(TappedRoutedEventArgs e)
+        public void TextBoxUpdate(object sender,object e)
         {
             var section = new PartWing();
             section.Length = 30;
