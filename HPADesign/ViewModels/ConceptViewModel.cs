@@ -44,10 +44,15 @@ namespace HPADesign.ViewModels
             ReadFoil = new ReactiveCommand();
             ReadFoil.Subscribe(_ => { wing.CruiseVel = 12; });
 
-            Wingsections = wing.PartWing.ToReadOnlyReactiveCollection(x => x);
-            
+            PartWings = wing.PartWings.ToReadOnlyReactiveCollection(x => new PartWingViewModel(x));
 
             AddWingSection = new ReactiveCommand();
+            var test = new PartWing();
+            test.Id = 0;
+            test.Length = 3000;
+
+            //wing.partWings.Add(section);
+            WingModel.PartWingSource.Add(test);
             AddWingSection.Subscribe(_ =>
             {
                 var section = new PartWing();
@@ -55,7 +60,8 @@ namespace HPADesign.ViewModels
                 section.Length = 3000;
 
                 //wing.partWings.Add(section);
-                WingModel.PartWing.Add(section);
+                wing.PartWingSource.Add(section);
+                
 
             });
 
@@ -67,7 +73,7 @@ namespace HPADesign.ViewModels
         {
             var section = new PartWing();
             section.Length = 30;
-            WingModel.PartWing.Add(section);
+            WingModel.PartWingSource.Add(section);
         }
     }
 }

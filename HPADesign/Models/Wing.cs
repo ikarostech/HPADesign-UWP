@@ -17,8 +17,8 @@ namespace HPADesign.Models
         /// <summary>
         /// 部分翼
         /// </summary>
-        public ObservableCollection<PartWing> PartWing { get; set; } = new ObservableCollection<PartWing>();
-
+        public ObservableCollection<PartWing> PartWingSource { get; set; } = new ObservableCollection<PartWing>();
+        public ReadOnlyObservableCollection<PartWing> PartWings { get; set; }
         public int CN { get; set; }
         public int RN { get; set; }
         public double Lift { get; set; }
@@ -68,8 +68,8 @@ namespace HPADesign.Models
 
         public Wing()
         {
-            //PartWing.Add(new PartWing());
-            //PartWingSource[]
+            PartWingSource = new ObservableCollection<PartWing>();
+            PartWings = new ReadOnlyObservableCollection<PartWing>(this.PartWingSource);
         }
     }
 
