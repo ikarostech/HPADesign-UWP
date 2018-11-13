@@ -94,7 +94,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
                                         <TextBlock Text="{Binding Id}" Width="80" HorizontalAlignment="Stretch" />
-                                        <TextBox Text="{Binding Length}" LostFocus="{x:Bind TextBoxChanged}"  Width="100" HorizontalAlignment="Stretch">
+                                        <TextBox Text="{Binding Length.Value,Mode=TwoWay}" Width="100" HorizontalAlignment="Stretch">
                                             
                                         </TextBox>
                                         <TextBlock Text="{Binding MaxChord}" Width="100" HorizontalAlignment="Stretch"/>

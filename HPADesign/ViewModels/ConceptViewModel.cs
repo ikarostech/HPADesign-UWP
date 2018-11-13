@@ -68,12 +68,6 @@ namespace HPADesign.ViewModels
             //EditPartWing = new RelayCommand(TextBoxUpdate);
         }
 
-        //TextBoxの更新
-        public void TextBoxUpdate(object sender,object e)
-        {
-            var section = new PartWing();
-            section.Length = 30;
-            WingModel.PartWingSource.Add(section);
-        }
+        
     }
 }

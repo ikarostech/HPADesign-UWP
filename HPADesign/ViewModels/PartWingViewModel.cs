@@ -16,11 +16,13 @@ namespace HPADesign.ViewModels
         Wing parent  { get; set; }
         PartWing Model { get; set; }
         public ReactiveProperty<int> Length { get; set; }
+        
 
         public PartWingViewModel(PartWing partWing)
         {
             Model = partWing;
             Length = Model.ToReactivePropertyAsSynchronized(x => x.Length);
+
             //this.parent = parent;
             //this.id = id;
 
@@ -28,7 +30,7 @@ namespace HPADesign.ViewModels
 
         public void TextBoxChanged()
         {
-
+            return;
         }
     }
 }
