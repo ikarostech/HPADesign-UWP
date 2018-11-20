@@ -16,21 +16,15 @@ namespace HPADesign.ViewModels
         Wing parent  { get; set; }
         PartWing Model { get; set; }
         public ReactiveProperty<int> Length { get; set; }
-        
+        public ReactiveProperty<int> RibCount { get; set; }
 
         public PartWingViewModel(PartWing partWing)
         {
             Model = partWing;
             Length = Model.ToReactivePropertyAsSynchronized(x => x.Length);
+            RibCount = Model.ToReactivePropertyAsSynchronized(x => x.RibCount);
+            
 
-            //this.parent = parent;
-            //this.id = id;
-
-        }
-
-        public void TextBoxChanged()
-        {
-            return;
         }
     }
 }

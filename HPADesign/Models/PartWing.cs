@@ -31,10 +31,80 @@ namespace HPADesign.Models
 
         public int Offset { get; set; }
 
-        public int MinChord { get; set; } = 0;
-        public int MaxChord { get; set; } = 0;
+        private int minchord;
+        public int MinChord
+        {
+            get
+            {
+                return minchord;
+            }
+            set
+            {
+                minchord = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MinChord"));
+            }
+        }
 
-        public int RibCount { get; set; } = 10;
+        private int maxchord;
+        public int MaxChord
+        {
+            get
+            {
+                return maxchord;
+            }
+            set
+            {
+                minchord = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MinChord"));
+            }
+        }
+
+        public int Differencial
+        {
+            get
+            {
+                return MaxChord - MinChord;
+            }
+        }
+
+        private bool autorib = true;
+        public bool AutoRib
+        {
+            get
+            {
+                return autorib;
+            }
+            set
+            {
+                autorib = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AutoRib"));
+            }
+        }
+
+        private int ribcount=10;
+        public int RibCount
+        {
+            get
+            {
+                return ribcount;
+            }
+            set
+            {
+                ribcount = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RibCount"));
+
+                if (autorib)
+                {
+                    Ribs.Clear();
+                    int interval = Differencial / (RibCount - 1);
+
+                    Enumerable.Range(1, RibCount).ToList().ForEach
+                    (i =>
+                      Ribs.Add(new Rib(interval * (i - 1)))                        
+                    );
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

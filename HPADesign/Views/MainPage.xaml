@@ -94,7 +94,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
                                         <TextBlock Text="{Binding Id}" Width="80" HorizontalAlignment="Stretch" />
-                                        <TextBox Text="{Binding Length.Value,Mode=TwoWay}" Width="100" HorizontalAlignment="Stretch">
+                                        <TextBox Text="{Binding Length.Value}"  Width="100" HorizontalAlignment="Stretch">
                                             
                                         </TextBox>
                                         <TextBlock Text="{Binding MaxChord}" Width="100" HorizontalAlignment="Stretch"/>
@@ -121,7 +121,22 @@
                 </PivotItem>
                 <PivotItem Header="Lift and Drag">
                     <Grid>
-                        <ListView ItemsSource="{x:Bind conceptviewmodel.Wingsections}"/>
+                        <ListView ItemsSource="{x:Bind conceptviewmodel.PartWings}">
+
+                            <ListView.HeaderTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock Text="Length"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.HeaderTemplate>
+                            <ListView.ItemTemplate>
+                                
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Length.Value}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Spar and Deflection"/>

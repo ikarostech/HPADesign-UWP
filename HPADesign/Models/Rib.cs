@@ -40,10 +40,17 @@ namespace HPADesign.Models
         public double TrainlingEdgeCutPos { get; set; }
 
         //桁穴位置
-        public Tuple<double, double> Sparholepos { get; set; }
+        public Pos Sparholepos { get; set; }
 
 
         public IAirfoil Foil { get; set; }
+
+        public Rib() { return; }
+        
+        public Rib(int chord)
+        {
+            Chord = chord;
+        }
 
         public void RibDXF()
         {
