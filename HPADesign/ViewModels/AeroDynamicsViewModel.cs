@@ -24,8 +24,8 @@ namespace HPADesign.ViewModels
         public AeroDynamicsViewModel(Wing wing)
         {
             WingModel = wing;
-            Ribs = new ReadOnlyReactiveCollection<ReadOnlyReactiveCollection<Rib>>();
-            foreach(PartWing pw in WingModel)
+            //
+            foreach(PartWing pw in WingModel.PartWings)
             {
                 
             }

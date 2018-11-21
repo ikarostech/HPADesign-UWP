@@ -13,7 +13,7 @@ namespace HPADesign.Models
     /// </summary>
     public class PartWing : INotifyPropertyChanged
     {
-        public ObservableCollection<Rib> Ribs { get; set; }
+        public ObservableCollection<Rib> Ribs { get; set; } = new ObservableCollection<Rib>();
         public int Id { get; set; }
         public int length;
         public int Length

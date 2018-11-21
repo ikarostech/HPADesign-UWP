@@ -4,12 +4,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:HPADesign.Helpers"
-    xmlns:Custom="using:HPADesign.Styles"
     xmlns:services="using:HPADesign.Services"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     x:Class="HPADesign.Views.MainPage"
-    Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
     <Page.Resources>
         <Style x:Key="ListViewItemContainerStyle" TargetType="ListViewItem">
@@ -22,6 +21,10 @@
         </Style>
     </Page.Resources>
 
+    <Page.Style>
+        <StaticResource ResourceKey="PageStyle"/>
+    </Page.Style>
+
     <Grid
         x:Name="ContentArea"
         Margin="{StaticResource MediumLeftRightMargin}">
@@ -29,7 +32,7 @@
             <RowDefinition Height="48"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <TextBlock
             Grid.Row="0"
             x:Uid="Main_Title"
@@ -43,85 +46,65 @@
             <Pivot HorizontalAlignment="Left" Height="1060" Title="HPA Design" VerticalAlignment="Top" Width="1900" Background="White" Foreground="Black">
                 <PivotItem Header="Concept" Height="980" Margin="10,0,0,0">
                     <Grid Height="Auto" Width="Auto">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height=" 50"/>
-                            <RowDefinition Height="46"/>
-                            <RowDefinition Height="46"/>
-                            <RowDefinition Height="46"/>
-                            <RowDefinition Height="122"/>
-                            <RowDefinition Height="670"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="200" />
-                            <ColumnDefinition Width="300" />
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="0*"/>
-                            <ColumnDefinition Width="1140"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="設計機速" VerticalAlignment="Center" Width="164" FontSize="24" Margin="0,6,0,5"/>
-                        <TextBox DataContext="{x:Bind Mode=TwoWay, Path=conceptviewmodel.TheoricalSpeed.Value}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Height="32"  VerticalAlignment="Center" Width="208" Margin="0,7" ToolTipService.ToolTip="機体の目標機速(気速)を入力してください"/>
-                        <ComboBox SelectedIndex="0" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Margin="0,6,0,5">
-                            <ComboBoxItem Content="m/s" />
-                            <ComboBoxItem Content="km/h" />
-                            <ComboBoxItem Content="kt" />
-                        </ComboBox>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height=" 50"/>
+                                <RowDefinition Height="46"/>
+                                <RowDefinition Height="46"/>
+                                <RowDefinition Height="46"/>
+                                <RowDefinition Height="122"/>
+                                <RowDefinition Height="670"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="0*"/>
+                                <ColumnDefinition Width="1140"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="設計機速" VerticalAlignment="Center" Width="164" FontSize="24" Margin="0,6,0,5"/>
+                            <TextBox DataContext="{x:Bind Mode=TwoWay, Path=conceptviewmodel.TheoricalSpeed.Value}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Height="32"  VerticalAlignment="Center" Width="208" Margin="0,7" ToolTipService.ToolTip="機体の目標機速(気速)を入力してください"/>
+                            <ComboBox SelectedIndex="0" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Margin="0,6,0,5">
+                                <ComboBoxItem Content="m/s" />
+                                <ComboBoxItem Content="km/h" />
+                                <ComboBoxItem Content="kt" />
+                            </ComboBox>
 
-                        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="パイロット荷重" VerticalAlignment="Top" Width="164" FontSize="24" Grid.Column="1"/>
-                        <TextBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Height="32"  TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="208" Margin="0,7" ToolTipService.ToolTip="パイロットの目標体重を入力してください" />
-                        <ComboBox Grid.Row="2" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Grid.Column="3" SelectedIndex="0" Margin="0,6,0,5">
-                            <ComboBoxItem Content="kg" />
-                            <ComboBoxItem Content="N" />
-                            <ComboBoxItem Content="Pb" />
-                        </ComboBox>
-                        <TextBlock Grid.Row="3" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="機体荷重" VerticalAlignment="Top" Width="164" FontSize="24" Grid.Column="1"/>
-                        <TextBox Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" Height="32"  TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="208" Margin="0,0,0,14" ToolTipService.ToolTip="パイロット荷重を除いた機体の乾燥重量を入力してください" />
-                        <ComboBox Grid.Row="3" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Grid.Column="3" SelectedIndex="0" Margin="0,0,0,11">
-                            <ComboBoxItem Content="kg" />
-                            <ComboBoxItem Content="N" />
-                            <ComboBoxItem Content="Pb" />
-                        </ComboBox>
-                        <TextBlock Grid.Column="1" Grid.Row="4" FontSize="24" HorizontalAlignment="Left" Height="34" Margin="0,80,0,10" TextWrapping="Wrap" Text="翼分割構成" VerticalAlignment="Top" Width="306"/>
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Left" Height="50" Grid.Row="5" VerticalAlignment="Top" Width="838" Grid.ColumnSpan="5" Margin="0,0,0,0">
-                            <TextBlock Text="翼番号" Width="80" Style="{StaticResource TitleTextBlockStyle}" />
-                            <TextBlock Text="翼スパン" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
-                            <TextBlock Text="最大翼弦長" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
-                            <TextBlock Text="最小翼弦長" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
-                            <TextBlock Text="リブ数" Width="100" Style="{StaticResource TitleTextBlockStyle}" />
-                        </StackPanel>
-                        <ListView Name="PartWingListView" ItemsSource="{x:Bind conceptviewmodel.PartWings, Mode=TwoWay}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle}" Grid.Column="1" HorizontalAlignment="Left" Height="375" Grid.Row="5" VerticalAlignment="Top" Width="838" Grid.ColumnSpan="5" Margin="0,50,0,0">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
-                                        <TextBlock Text="{Binding Id}" Width="80" HorizontalAlignment="Stretch" />
-                                        <TextBox Text="{Binding Length.Value}"  Width="100" HorizontalAlignment="Stretch">
-                                            
-                                        </TextBox>
-                                        <TextBlock Text="{Binding MaxChord}" Width="100" HorizontalAlignment="Stretch"/>
-                                        <TextBlock Text="{Binding MinChord}" Width="100" HorizontalAlignment="Stretch"/>
-                                        <TextBlock Text="{Binding RibCount}" Width="100" HorizontalAlignment="Stretch" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            
-                            <ListView.ContextFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem Text="翼分割数を増やす" Command="{x:Bind conceptviewmodel.AddWingSection}"/>
-                                    <MenuFlyoutItem Text="翼分割数を減らす" Command="{x:Bind conceptviewmodel.DelWingSection}"/>
-                                </MenuFlyout>
-                            </ListView.ContextFlyout>
+                            <TextBlock Grid.Row="2" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="パイロット荷重" VerticalAlignment="Top" Width="164" FontSize="24" Grid.Column="1"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Height="32"  TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="208" Margin="0,7" ToolTipService.ToolTip="パイロットの目標体重を入力してください" />
+                            <ComboBox Grid.Row="2" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Grid.Column="3" SelectedIndex="0" Margin="0,6,0,5">
+                                <ComboBoxItem Content="kg" />
+                                <ComboBoxItem Content="N" />
+                                <ComboBoxItem Content="Pb" />
+                            </ComboBox>
+                            <TextBlock Grid.Row="3" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="機体荷重" VerticalAlignment="Top" Width="164" FontSize="24" Grid.Column="1"/>
+                            <TextBox Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" Height="32"  TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="208" Margin="0,0,0,14" ToolTipService.ToolTip="パイロット荷重を除いた機体の乾燥重量を入力してください" />
+                            <ComboBox Grid.Row="3" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Grid.Column="3" SelectedIndex="0" Margin="0,0,0,11">
+                                <ComboBoxItem Content="kg" />
+                                <ComboBoxItem Content="N" />
+                                <ComboBoxItem Content="Pb" />
+                            </ComboBox>
+                            <TextBlock Grid.Column="1" Grid.Row="4" FontSize="24" HorizontalAlignment="Left" Height="34" Margin="0,80,0,10" TextWrapping="Wrap" Text="翼分割構成" VerticalAlignment="Top" Width="306"/>
 
-                        </ListView>
-                        <Button Command="{x:Bind conceptviewmodel.AddWingSection}" Content="+" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="0,0,0,-4"/>
-                        <Button Command="{x:Bind conceptviewmodel.DelWingSection}" Content="-" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="60,0,0,-4"/>
-                        
-                        <TextBlock Name="TestBlock" Text="Test" TextWrapping="Wrap" />
-                        <Button Content="TestStart" Height="40" Width="100"/>
+                            <Button Command="{x:Bind Path=conceptviewmodel.AddWingSection}" Content="+" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="0,0,0,-4"/>
+                            <Button Command="{x:Bind Path=conceptviewmodel.DelWingSection}" Content="-" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="60,0,0,-4"/>
+
+                            <TextBlock x:Name="TestBlock" Text="Test" TextWrapping="Wrap" />
+                            <Button Content="TestStart" Height="40" Width="100"/>
+                        </Grid>
+                        <Custom:DataGrid ItemsSource="{x:Bind conceptviewmodel.PartWings}" AutoGenerateColumns="False" Height="200" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,350">
+                            <Custom:DataGrid.Columns>
+                                <Custom:
+                                <Custom:DataGridTextColumn Header="翼幅" Binding="{Binding Length.Value}" />
+                            </Custom:DataGrid.Columns>
+                        </Custom:DataGrid>
                     </Grid>
+
                 </PivotItem>
                 <PivotItem Header="Lift and Drag">
                     <Grid>
-                        <ListView ItemsSource="{x:Bind conceptviewmodel.PartWings}">
+                        <ListView ItemsSource="{x:Bind Path=conceptviewmodel.PartWings}">
 
                             <ListView.HeaderTemplate>
                                 <DataTemplate>
@@ -131,7 +114,7 @@
                                 </DataTemplate>
                             </ListView.HeaderTemplate>
                             <ListView.ItemTemplate>
-                                
+
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Length.Value}" />
                                 </DataTemplate>
@@ -142,7 +125,11 @@
                 <PivotItem Header="Spar and Deflection"/>
                 <PivotItem Header="Airfoil" HorizontalAlignment="Stretch" Margin="18,3,6,-3" VerticalAlignment="Stretch">
 
-                    
+
+
+
+
+
 
                 </PivotItem>
             </Pivot>
