@@ -15,20 +15,33 @@ namespace HPADesign.ViewModels
     /// <summary>
     /// Lift and Drugを編集するところ
     /// </summary>
-    public class AeroDynamicsViewModel
+    public class AeroDynamicsViewModel : Observable
     {
         private Wing WingModel { get; }
 
         //private ReadOnlyReactiveCollection<Rib> Ribs {get;set;}
-        private ReadOnlyReactiveCollection<ReadOnlyReactiveCollection<Rib>> Ribs { get; set; }
+        public ReadOnlyReactiveCollection<RibViewModel> Ribs { get; set; }
+        public ObservableCollection<Rib> Flatten { 
+            get
+            {
+                var raw = new ObservableCollection<Rib>();
+                foreach(PartWing pw in WingModel.PartWings)
+                {
+                    foreach(Rib r in pw.Ribs)
+                    {
+                        raw.Add(r);
+                    }
+                }
+                var result = raw.ToReadOnlyReactiveCollection(x => new RibViewModel(x));
+                return raw;
+            }
+        }
+
         public AeroDynamicsViewModel(Wing wing)
         {
             WingModel = wing;
             //
-            foreach(PartWing pw in WingModel.PartWings)
-            {
-                
-            }
+            Ribs = Flatten.ToReadOnlyReactiveCollection(x => new RibViewModel(x));
             //Ribs = WingModel.PartWing.SelectMany(x => x.Ribs).ToReadOnlyReactiveCollection();
         }
     }

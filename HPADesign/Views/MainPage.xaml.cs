@@ -19,13 +19,13 @@ namespace HPADesign.Views
         public Wing wing { get; set; }
         ConceptViewModel conceptviewmodel { get; }
         AirfoilViewModel airfoilviewmodel { get; } = new AirfoilViewModel();
-        
+        AeroDynamicsViewModel aerodynamicsviewmodel { get; }
         public MainPage()
         {
             //MainViewModel ViewModel => DataContext as MainViewModel;
             wing = new Wing();
             conceptviewmodel = new ConceptViewModel(wing);
-            
+            aerodynamicsviewmodel = new AeroDynamicsViewModel(wing);
             InitializeComponent();
 
             this.DataContext = this;

@@ -95,7 +95,7 @@
                         </Grid>
                         <Custom:DataGrid ItemsSource="{x:Bind conceptviewmodel.PartWings}" AutoGenerateColumns="False" Height="200" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,350">
                             <Custom:DataGrid.Columns>
-                                <Custom:
+                                
                                 <Custom:DataGridTextColumn Header="翼幅" Binding="{Binding Length.Value}" />
                             </Custom:DataGrid.Columns>
                         </Custom:DataGrid>
@@ -103,23 +103,14 @@
 
                 </PivotItem>
                 <PivotItem Header="Lift and Drag">
-                    <Grid>
-                        <ListView ItemsSource="{x:Bind Path=conceptviewmodel.PartWings}">
+                    <Grid Height="Auto" Width="Auto">
+                        
+                        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs ,Mode=OneWay}" Height="1000" Width="1200" Margin="0,0">
+                            <Custom:DataGrid.Columns>
 
-                            <ListView.HeaderTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <TextBlock Text="Length"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.HeaderTemplate>
-                            <ListView.ItemTemplate>
-
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Length.Value}" />
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                <Custom:DataGridTextColumn Header="翼幅" Binding="{Binding Chord.Value}" />
+                            </Custom:DataGrid.Columns>
+                        </Custom:DataGrid>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Spar and Deflection"/>

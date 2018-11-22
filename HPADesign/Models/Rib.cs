@@ -4,16 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.ComponentModel;
 
 namespace HPADesign.Models
 {
-    public class Rib
+    public class Rib : INotifyPropertyChanged
     {
         //リブの名前
         public double Name { get; set; }
 
+        private double chord;
         //翼弦長(mm)
-        public double Chord { get; set; }
+        public double Chord
+        {
+            get
+            {
+                return chord;
+            }
+            set
+            {
+                chord = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Chord"));
+            }
+        }
+
         //ねじり角(deg)
         public double Twist { get; set; }
         //たわみ角(deg)
@@ -51,6 +65,8 @@ namespace HPADesign.Models
         {
             Chord = chord;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void RibDXF()
         {
