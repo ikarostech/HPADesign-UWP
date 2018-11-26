@@ -47,20 +47,20 @@ namespace HPADesign.ViewModels
             PartWings = wing.PartWings.ToReadOnlyReactiveCollection(x => new PartWingViewModel(x));
 
             AddWingSection = new ReactiveCommand();
-            var test = new PartWing();
+            var test = new PartWing(WingModel);
             test.Id = 0;
             test.Length = 3000;
 
             //wing.partWings.Add(section);
-            WingModel.PartWingSource.Add(test);
+            WingModel.PartWings.Add(test);
             AddWingSection.Subscribe(_ =>
             {
-                var section = new PartWing();
+                var section = new PartWing(WingModel);
                 section.Id = 0;
                 section.Length = 3000;
 
                 //wing.partWings.Add(section);
-                wing.PartWingSource.Add(section);
+                wing.PartWings.Add(section);
                 
 
             });
@@ -68,12 +68,6 @@ namespace HPADesign.ViewModels
             //EditPartWing = new RelayCommand(TextBoxUpdate);
         }
 
-        //TextBoxの更新
-        public void TextBoxUpdate(object sender,object e)
-        {
-            var section = new PartWing();
-            section.Length = 30;
-            WingModel.PartWingSource.Add(section);
-        }
+        
     }
 }

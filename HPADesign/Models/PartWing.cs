@@ -103,9 +103,17 @@ namespace HPADesign.Models
                       Ribs.Add(new Rib(interval * (i - 1)))                        
                     );
                 }
+                
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private Wing parent;
+
+        public PartWing(Wing parent)
+        {
+            this.parent = parent;
+        }
     }
 }
