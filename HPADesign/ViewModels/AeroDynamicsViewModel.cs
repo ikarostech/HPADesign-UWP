@@ -21,28 +21,15 @@ namespace HPADesign.ViewModels
 
         //private ReadOnlyReactiveCollection<Rib> Ribs {get;set;}
         public ReadOnlyReactiveCollection<RibViewModel> Ribs { get; set; }
-        public ObservableCollection<Rib> Flatten { 
-            get
-            {
-                var raw = new ObservableCollection<Rib>();
-                foreach(PartWing pw in WingModel.PartWings)
-                {
-                    foreach(Rib r in pw.Ribs)
-                    {
-                        raw.Add(r);
-                    }
-                }
-                var result = raw.ToReadOnlyReactiveCollection(x => new RibViewModel(x));
-                return raw;
-            }
-        }
+        
 
         public AeroDynamicsViewModel(Wing wing)
         {
             WingModel = wing;
             //
-            Ribs = Flatten.ToReadOnlyReactiveCollection(x => new RibViewModel(x));
-            //Ribs = WingModel.PartWing.SelectMany(x => x.Ribs).ToReadOnlyReactiveCollection();
+            Ribs = wing.Ribs.ToReadOnlyReactiveCollection(x => new RibViewModel(x));
+
+            
         }
     }
 }

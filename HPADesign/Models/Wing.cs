@@ -14,11 +14,22 @@ namespace HPADesign.Models
     /// </summary>
     public class Wing : INotifyPropertyChanged
     {
+        private ObservableCollection<PartWing> partwings = new ObservableCollection<PartWing>();
         /// <summary>
         /// 部分翼
         /// </summary>
-        public ObservableCollection<PartWing> PartWings { get; set; } = new ObservableCollection<PartWing>();
-        
+        public ObservableCollection<PartWing> PartWings
+        {
+            get { return partwings; }
+            set
+            {
+                partwings = value;
+                PartWingUpdate();
+            }
+        }
+
+        public ObservableCollection<Rib> Ribs { get; set; }
+
         public int CN { get; set; }
         public int RN { get; set; }
         public double Lift { get; set; }
@@ -69,6 +80,24 @@ namespace HPADesign.Models
         public Wing()
         {
             
+            PartWings = new ObservableCollection<PartWing>();
+            Ribs = new ObservableCollection<Rib>();
+        }
+
+        //TODO
+        public void PartWingUpdate()
+        {
+            //Ribs
+            Ribs.Clear();
+            //データバインディング上あまりよろしくないができないよりはいいのでつけとくぜ
+            foreach(PartWing p in PartWings)
+            {
+                foreach(Rib r in p.Ribs)
+                {
+                    Ribs.Add(r);
+                }
+            }
+
         }
     }
 

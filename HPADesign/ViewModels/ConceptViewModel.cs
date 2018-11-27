@@ -68,6 +68,6 @@ namespace HPADesign.ViewModels
             //EditPartWing = new RelayCommand(TextBoxUpdate);
         }
 
-        
+
     }
 }

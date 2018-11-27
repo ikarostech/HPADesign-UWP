@@ -13,6 +13,7 @@ namespace HPADesign.Models
     /// </summary>
     public class PartWing : INotifyPropertyChanged
     {
+        private Wing Parent;
         public ObservableCollection<Rib> Ribs { get; set; } = new ObservableCollection<Rib>();
         public int Id { get; set; }
         public int length;
@@ -95,25 +96,26 @@ namespace HPADesign.Models
 
                 if (autorib)
                 {
-                    Ribs.Clear();
-                    int interval = Differencial / (RibCount - 1);
-
-                    Enumerable.Range(1, RibCount).ToList().ForEach
-                    (i =>
-                      Ribs.Add(new Rib(interval * (i - 1)))                        
-                    );
+                    AutoRibsGenerate();
                 }
-                
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private Wing parent;
-
-        public PartWing(Wing parent)
+        private void AutoRibsGenerate()
         {
-            this.parent = parent;
+            Ribs.Clear();
+            int interval = Differencial / (RibCount - 1);
+
+            Enumerable.Range(1, RibCount).ToList().ForEach
+            (i =>
+              Ribs.Add(new Rib(interval * (i - 1)))
+            );
+            Parent.PartWingUpdate();
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public PartWing(Wing Parent)
+        {
+            this.Parent = Parent;
+            Ribs = new ObservableCollection<Rib>();
         }
     }
 }

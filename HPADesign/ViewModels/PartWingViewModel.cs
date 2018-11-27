@@ -17,14 +17,16 @@ namespace HPADesign.ViewModels
         PartWing Model { get; set; }
         public ReactiveProperty<int> Length { get; set; }
         public ReactiveProperty<int> RibCount { get; set; }
-
+        public ReactiveProperty<int> MinChord { get; set; }
+        public ReactiveProperty<int> MaxChord { get; set; }
         public PartWingViewModel(PartWing partWing)
         {
             Model = partWing;
             Length = Model.ToReactivePropertyAsSynchronized(x => x.Length);
             RibCount = Model.ToReactivePropertyAsSynchronized(x => x.RibCount);
-            
 
+            MinChord = Model.ToReactivePropertyAsSynchronized(x => x.MinChord);
+            MaxChord = Model.ToReactivePropertyAsSynchronized(x => x.MaxChord);
         }
     }
 }
