@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.ComponentModel;
+using Prism.Mvvm;
 
 namespace HPADesign.Models
 {
-    public class Rib : INotifyPropertyChanged
+    public class Rib : BindableBase
     {
         //リブの名前
         public double Name { get; set; }
@@ -24,7 +25,9 @@ namespace HPADesign.Models
             set
             {
                 chord = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Chord"));
+                RaisePropertyChanged(nameof(Chord));
+                
+                
             }
         }
 
@@ -61,7 +64,7 @@ namespace HPADesign.Models
 
         public Rib() { return; }
         
-        public Rib(int chord)
+        public Rib(double chord)
         {
             Chord = chord;
         }

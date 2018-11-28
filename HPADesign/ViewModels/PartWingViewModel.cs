@@ -17,6 +17,7 @@ namespace HPADesign.ViewModels
         PartWing Model { get; set; }
         public ReactiveProperty<int> Length { get; set; }
         public ReactiveProperty<int> RibCount { get; set; }
+
         public ReactiveProperty<int> MinChord { get; set; }
         public ReactiveProperty<int> MaxChord { get; set; }
         public PartWingViewModel(PartWing partWing)

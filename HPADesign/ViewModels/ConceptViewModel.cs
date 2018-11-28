@@ -60,8 +60,8 @@ namespace HPADesign.ViewModels
                 section.Length = 3000;
 
                 //wing.partWings.Add(section);
-                wing.PartWings.Add(section);
-                
+                WingModel.PartWings.Add(section);
+
 
             });
 

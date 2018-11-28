@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,9 +12,11 @@ namespace HPADesign.Models
     /// <summary>
     /// 翼分割区間
     /// </summary>
-    public class PartWing : INotifyPropertyChanged
+    public class PartWing : BindableBase
     {
         private Wing Parent;
+
+
         public ObservableCollection<Rib> Ribs { get; set; } = new ObservableCollection<Rib>();
         public int Id { get; set; }
         public int length;
@@ -55,8 +58,8 @@ namespace HPADesign.Models
             }
             set
             {
-                minchord = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MinChord"));
+                maxchord = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MaxChord"));
             }
         }
 
@@ -103,18 +106,21 @@ namespace HPADesign.Models
         private void AutoRibsGenerate()
         {
             Ribs.Clear();
-            int interval = Differencial / (RibCount - 1);
+            double interval = (double)Differencial / (RibCount - 1);
 
             Enumerable.Range(1, RibCount).ToList().ForEach
             (i =>
               Ribs.Add(new Rib(interval * (i - 1)))
             );
+            RaisePropertyChanged(nameof(Ribs));
             Parent.PartWingUpdate();
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public PartWing(Wing Parent)
         {
             this.Parent = Parent;
+            maxchord = 0;
+            minchord = 0;
             Ribs = new ObservableCollection<Rib>();
         }
     }

@@ -93,7 +93,7 @@
                             <TextBlock x:Name="TestBlock" Text="Test" TextWrapping="Wrap" />
                             <Button Content="TestStart" Height="40" Width="100"/>
                         </Grid>
-                        <Custom:DataGrid ItemsSource="{x:Bind conceptviewmodel.PartWings}" AutoGenerateColumns="False" Height="200" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,350">
+                        <Custom:DataGrid ItemsSource="{x:Bind conceptviewmodel.PartWings,Mode=TwoWay}" AutoGenerateColumns="False" Height="200" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,350">
                             <Custom:DataGrid.Columns>
                                 
                                 <Custom:DataGridTextColumn Header="翼幅" Binding="{Binding Length.Value}" />

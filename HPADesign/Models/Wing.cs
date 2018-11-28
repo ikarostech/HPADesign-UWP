@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using Reactive.Bindings;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-
+using System.Reactive.Linq;
+using Prism.Mvvm;
 namespace HPADesign.Models
 {
     /// <summary>
     /// LLT解析とか翼全体を見たい時に使う
     /// </summary>
-    public class Wing : INotifyPropertyChanged
+    public class Wing : BindableBase
     {
         private ObservableCollection<PartWing> partwings = new ObservableCollection<PartWing>();
         /// <summary>
@@ -24,11 +25,27 @@ namespace HPADesign.Models
             set
             {
                 partwings = value;
-                PartWingUpdate();
+                //PartWingUpdate();
             }
         }
 
-        public ObservableCollection<Rib> Ribs { get; set; }
+        private ObservableCollection<Rib> ribs = new ObservableCollection<Rib>();
+        public ObservableCollection<Rib> Ribs
+        {
+            get
+            {
+                var result = new ObservableCollection<Rib>();
+                foreach (PartWing p in PartWings)
+                {
+                    foreach (Rib r in p.Ribs)
+                    {
+                        result.Add(r);
+                    }
+                }
+                return result;
+            }
+        }
+        
 
         public int CN { get; set; }
         public int RN { get; set; }
@@ -81,10 +98,24 @@ namespace HPADesign.Models
         {
             
             PartWings = new ObservableCollection<PartWing>();
-            Ribs = new ObservableCollection<Rib>();
+            
         }
-
+        public void addPartWing(PartWing partWing)
+        {
+            
+            Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+                h => partWing.PropertyChanged += h,
+                h => partWing.PropertyChanged -= h)
+                .Subscribe(e =>
+                {
+                    RaisePropertyChanged(nameof(PartWings));
+                    RaisePropertyChanged(nameof(Ribs));
+                });
+                
+            PartWings.Add(partWing);
+        }
         //TODO
+        
         public void PartWingUpdate()
         {
             //Ribs
@@ -99,6 +130,7 @@ namespace HPADesign.Models
             }
 
         }
+        
     }
 
 }
