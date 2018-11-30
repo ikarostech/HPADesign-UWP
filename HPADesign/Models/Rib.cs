@@ -11,8 +11,13 @@ namespace HPADesign.Models
 {
     public class Rib : BindableBase
     {
+        //どの部分翼につながっているか
+        private PartWing parent;
+
         //リブの名前
-        public double Name { get; set; }
+        public string Name { get; set; }
+
+        
 
         private double chord;
         //翼弦長(mm)
@@ -60,16 +65,32 @@ namespace HPADesign.Models
         public Pos Sparholepos { get; set; }
 
 
-        public IAirfoil Foil { get; set; }
+        public Airfoil Airfoil { get; set; }
 
-        public Rib() { return; }
-        
-        public Rib(double chord)
+        private string airfoilname = string.Empty;
+        //リブに使われている翼型の名前
+        public string AirfoilName {
+            get { return airfoilname; }
+            set
+            {
+                airfoilname = value;
+                parent.RibUpdate();
+            }
+        }
+
+        public Rib(PartWing parent)
         {
+            this.parent = parent;
+            return;
+        }
+        
+        public Rib(PartWing parent,double chord)
+        {
+            this.parent = parent;
             Chord = chord;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        
 
         public void RibDXF()
         {

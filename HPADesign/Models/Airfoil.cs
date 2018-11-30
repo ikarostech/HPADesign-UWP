@@ -270,6 +270,20 @@ namespace HPADesign.Models
         {
             throw new NotImplementedException();
         }
+
+        public static Airfoil Lerp(Airfoil A,Airfoil B,double rate)
+        {
+            var result = new Airfoil();
+
+            result.Coordinate = new SeligCoordinate();
+            for (int i = 0; i < A.Coordinate321.Count; i++)
+            {
+                result.Coordinate.Coordinate.Add(new Pos(A.Coordinate321[i].x, Cal.Lerp(A.Coordinate321[i].y, B.Coordinate321[i].y, rate)));
+            }
+
+            return result;
+        }
+
     }
 
 

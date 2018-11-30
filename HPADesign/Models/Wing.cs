@@ -32,26 +32,20 @@ namespace HPADesign.Models
         private ObservableCollection<Rib> ribs = new ObservableCollection<Rib>();
         public ObservableCollection<Rib> Ribs
         {
-            get
+            get { return ribs; }
+            set
             {
-                var result = new ObservableCollection<Rib>();
-                foreach (PartWing p in PartWings)
-                {
-                    foreach (Rib r in p.Ribs)
-                    {
-                        result.Add(r);
-                    }
-                }
-                return result;
+                ribs = value;
             }
         }
+        
         
 
         public int CN { get; set; }
         public int RN { get; set; }
         public double Lift { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        
 
         private double cruisevel;
         public double CruiseVel
@@ -60,7 +54,7 @@ namespace HPADesign.Models
             set
             {
                 cruisevel = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CruiseVel"));
+                RaisePropertyChanged(nameof(CruiseVel));
             }
         }
         
@@ -114,8 +108,8 @@ namespace HPADesign.Models
                 
             PartWings.Add(partWing);
         }
+
         //TODO
-        
         public void PartWingUpdate()
         {
             //Ribs

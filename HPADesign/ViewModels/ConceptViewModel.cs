@@ -20,10 +20,10 @@ namespace HPADesign.ViewModels
         /// <summary>
         /// 編集をかけるときはこっち
         /// </summary>
-        private ReactiveProperty<ObservableCollection<PartWing>> PartWingVM { get; set; }
+        
         public ReadOnlyReactiveCollection<PartWing> Wingsections { get; set; }
         public ReadOnlyReactiveCollection<PartWingViewModel> PartWings { get; set; }
-        //private InteractionRequest<Confirmation> alertRequest{get;set;}
+        
 
 
         public ReactiveCommand ReadFoil { get; set; }

@@ -95,7 +95,7 @@
                         </Grid>
                         <Custom:DataGrid ItemsSource="{x:Bind conceptviewmodel.PartWings,Mode=TwoWay}" AutoGenerateColumns="False" Height="200" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,350">
                             <Custom:DataGrid.Columns>
-                                
+
                                 <Custom:DataGridTextColumn Header="翼幅" Binding="{Binding Length.Value}" />
                                 <Custom:DataGridTextColumn Header="リブ数" Binding="{Binding RibCount.Value}" />
                                 <Custom:DataGridTextColumn Header="最大翼弦長" Binding="{Binding MaxChord.Value}" />
@@ -107,11 +107,12 @@
                 </PivotItem>
                 <PivotItem Header="Lift and Drag">
                     <Grid Height="Auto" Width="Auto">
-                        
-                        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs ,Mode=OneWay}" Height="1000" Width="1200" Margin="0,0">
+
+                        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs ,Mode=TwoWay}" AutoGenerateColumns="False" Margin="14,9,836,196">
                             <Custom:DataGrid.Columns>
 
-                                <Custom:DataGridTextColumn Header="翼幅" Binding="{Binding Chord.Value}" /> <Custom:DataGridTextColumn Header="リブ数" Binding="{Binding RibCount.Value}" />
+                                <Custom:DataGridTextColumn Header="翼幅" Binding="{Binding Chord.Value}" />
+                                <Custom:DataGridTextColumn Header="翼弦長" Binding="{Binding Chord.Value}" />
                             </Custom:DataGrid.Columns>
                         </Custom:DataGrid>
                     </Grid>
