@@ -132,6 +132,7 @@
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Models\PartWing.cs" />
+    <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Rib.cs" />
     <Compile Include="Services\PointCollectionConverter.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />

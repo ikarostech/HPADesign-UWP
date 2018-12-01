@@ -14,7 +14,7 @@ namespace HPADesign.ViewModels
 {
     public class ConceptViewModel : Observable
     {
-        public Wing WingModel { get; set; }
+        private Project project;
         public ReactiveProperty<double> TheoricalSpeed { get; set; } = new ReactiveProperty<double>(10);
 
         /// <summary>
@@ -34,38 +34,38 @@ namespace HPADesign.ViewModels
         public ReactiveCommand EditWingSection { get; set; }
 
         //Bindingの初期設定など
-        public ConceptViewModel(Wing wing)
+        public ConceptViewModel(Project project)
         {
-            
-            this.WingModel = wing;
-            WingModel.CruiseVel = 11;
-            TheoricalSpeed = wing.ToReactivePropertyAsSynchronized(x => x.CruiseVel);
+
+            this.project = project;
+            project.Wing.CruiseVel = 11;
+            TheoricalSpeed = project.Wing.ToReactivePropertyAsSynchronized(x => x.CruiseVel);
 
             ReadFoil = new ReactiveCommand();
-            ReadFoil.Subscribe(_ => { wing.CruiseVel = 12; });
+            ReadFoil.Subscribe(_ => { project.Wing.CruiseVel = 12; });
 
-            PartWings = wing.PartWings.ToReadOnlyReactiveCollection(x => new PartWingViewModel(x));
+            PartWings = project.Wing.PartWings.ToReadOnlyReactiveCollection(x => new PartWingViewModel(x));
 
             AddWingSection = new ReactiveCommand();
-            var test = new PartWing(WingModel);
+            var test = new PartWing(project.Wing);
             test.Id = 0;
             test.Length = 3000;
 
             //wing.partWings.Add(section);
-            WingModel.PartWings.Add(test);
+            project.Wing.PartWings.Add(test);
             AddWingSection.Subscribe(_ =>
             {
-                var section = new PartWing(WingModel);
+                var section = new PartWing(project.Wing);
                 section.Id = 0;
                 section.Length = 3000;
 
                 //wing.partWings.Add(section);
-                WingModel.PartWings.Add(section);
+                project.Wing.PartWings.Add(section);
 
 
             });
 
-            //EditPartWing = new RelayCommand(TextBoxUpdate);
+            
         }
 
 

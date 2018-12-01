@@ -17,17 +17,17 @@ namespace HPADesign.ViewModels
     /// </summary>
     public class AeroDynamicsViewModel : Observable
     {
-        private Wing WingModel { get; }
+        private Project project;
 
         //private ReadOnlyReactiveCollection<Rib> Ribs {get;set;}
         public ReadOnlyReactiveCollection<RibViewModel> Ribs { get; set; }
         
 
-        public AeroDynamicsViewModel(Wing wing)
+        public AeroDynamicsViewModel(Project project)
         {
-            WingModel = wing;
+            this.project = project;
             //
-            Ribs = wing.Ribs.ToReadOnlyReactiveCollection(x => new RibViewModel(x));
+            Ribs = project.Wing.Ribs.ToReadOnlyReactiveCollection(x => new RibViewModel(x));
 
             
         }
