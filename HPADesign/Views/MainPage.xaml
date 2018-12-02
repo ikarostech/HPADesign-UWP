@@ -111,7 +111,7 @@
                         <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs ,Mode=TwoWay}" AutoGenerateColumns="False" Margin="14,9,836,196">
                             <Custom:DataGrid.Columns>
 
-                                <Custom:DataGridTextColumn Header="翼幅" Binding="{Binding Chord.Value}" />
+                                
                                 <Custom:DataGridTextColumn Header="翼弦長" Binding="{Binding Chord.Value}" />
                             </Custom:DataGrid.Columns>
                         </Custom:DataGrid>

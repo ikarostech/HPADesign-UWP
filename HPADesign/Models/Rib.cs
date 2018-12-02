@@ -17,7 +17,23 @@ namespace HPADesign.Models
         //リブの名前
         public string Name { get; set; }
 
-        
+        private int globalpos;
+        public int GlobalPosition
+        {
+            get
+            {
+                return globalpos;
+            }
+
+            set
+            {
+                globalpos = value;
+                localpos = value - parent.StartPos;
+            }
+        }
+
+        private int localpos;
+        public int LocalPossition { get; set; }
 
         private double chord;
         //翼弦長(mm)

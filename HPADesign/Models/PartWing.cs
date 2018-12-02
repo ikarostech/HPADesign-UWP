@@ -19,6 +19,7 @@ namespace HPADesign.Models
 
         public ObservableCollection<Rib> Ribs { get; set; } = new ObservableCollection<Rib>();
         public int Id { get; set; }
+
         public int length;
         public int Length
         {
@@ -32,6 +33,11 @@ namespace HPADesign.Models
                 RaisePropertyChanged(nameof(Length));
             }
         }
+
+        //TODO
+        public int StartPos { get; set; }
+        //TODO
+        public int EndPos { get; set; }
 
         public int Offset { get; set; }
 

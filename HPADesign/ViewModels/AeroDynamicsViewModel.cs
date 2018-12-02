@@ -22,7 +22,7 @@ namespace HPADesign.ViewModels
         //private ReadOnlyReactiveCollection<Rib> Ribs {get;set;}
         public ReadOnlyReactiveCollection<RibViewModel> Ribs { get; set; }
         
-
+        
         public AeroDynamicsViewModel(Project project)
         {
             this.project = project;
