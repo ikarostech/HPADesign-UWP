@@ -35,9 +35,35 @@ namespace HPADesign.Models
         }
 
         //TODO
-        public int StartPos { get; set; }
+        private int startpos = 0;
+        public int StartPos
+        {
+            get
+            {
+                return startpos;
+            }
+            set
+            {
+                startpos = value;
+                
+                RaisePropertyChanged(nameof(StartPos));
+                RaisePropertyChanged(nameof(Length));
+            }
+        }
         //TODO
-        public int EndPos { get; set; }
+        //private int endpos;
+        public int EndPos {
+            get
+            {
+                return startpos+length;
+            }
+            set
+            {
+                length = value-startpos;
+                RaisePropertyChanged(nameof(EndPos));
+                RaisePropertyChanged(nameof(Length));
+            }
+        }
 
         public int Offset { get; set; }
 
@@ -125,10 +151,10 @@ namespace HPADesign.Models
 
             Enumerable.Range(1, RibCount).ToList().ForEach
             (i =>
-              Ribs.Add(new Rib(this,(double)MaxChord - interval * (i - 1)))
+              Ribs.Add(new Rib(this,(double)MaxChord - interval * (i - 1),(EndPos-StartPos)/(RibCount-1)*(i-1)))
             );
             RaisePropertyChanged(nameof(Ribs));
-            Parent.PartWingUpdate();
+            Parent.PartWingRibsUpdate();
         }
 
         //TODO

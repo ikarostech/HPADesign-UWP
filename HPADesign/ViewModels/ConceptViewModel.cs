@@ -50,9 +50,12 @@ namespace HPADesign.ViewModels
             var test = new PartWing(project.Wing);
             test.Id = 0;
             test.Length = 3000;
+            test.StartPos = 0;
+            //test.
 
             //wing.partWings.Add(section);
             project.Wing.PartWings.Add(test);
+            project.Wing.PartWingLengthUpdate();
             AddWingSection.Subscribe(_ =>
             {
                 var section = new PartWing(project.Wing);
@@ -62,7 +65,7 @@ namespace HPADesign.ViewModels
                 //wing.partWings.Add(section);
                 project.Wing.PartWings.Add(section);
 
-
+                project.Wing.PartWingLengthUpdate();
             });
 
             

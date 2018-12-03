@@ -110,7 +110,7 @@ namespace HPADesign.Models
         }
 
         //TODO
-        public void PartWingUpdate()
+        public void PartWingRibsUpdate()
         {
             //Ribs
             Ribs.Clear();
@@ -123,6 +123,14 @@ namespace HPADesign.Models
                 }
             }
 
+        }
+
+        public void PartWingLengthUpdate()
+        {
+            for(int i=1; i<partwings.Count; i++)
+            {
+                partwings[i].StartPos = partwings[i-1].EndPos;
+            }
         }
         
     }

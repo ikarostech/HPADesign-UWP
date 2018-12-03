@@ -33,7 +33,19 @@ namespace HPADesign.Models
         }
 
         private int localpos;
-        public int LocalPossition { get; set; }
+        public int LocalPossition
+        {
+            get
+            {
+                return globalpos;
+            }
+
+            set
+            {
+                localpos = value;
+                globalpos = value + parent.StartPos;
+            }
+        }
 
         private double chord;
         //翼弦長(mm)
@@ -100,10 +112,11 @@ namespace HPADesign.Models
             return;
         }
         
-        public Rib(PartWing parent,double chord)
+        public Rib(PartWing parent,double chord,int localpos)
         {
             this.parent = parent;
             Chord = chord;
+            this.LocalPossition = localpos;
         }
 
         
