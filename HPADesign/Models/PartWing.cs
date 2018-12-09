@@ -151,7 +151,7 @@ namespace HPADesign.Models
 
             Enumerable.Range(1, RibCount).ToList().ForEach
             (i =>
-              Ribs.Add(new Rib(this,(double)MaxChord - interval * (i - 1),(EndPos-StartPos)/(RibCount-1)*(i-1)))
+              Ribs.Add(new Rib(this,(double)MaxChord - interval * (i - 1),(Length)/(RibCount-1)*(i-1)))
             );
             RaisePropertyChanged(nameof(Ribs));
             Parent.PartWingRibsUpdate();

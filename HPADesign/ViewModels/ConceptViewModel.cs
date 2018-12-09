@@ -62,6 +62,7 @@ namespace HPADesign.ViewModels
                 section.Id = 0;
                 section.Length = 3000;
 
+                section.StartPos = project.Wing.PartWings[project.Wing.PartWings.Count - 1].EndPos;
                 //wing.partWings.Add(section);
                 project.Wing.PartWings.Add(section);
 

@@ -100,6 +100,8 @@
                                 <Custom:DataGridTextColumn Header="リブ数" Binding="{Binding RibCount.Value}" />
                                 <Custom:DataGridTextColumn Header="最大翼弦長" Binding="{Binding MaxChord.Value}" />
                                 <Custom:DataGridTextColumn Header="最小翼弦長" Binding="{Binding MinChord.Value}" />
+                                <Custom:DataGridTextColumn Header="StartPos" Binding="{Binding StartPos.Value}" />
+                                <Custom:DataGridTextColumn Header="EndPos" Binding="{Binding EndPos.Value}" />
                             </Custom:DataGrid.Columns>
                         </Custom:DataGrid>
                     </Grid>

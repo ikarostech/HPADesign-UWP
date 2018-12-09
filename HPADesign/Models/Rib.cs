@@ -17,33 +17,36 @@ namespace HPADesign.Models
         //リブの名前
         public string Name { get; set; }
 
-        private int globalpos;
+        
         public int GlobalPosition
         {
             get
             {
-                return globalpos;
+                return localpos + parent.StartPos;
             }
 
             set
             {
-                globalpos = value;
                 localpos = value - parent.StartPos;
+                RaisePropertyChanged(nameof(LocalPosition));
+                RaisePropertyChanged(nameof(GlobalPosition));
+
             }
         }
 
         private int localpos;
-        public int LocalPossition
+        public int LocalPosition
         {
             get
             {
-                return globalpos;
+                return localpos;
             }
 
             set
             {
                 localpos = value;
-                globalpos = value + parent.StartPos;
+                RaisePropertyChanged(nameof(LocalPosition));
+                RaisePropertyChanged(nameof(GlobalPosition));
             }
         }
 
@@ -116,7 +119,7 @@ namespace HPADesign.Models
         {
             this.parent = parent;
             Chord = chord;
-            this.LocalPossition = localpos;
+            this.LocalPosition = localpos;
         }
 
         
