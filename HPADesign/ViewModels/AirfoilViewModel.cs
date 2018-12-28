@@ -1,13 +1,6 @@
 ﻿using HPADesign.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
-using System.Drawing;
-using Windows.UI.Xaml.Media;
 using System.IO;
 using Windows.Storage;
 using HPADesign.Services;

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HPADesign.Models;
+﻿using HPADesign.Models;
 using Reactive.Bindings;
-using Reactive.Bindings.Binding;
 using Reactive.Bindings.Extensions;
 
 namespace HPADesign.ViewModels

@@ -1,14 +1,7 @@
-﻿using System;
-using HPADesign.Models;
+﻿using HPADesign.Models;
 using HPADesign.Helpers;
 using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Reactive.Bindings.Binding;
-using Microsoft.Xaml.Interactivity;
-using Microsoft.Xaml.Interactions.Core;
-using Windows.UI.Xaml.Input;
+
 
 namespace HPADesign.ViewModels
 {

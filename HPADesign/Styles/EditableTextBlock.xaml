@@ -8,9 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     >
-    <UserControl.Resources>
-        <Convert:TwoWayBindingConverter x:Key="b" />
-    </UserControl.Resources>
     <Grid>
         <TextBlock Text="{Binding Mode=TwoWay, Converter={StaticResource b}}" Visibility="Visible" Name="TextBlock" Tapped="TextBlock_Tapped"/>
         <TextBox Text="{Binding Mode=TwoWay, Converter={StaticResource b}}" Visibility="Collapsed" Name="TextBox" LostFocus="TextBox_LostFocus" />
