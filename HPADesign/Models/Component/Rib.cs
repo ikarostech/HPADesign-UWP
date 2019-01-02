@@ -8,9 +8,8 @@ namespace HPADesign.Models
 {
     public class Rib : BindableBase
     {
-        //どの部分翼につながっているか
-        private PartWing parent;
-
+        private PartWing Parent { get; set; }
+        public Project project { get; set; }
         //リブの名前
         public string Name { get; set; }
 
@@ -19,12 +18,12 @@ namespace HPADesign.Models
         {
             get
             {
-                return localpos + parent.StartPos;
+                return localpos + Parent.StartPos;
             }
 
             set
             {
-                localpos = value - parent.StartPos;
+                localpos = value - Parent.StartPos;
                 RaisePropertyChanged(nameof(LocalPosition));
                 RaisePropertyChanged(nameof(GlobalPosition));
 
@@ -102,19 +101,21 @@ namespace HPADesign.Models
             set
             {
                 airfoilname = value;
-                parent.RibUpdate();
+                Parent.Update();
             }
         }
 
         public Rib(PartWing parent)
         {
-            this.parent = parent;
+            Parent = parent;
+            project = Parent.project;
             return;
         }
         
         public Rib(PartWing parent,double chord,int localpos)
         {
-            this.parent = parent;
+            this.Parent = parent;
+            project = Parent.project;
             Chord = chord;
             this.LocalPosition = localpos;
         }

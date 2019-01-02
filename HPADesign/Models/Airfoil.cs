@@ -172,7 +172,7 @@ namespace HPADesign.Models
 
     public class Airfoil : IAirfoil
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = "None";
 
         public ICoordinate Coordinate { get; set; }
         public List<Pos> Coordinate321 { get { return Coordinate.Coordinate321; } }
