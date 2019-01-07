@@ -101,6 +101,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Nuget package references -->
+    <PackageReference Include="LiveCharts.Uwp">
+      <Version>0.8.0</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.9</Version>
     </PackageReference>
@@ -172,11 +175,12 @@
       <DependentUpon>Plot.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\RibGenerator.cs" />
-    <Compile Include="ViewModels\AeroDynamicsViewModel.cs" />
-    <Compile Include="ViewModels\AirfoilViewModel.cs" />
-    <Compile Include="ViewModels\ConceptViewModel.cs" />
-    <Compile Include="ViewModels\PartWingViewModel.cs" />
-    <Compile Include="ViewModels\RibViewModel.cs" />
+    <Compile Include="ViewModels\PageViewModel\AeroDynamicsViewModel.cs" />
+    <Compile Include="ViewModels\PageViewModel\AirfoilViewModel.cs" />
+    <Compile Include="ViewModels\PageViewModel\ConceptViewModel.cs" />
+    <Compile Include="ViewModels\PageViewModel\IPageViewModel.cs" />
+    <Compile Include="ViewModels\ComponentViewModel\PartWingViewModel.cs" />
+    <Compile Include="ViewModels\ComponentViewModel\RibViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
