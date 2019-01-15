@@ -8,6 +8,7 @@ using HPADesign.Utilities;
 using Reactive.Bindings;
 using HPADesign.Helpers;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
 
 namespace HPADesign.ViewModels
 {
@@ -17,7 +18,9 @@ namespace HPADesign.ViewModels
 
         public ReadOnlyReactiveCollection<Airfoil> AirfoilList { get; set; }
         public ReactiveCollection<int> SelectedAirfoilList { get; set; }
-        
+
+        public ReactiveProperty<PointCollection> AirfoilPoints { get; set; }
+
 
         public AirfoilViewModel(Project project)
         {
@@ -25,6 +28,10 @@ namespace HPADesign.ViewModels
             
             SelectedAirfoilList = new ReactiveCollection<int>();
             AirfoilList = project.Airfoils.ToReadOnlyReactiveCollection(x => x);
+            AirfoilPoints = new ReactiveProperty<PointCollection>();
+            AirfoilPoints.Value = new PointCollection();
+            AirfoilPoints.Value.Add(new Windows.Foundation.Point(0, 0));
+            AirfoilPoints.Value.Add(new Windows.Foundation.Point(100, 200));
         }
         public async Task AddAirfoil()
         {

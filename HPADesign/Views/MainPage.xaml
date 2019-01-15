@@ -140,7 +140,7 @@
                                 <Custom:DataGridTextColumn Header="翼根からの位置" Binding="{Binding Name}" />
                             </Custom:DataGrid.Columns>
                         </Custom:DataGrid>
-                        <lvc:CartesianChart Margin="100,200" Height ="400" Width="600"  ></lvc:CartesianChart>
+                        <Polygon Stroke="Red" Margin="200,400"  Points="{x:Bind airfoilviewmodel.AirfoilPoints.Value,Mode=TwoWay}"/>
                     </Grid>
 
 
