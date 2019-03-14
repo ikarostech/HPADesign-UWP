@@ -12,12 +12,20 @@ namespace HPADesign.Models
     {
         public Wing Wing { get; set; }
 
-        public ObservableCollection<Airfoil> Airfoils;
+        public ObservableCollection<Airfoil> Airfoils { get; set; }
 
         public Project()
         {
-            Wing = new Wing();
+            Wing = new Wing(this);
             Airfoils = new ObservableCollection<Airfoil>();
+
+            Airfoil a1 = new Airfoil();
+            a1.Name = "test1";
+            Airfoil a2 = new Airfoil();
+            a2.Name = "test2";
+
+            Airfoils.Add(a1);
+            Airfoils.Add(a2);
         }
     }
 }

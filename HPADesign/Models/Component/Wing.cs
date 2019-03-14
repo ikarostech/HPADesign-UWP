@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using Prism.Mvvm;
+
 namespace HPADesign.Models
 {
     /// <summary>
@@ -10,6 +11,8 @@ namespace HPADesign.Models
     /// </summary>
     public class Wing : BindableBase
     {
+        
+        public Project project { get; set; }
         private ObservableCollection<PartWing> partwings = new ObservableCollection<PartWing>();
         /// <summary>
         /// 部分翼
@@ -83,11 +86,10 @@ namespace HPADesign.Models
             }
         }
 
-        public Wing()
+        public Wing(Project project)
         {
-            
-            PartWings = new ObservableCollection<PartWing>();
-            
+            this.project = project;
+            PartWings = new ObservableCollection<PartWing>();            
         }
         public void addPartWing(PartWing partWing)
         {
@@ -105,7 +107,7 @@ namespace HPADesign.Models
         }
 
         //TODO
-        public void PartWingRibsUpdate()
+        public void Update()
         {
             //Ribs
             Ribs.Clear();
@@ -118,13 +120,10 @@ namespace HPADesign.Models
                 }
             }
 
-        }
 
-        public void PartWingLengthUpdate()
-        {
-            for(int i=1; i<partwings.Count; i++)
+            for (int i = 1; i < partwings.Count; i++)
             {
-                partwings[i].StartPos = partwings[i-1].EndPos;
+                partwings[i].StartPos = partwings[i - 1].EndPos;
             }
         }
         

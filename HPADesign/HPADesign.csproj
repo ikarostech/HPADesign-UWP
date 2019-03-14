@@ -11,7 +11,7 @@
     <AssemblyName>HPADesign</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -100,8 +100,15 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Nuget package references -->
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.2</Version>
+      <Version>6.1.9</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit">
+      <Version>5.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Services">
+      <Version>5.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
       <Version>5.0.0</Version>
@@ -112,15 +119,17 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.0</Version>
     </PackageReference>
-    <!-- Nuget package references -->
     <PackageReference Include="Newtonsoft.Json">
-      <Version>11.0.2</Version>
+      <Version>12.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="OxyPlot.OpenXml">
+      <Version>1.0.0</Version>
     </PackageReference>
     <PackageReference Include="Prism.Core">
       <Version>7.1.0.431</Version>
     </PackageReference>
     <PackageReference Include="ReactiveProperty">
-      <Version>5.3.0</Version>
+      <Version>5.3.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -135,19 +144,19 @@
     <Compile Include="Calculations\VLM.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\Observable.cs" />
-    <Compile Include="Models\PartWing.cs" />
+    <Compile Include="Models\Component\PartWing.cs" />
     <Compile Include="Models\Project.cs" />
-    <Compile Include="Models\Rib.cs" />
+    <Compile Include="Models\Component\Rib.cs" />
     <Compile Include="Services\PointCollectionConverter.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
     <Compile Include="Models\Airfoil.cs" />
     <Compile Include="Models\Distribution.cs" />
-    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\Cal.cs" />
     <Compile Include="Models\Pos.cs" />
     <Compile Include="Models\Structure.cs" />
-    <Compile Include="Models\Wing.cs" />
+    <Compile Include="Models\Component\Wing.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
     <Compile Include="Styles\EditableTextBlock.xaml.cs">

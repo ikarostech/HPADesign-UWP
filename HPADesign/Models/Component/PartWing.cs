@@ -10,8 +10,9 @@ namespace HPADesign.Models
     /// </summary>
     public class PartWing : BindableBase
     {
-        private Wing Parent;
+        public Wing Parent { get; set; }
 
+        public Project project { get; set; }
 
         public ObservableCollection<Rib> Ribs { get; set; } = new ObservableCollection<Rib>();
         public int Id { get; set; }
@@ -150,11 +151,12 @@ namespace HPADesign.Models
               Ribs.Add(new Rib(this,(double)MaxChord - interval * (i - 1),(Length)/(RibCount-1)*(i-1)))
             );
             RaisePropertyChanged(nameof(Ribs));
-            Parent.PartWingRibsUpdate();
+
+            Parent.Update();
         }
 
         //TODO
-        public void RibUpdate()
+        public void Update()
         {
             //翼型について考察
 
@@ -185,6 +187,7 @@ namespace HPADesign.Models
         public PartWing(Wing Parent)
         {
             this.Parent = Parent;
+            project = Parent.project;
             maxchord = 0;
             minchord = 0;
             Ribs = new ObservableCollection<Rib>();

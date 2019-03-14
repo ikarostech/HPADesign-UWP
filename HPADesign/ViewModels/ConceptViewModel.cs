@@ -15,7 +15,7 @@ namespace HPADesign.ViewModels
         /// 編集をかけるときはこっち
         /// </summary>
         
-        public ReadOnlyReactiveCollection<PartWing> Wingsections { get; set; }
+        
         public ReadOnlyReactiveCollection<PartWingViewModel> PartWings { get; set; }
         
 
@@ -49,7 +49,7 @@ namespace HPADesign.ViewModels
 
             //wing.partWings.Add(section);
             project.Wing.PartWings.Add(test);
-            project.Wing.PartWingLengthUpdate();
+            project.Wing.Update();
             AddWingSection.Subscribe(_ =>
             {
                 var section = new PartWing(project.Wing);
@@ -60,7 +60,7 @@ namespace HPADesign.ViewModels
                 //wing.partWings.Add(section);
                 project.Wing.PartWings.Add(section);
 
-                project.Wing.PartWingLengthUpdate();
+                project.Wing.Update();
             });
 
             

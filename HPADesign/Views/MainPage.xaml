@@ -113,7 +113,17 @@
 
                                 <Custom:DataGridTextColumn Header="翼根からの位置" Binding="{Binding GlobalPos.Value}" />
                                 <Custom:DataGridTextColumn Header="翼弦長" Binding="{Binding Chord.Value}" />
-                                <Custom:DataGridComboBoxColumn Header="翼型" Binding="{Binding }"
+                                <Custom:DataGridTemplateColumn Header="翼型" Width="80">
+
+                                    <Custom:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+
+                                            <ComboBox Width="70" ItemsSource="{Binding test.Value}" />
+
+
+                                        </DataTemplate>
+                                    </Custom:DataGridTemplateColumn.CellTemplate>
+                                </Custom:DataGridTemplateColumn>
                             </Custom:DataGrid.Columns>
                         </Custom:DataGrid>
                     </Grid>
