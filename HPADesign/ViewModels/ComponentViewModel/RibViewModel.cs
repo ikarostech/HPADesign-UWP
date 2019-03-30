@@ -18,8 +18,7 @@ namespace HPADesign.ViewModels
             Model = rib;
             Chord = Model.ToReactivePropertyAsSynchronized(x => x.Chord);
             GlobalPos = Model.ToReactivePropertyAsSynchronized(x => x.GlobalPosition);
-            Airfoil = new ReactiveProperty<string>();
-            Airfoil.Value = "test1";
+
             test = Model.project.Airfoils.ToReadOnlyReactiveCollection(x => x.Name);
         }
     }

@@ -18,14 +18,6 @@ namespace HPADesign.Models
         {
             Wing = new Wing(this);
             Airfoils = new ObservableCollection<Airfoil>();
-
-            Airfoil a1 = new Airfoil();
-            a1.Name = "test1";
-            Airfoil a2 = new Airfoil();
-            a2.Name = "test2";
-
-            Airfoils.Add(a1);
-            Airfoils.Add(a2);
         }
     }
 }

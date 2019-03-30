@@ -6,9 +6,9 @@ using Reactive.Bindings.Extensions;
 
 namespace HPADesign.ViewModels
 {
-    public class ConceptViewModel : Observable
+    public class ConceptViewModel : Observable,IPageViewModel
     {
-        private Project project;
+        public Project project { get; }
         public ReactiveProperty<double> TheoricalSpeed { get; set; } = new ReactiveProperty<double>(10);
 
         /// <summary>

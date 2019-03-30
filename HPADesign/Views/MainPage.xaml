@@ -8,6 +8,7 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:lvc="using:LiveCharts.Uwp"
     x:Class="HPADesign.Views.MainPage"
     mc:Ignorable="d">
     <Page.Resources>
@@ -118,7 +119,7 @@
                                     <Custom:DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
 
-                                            <ComboBox Width="70" ItemsSource="{Binding test.Value}" />
+                                            <ComboBox Width="70" ItemsSource="{Binding test.Value,Mode=TwoWay}" />
 
 
                                         </DataTemplate>
@@ -128,10 +129,19 @@
                         </Custom:DataGrid>
                     </Grid>
                 </PivotItem>
-                <!--"
+                
                 <PivotItem Header="Spar and Deflection"/>
-                <PivotItem Header="Airfoil" HorizontalAlignment="Stretch" Margin="18,3,6,-3" VerticalAlignment="Stretch">
+                <PivotItem Header="Airfoil" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Grid Height="Auto" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <Button Height="100" Width="100" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Click="{x:Bind airfoilviewmodel.AddAirfoil}"/>
 
+                        <Custom:DataGrid Height="200" Width="400" ItemsSource="{x:Bind airfoilviewmodel.project.Airfoils,Mode=TwoWay}" AutoGenerateColumns="False">
+                            <Custom:DataGrid.Columns>
+                                <Custom:DataGridTextColumn Header="翼根からの位置" Binding="{Binding Name}" />
+                            </Custom:DataGrid.Columns>
+                        </Custom:DataGrid>
+                        <Polygon Stroke="Red" Margin="200,400"  Points="{x:Bind airfoilviewmodel.AirfoilPoints.Value,Mode=TwoWay}"/>
+                    </Grid>
 
 
 
@@ -139,7 +149,7 @@
 
 
                 </PivotItem>
-                -->
+                
             </Pivot>
 
         </Grid>

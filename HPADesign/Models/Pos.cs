@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace HPADesign.Models
 {
     public class Pos : Vector, IComparable
     {
+        public enum Axis { x = 0, y = 1, z = 2 }
+
         public double x
         {
             get
@@ -463,6 +466,15 @@ namespace HPADesign.Models
         public Vector DirectionUnitVector(Vector To)
         {
             return DirectionVector(To).UnitVector;
+        }
+        public static List<double> Pos2List(List<Pos> poslist,int axis)
+        {
+            var result = new List<double>();
+            foreach(Pos p in poslist)
+            {
+                result.Add(p.Entry[axis]);
+            }
+            return result;
         }
     }
 }
