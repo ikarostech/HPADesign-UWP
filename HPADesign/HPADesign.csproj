@@ -178,6 +178,9 @@
     <Compile Include="ViewModels\PageViewModel\IPageViewModel.cs" />
     <Compile Include="ViewModels\ComponentViewModel\PartWingViewModel.cs" />
     <Compile Include="ViewModels\ComponentViewModel\RibViewModel.cs" />
+    <Compile Include="Views\AeroDynamicsView.xaml.cs">
+      <DependentUpon>AeroDynamicsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -210,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\DisableEffectGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AeroDynamicsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

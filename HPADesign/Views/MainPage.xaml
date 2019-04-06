@@ -9,6 +9,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:lvc="using:LiveCharts.Uwp"
+    xmlns:View="using:HPADesign.Views"
     x:Class="HPADesign.Views.MainPage"
     mc:Ignorable="d">
     <Page.Resources>
@@ -107,27 +108,7 @@
 
                 </PivotItem>
                 <PivotItem Header="Lift and Drag">
-                    <Grid Height="Auto" Width="Auto">
-
-                        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs ,Mode=TwoWay}"  AutoGenerateColumns="False" Margin="14,9,836,196">
-                            <Custom:DataGrid.Columns>
-
-                                <Custom:DataGridTextColumn Header="翼根からの位置" Binding="{Binding GlobalPos.Value}" />
-                                <Custom:DataGridTextColumn Header="翼弦長" Binding="{Binding Chord.Value}" />
-                                <Custom:DataGridTemplateColumn Header="翼型" Width="80">
-
-                                    <Custom:DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-
-                                            <ComboBox Width="70" ItemsSource="{Binding AirfoilList,Mode=TwoWay}" />
-
-
-                                        </DataTemplate>
-                                    </Custom:DataGridTemplateColumn.CellTemplate>
-                                </Custom:DataGridTemplateColumn>
-                            </Custom:DataGrid.Columns>
-                        </Custom:DataGrid>
-                    </Grid>
+                    <View:AeroDynamicsView x:Name="aerodynamics" />
                 </PivotItem>
                 
                 <PivotItem Header="Spar and Deflection"/>
