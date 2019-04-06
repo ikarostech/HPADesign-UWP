@@ -93,7 +93,7 @@
 
 
                         </Grid>
-                        <Custom:DataGrid ItemsSource="{x:Bind conceptviewmodel.PartWings,Mode=TwoWay}" AutoGenerateColumns="False" Height="200" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,350">
+                        <Custom:DataGrid ItemsSource="{x:Bind conceptviewmodel.PartWings,Mode=TwoWay}" AutoGenerateColumns="False"  Height="200" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,350">
                             <Custom:DataGrid.Columns>
 
                                 <Custom:DataGridTextColumn Header="翼幅" Binding="{Binding Length.Value}" />
@@ -109,7 +109,7 @@
                 <PivotItem Header="Lift and Drag">
                     <Grid Height="Auto" Width="Auto">
 
-                        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs ,Mode=TwoWay}" AutoGenerateColumns="False" Margin="14,9,836,196">
+                        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs ,Mode=TwoWay}"  AutoGenerateColumns="False" Margin="14,9,836,196">
                             <Custom:DataGrid.Columns>
 
                                 <Custom:DataGridTextColumn Header="翼根からの位置" Binding="{Binding GlobalPos.Value}" />
@@ -119,7 +119,7 @@
                                     <Custom:DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
 
-                                            <ComboBox Width="70" ItemsSource="{Binding test.Value,Mode=TwoWay}" />
+                                            <ComboBox Width="70" ItemsSource="{Binding AirfoilList,Mode=TwoWay}" />
 
 
                                         </DataTemplate>
@@ -137,7 +137,8 @@
 
                         <Custom:DataGrid Height="200" Width="400" ItemsSource="{x:Bind airfoilviewmodel.project.Airfoils,Mode=TwoWay}" AutoGenerateColumns="False">
                             <Custom:DataGrid.Columns>
-                                <Custom:DataGridTextColumn Header="翼根からの位置" Binding="{Binding Name}" />
+                                <Custom:DataGridTextColumn Header="名前" Binding="{Binding Name}" />
+                                
                             </Custom:DataGrid.Columns>
                         </Custom:DataGrid>
                         <Polygon Stroke="Red" Margin="200,400"  Points="{x:Bind airfoilviewmodel.AirfoilPoints.Value,Mode=TwoWay}"/>

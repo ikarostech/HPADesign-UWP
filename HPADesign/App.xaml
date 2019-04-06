@@ -13,7 +13,10 @@
 
                 <ResourceDictionary Source="/Styles/TextBlock.xaml"/>
                 <ResourceDictionary Source="/Styles/Page.xaml"/>
+                <ResourceDictionary Source="/Styles/DisableEffectGridView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+        
+        
     </Application.Resources>
 </Application>

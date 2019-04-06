@@ -9,7 +9,7 @@ namespace HPADesign.ViewModels
     {
         private Rib Model{ get; set; }
         //public ReadOnlyReactiveCollection<string> Airfoil { get; set; }
-        public ReadOnlyReactiveCollection<string> test { get; set; }
+        public ReadOnlyReactiveCollection<string> AirfoilList { get; set; }
         public ReactiveProperty<double> Chord { get; set; }
         public ReactiveProperty<int> GlobalPos { get; set; }
         public ReactiveProperty<string> Airfoil { get; set; }
@@ -19,7 +19,9 @@ namespace HPADesign.ViewModels
             Chord = Model.ToReactivePropertyAsSynchronized(x => x.Chord);
             GlobalPos = Model.ToReactivePropertyAsSynchronized(x => x.GlobalPosition);
 
-            test = Model.project.Airfoils.ToReadOnlyReactiveCollection(x => x.Name);
+            AirfoilList = Model.project.Airfoils.ToReadOnlyReactiveCollection(x => x.Name);
+            
+
         }
     }
 }
