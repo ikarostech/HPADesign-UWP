@@ -17,7 +17,7 @@ namespace HPADesign.ViewModels
         public Project project { get; }
 
         public ReadOnlyReactiveCollection<Airfoil> AirfoilList { get; set; }
-        public ReactiveCollection<int> SelectedAirfoilList { get; set; }
+        public ReactiveProperty<Airfoil> SelectedAirfoil { get; set; }
 
         public ReactiveProperty<PointCollection> AirfoilPoints { get; set; }
 
@@ -26,12 +26,11 @@ namespace HPADesign.ViewModels
         {
             this.project = project;
             
-            SelectedAirfoilList = new ReactiveCollection<int>();
+            
             AirfoilList = project.Airfoils.ToReadOnlyReactiveCollection(x => x);
             AirfoilPoints = new ReactiveProperty<PointCollection>();
             AirfoilPoints.Value = new PointCollection();
-            AirfoilPoints.Value.Add(new Windows.Foundation.Point(0, 0));
-            AirfoilPoints.Value.Add(new Windows.Foundation.Point(100, 200));
+            
         }
         public async Task AddAirfoil()
         {
@@ -45,6 +44,10 @@ namespace HPADesign.ViewModels
                 Airfoil airfoil = ar.Read();
                 project.Airfoils.Add(airfoil);
             }
+        }
+        public void ChangeSelectedAirfoil()
+        {
+            //AirfoilPointsの更新を行う
         }
     }
     
