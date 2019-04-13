@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HPADesign.Models;
+using HPADesign.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,27 +14,23 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using HPADesign.Models;
-using HPADesign.ViewModels;
 
 // ユーザー コントロールの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=234236 を参照してください
 
-namespace HPADesign.Views
+namespace HPADesign.Views.Tabs
 {
-    public sealed partial class AeroDynamicsView : UserControl
+    public sealed partial class ConceptView : UserControl
     {
-        
-        AeroDynamicsViewModel aerodynamicsviewmodel { get; set; }
+        ConceptViewModel conceptviewmodel { get; set; }
         public Project Project { get; set; }
-        public AeroDynamicsView()
+        public ConceptView()
         {
             this.InitializeComponent();
-            
         }
 
-        public void ApplyViewModel()
+        public void Activate()
         {
-            aerodynamicsviewmodel = new AeroDynamicsViewModel(Project);
+            conceptviewmodel = new ConceptViewModel(Project);
         }
     }
 }

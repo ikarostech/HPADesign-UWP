@@ -1,12 +1,11 @@
 ﻿<UserControl
-    x:Class="HPADesign.Views.AeroDynamicsView"
+    x:Class="HPADesign.Views.Tabs.AeroDynamicsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:HPADesign.Views"
+    xmlns:local="using:HPADesign.Views.Tabs"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -31,5 +30,6 @@
                 </Custom:DataGridTemplateColumn>
             </Custom:DataGrid.Columns>
         </Custom:DataGrid>
+        
     </Grid>
 </UserControl>

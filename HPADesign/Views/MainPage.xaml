@@ -9,7 +9,8 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:lvc="using:LiveCharts.Uwp"
-    xmlns:View="using:HPADesign.Views"
+    
+    xmlns:View="using:HPADesign.Views.Tabs"
     x:Class="HPADesign.Views.MainPage"
     mc:Ignorable="d">
     <Page.Resources>
@@ -47,89 +48,15 @@
 
             <Pivot HorizontalAlignment="Left" Height="1060" Title="HPA Design" VerticalAlignment="Top" Width="1900" Background="White" Foreground="Black">
                 <PivotItem Header="Concept" Height="980" Margin="10,0,0,0">
-                    <Grid Height="Auto" Width="Auto">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height=" 50"/>
-                                <RowDefinition Height="46"/>
-                                <RowDefinition Height="46"/>
-                                <RowDefinition Height="46"/>
-                                <RowDefinition Height="122"/>
-                                <RowDefinition Height="670"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="200" />
-                                <ColumnDefinition Width="300" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="0*"/>
-                                <ColumnDefinition Width="1140"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="設計機速" VerticalAlignment="Center" Width="164" FontSize="24" Margin="0,6,0,5"/>
-                            <TextBox DataContext="{x:Bind Mode=TwoWay, Path=conceptviewmodel.TheoricalSpeed.Value}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Height="32"  VerticalAlignment="Center" Width="208" Margin="0,7" ToolTipService.ToolTip="機体の目標機速(気速)を入力してください"/>
-                            <ComboBox SelectedIndex="0" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Margin="0,6,0,5">
-                                <ComboBoxItem Content="m/s" />
-                                <ComboBoxItem Content="km/h" />
-                                <ComboBoxItem Content="kt" />
-                            </ComboBox>
-
-                            <TextBlock Grid.Row="2" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="パイロット荷重" VerticalAlignment="Top" Width="164" FontSize="24" Grid.Column="1"/>
-                            <TextBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Height="32"  TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="208" Margin="0,7" ToolTipService.ToolTip="パイロットの目標体重を入力してください" />
-                            <ComboBox Grid.Row="2" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Grid.Column="3" SelectedIndex="0" Margin="0,6,0,5">
-                                <ComboBoxItem Content="kg" />
-                                <ComboBoxItem Content="N" />
-                                <ComboBoxItem Content="Pb" />
-                            </ComboBox>
-                            <TextBlock Grid.Row="3" HorizontalAlignment="Left" Height="35"  TextWrapping="Wrap" Text="機体荷重" VerticalAlignment="Top" Width="164" FontSize="24" Grid.Column="1"/>
-                            <TextBox Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" Height="32"  TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="208" Margin="0,0,0,14" ToolTipService.ToolTip="パイロット荷重を除いた機体の乾燥重量を入力してください" />
-                            <ComboBox Grid.Row="3" HorizontalAlignment="Left" Height="35"  VerticalAlignment="Center" Width="110" Grid.Column="3" SelectedIndex="0" Margin="0,0,0,11">
-                                <ComboBoxItem Content="kg" />
-                                <ComboBoxItem Content="N" />
-                                <ComboBoxItem Content="Pb" />
-                            </ComboBox>
-                            <TextBlock Grid.Column="1" Grid.Row="4" FontSize="24" HorizontalAlignment="Left" Height="34" Margin="0,80,0,10" TextWrapping="Wrap" Text="翼分割構成" VerticalAlignment="Top" Width="306"/>
-
-                            <Button Command="{x:Bind Path=conceptviewmodel.AddWingSection}" Content="+" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="0,0,0,-4"/>
-                            <Button Command="{x:Bind Path=conceptviewmodel.DelWingSection}" Content="-" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="60,0,0,-4"/>
-
-
-                        </Grid>
-                        <Custom:DataGrid ItemsSource="{x:Bind conceptviewmodel.PartWings,Mode=TwoWay}" AutoGenerateColumns="False"  Height="200" Width="800" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,350">
-                            <Custom:DataGrid.Columns>
-
-                                <Custom:DataGridTextColumn Header="翼幅" Binding="{Binding Length.Value}" />
-                                <Custom:DataGridTextColumn Header="リブ数" Binding="{Binding RibCount.Value}" />
-                                <Custom:DataGridTextColumn Header="最大翼弦長" Binding="{Binding MaxChord.Value}" />
-                                <Custom:DataGridTextColumn Header="最小翼弦長" Binding="{Binding MinChord.Value}" />
-                                
-                            </Custom:DataGrid.Columns>
-                        </Custom:DataGrid>
-                    </Grid>
+                    <View:ConceptView x:Name="concept" />
 
                 </PivotItem>
                 <PivotItem Header="Lift and Drag">
                     <View:AeroDynamicsView x:Name="aerodynamics" />
                 </PivotItem>
-                
                 <PivotItem Header="Spar and Deflection"/>
                 <PivotItem Header="Airfoil" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Grid Height="Auto" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <Button Height="100" Width="100" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Click="{x:Bind airfoilviewmodel.AddAirfoil}"/>
-
-                        <Custom:DataGrid Height="200" Width="400" ItemsSource="{x:Bind airfoilviewmodel.project.Airfoils,Mode=TwoWay}" AutoGenerateColumns="False">
-                            <Custom:DataGrid.Columns>
-                                <Custom:DataGridTextColumn Header="名前" Binding="{Binding Name}" />
-                                
-                            </Custom:DataGrid.Columns>
-                        </Custom:DataGrid>
-                        <Polygon Stroke="Red" Margin="200,400"  Points="{x:Bind airfoilviewmodel.AirfoilPoints.Value,Mode=TwoWay}"/>
-                    </Grid>
-
-
-
-
-
-
+                    <View:AirfoilView x:Name="airfoil" />
                 </PivotItem>
                 
             </Pivot>

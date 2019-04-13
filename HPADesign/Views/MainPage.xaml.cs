@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using HPADesign.Models;
+using HPADesign.Views.Tabs;
 
 namespace HPADesign.Views
 {
@@ -34,8 +35,16 @@ namespace HPADesign.Views
             
             airfoilviewmodel = new AirfoilViewModel(project);
             InitializeComponent();
+
+            concept.Project = project;
+            concept.Activate();
+
             aerodynamics.Project = project;
-            aerodynamics.ApplyViewModel();
+            aerodynamics.Activate();
+
+            airfoil.Project = project;
+            airfoil.Activate();
+
             this.DataContext = this;
         }
 

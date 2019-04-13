@@ -178,11 +178,17 @@
     <Compile Include="ViewModels\PageViewModel\IPageViewModel.cs" />
     <Compile Include="ViewModels\ComponentViewModel\PartWingViewModel.cs" />
     <Compile Include="ViewModels\ComponentViewModel\RibViewModel.cs" />
-    <Compile Include="Views\AeroDynamicsView.xaml.cs">
-      <DependentUpon>AeroDynamicsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tabs\AeroDynamicsView.xaml.cs">
+      <DependentUpon>AeroDynamicsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tabs\AirfoilView.xaml.cs">
+      <DependentUpon>AirfoilView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tabs\ConceptView.xaml.cs">
+      <DependentUpon>ConceptView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -216,13 +222,21 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AeroDynamicsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Tabs\AeroDynamicsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tabs\AirfoilView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tabs\ConceptView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
