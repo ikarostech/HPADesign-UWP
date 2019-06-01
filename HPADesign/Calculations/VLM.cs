@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HPADesign.Models;
+using HPADesign.Models.Component;
 
 namespace HPADesign.Calculations
 {

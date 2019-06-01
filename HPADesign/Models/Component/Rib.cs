@@ -4,26 +4,31 @@ using System.Text;
 using System.IO;
 using Prism.Mvvm;
 
-namespace HPADesign.Models
+namespace HPADesign.Models.Component
 {
-    public class Rib : BindableBase
+    public abstract class Rib : Component
     {
-        private PartWing Parent { get; set; }
-        public Project project { get; set; }
+        public Airfoil Airfoil { get; set; }
+
+        public Rib(Project project) : base(project) { }
+    }
+    public class WingRib : Rib
+    {
         //リブの名前
         public string Name { get; set; }
 
         
+
         public int GlobalPosition
         {
             get
             {
-                return localpos + Parent.StartPos;
+                return localpos;
             }
 
             set
             {
-                localpos = value - Parent.StartPos;
+                //localpos = value - Parent.StartPos;
                 RaisePropertyChanged(nameof(LocalPosition));
                 RaisePropertyChanged(nameof(GlobalPosition));
 
@@ -100,25 +105,13 @@ namespace HPADesign.Models
             get { return airfoilname; }
             set
             {
+
                 airfoilname = value;
-                Parent.Update();
+                //Parent.Update();
             }
         }
 
-        public Rib(PartWing parent)
-        {
-            Parent = parent;
-            project = Parent.project;
-            return;
-        }
-        
-        public Rib(PartWing parent,double chord,int localpos)
-        {
-            this.Parent = parent;
-            project = Parent.project;
-            Chord = chord;
-            this.LocalPosition = localpos;
-        }
+        public WingRib(Project project) : base(project) { }
 
         
 

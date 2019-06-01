@@ -150,7 +150,10 @@
     <Compile Include="Calculations\VLM.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\Observable.cs" />
+    <Compile Include="Models\Component\Component.cs" />
     <Compile Include="Models\Component\PartWing.cs" />
+    <Compile Include="Models\Component\Propeller.cs" />
+    <Compile Include="Models\Concept.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Component\Rib.cs" />
     <Compile Include="Services\PointCollectionConverter.cs" />

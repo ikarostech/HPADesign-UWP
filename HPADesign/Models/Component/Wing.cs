@@ -3,42 +3,17 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using Prism.Mvvm;
+using System.Collections.Generic;
+using HPADesign.Models.Component;
+using IComponent = HPADesign.Models.Component.IComponent;
 
-namespace HPADesign.Models
+namespace HPADesign.Models.Component
 {
     /// <summary>
     /// LLT解析とか翼全体を見たい時に使う
     /// </summary>
-    public class Wing : BindableBase
+    public class Wing : Component
     {
-        
-        public Project project { get; set; }
-        private ObservableCollection<PartWing> partwings = new ObservableCollection<PartWing>();
-        /// <summary>
-        /// 部分翼
-        /// </summary>
-        public ObservableCollection<PartWing> PartWings
-        {
-            get { return partwings; }
-            set
-            {
-                partwings = value;
-                //PartWingUpdate();
-            }
-        }
-
-        private ObservableCollection<Rib> ribs = new ObservableCollection<Rib>();
-        public ObservableCollection<Rib> Ribs
-        {
-            get { return ribs; }
-            set
-            {
-                ribs = value;
-            }
-        }
-        
-        
-
         public int CN { get; set; }
         public int RN { get; set; }
         public double Lift { get; set; }
@@ -86,11 +61,8 @@ namespace HPADesign.Models
             }
         }
 
-        public Wing(Project project)
-        {
-            this.project = project;
-            PartWings = new ObservableCollection<PartWing>();            
-        }
+        public Wing(Project project) :base(project) { }
+
         public void addPartWing(PartWing partWing)
         {
             
@@ -100,7 +72,7 @@ namespace HPADesign.Models
                 .Subscribe(e =>
                 {
                     RaisePropertyChanged(nameof(PartWings));
-                    RaisePropertyChanged(nameof(Ribs));
+                    RaisePropertyChanged(nameof(Children));
                 });
                 
             PartWings.Add(partWing);
@@ -114,7 +86,7 @@ namespace HPADesign.Models
             //データバインディング上あまりよろしくないができないよりはいいのでつけとくぜ
             foreach(PartWing p in PartWings)
             {
-                foreach(Rib r in p.Ribs)
+                foreach(WingRib r in p.Ribs)
                 {
                     Ribs.Add(r);
                 }
