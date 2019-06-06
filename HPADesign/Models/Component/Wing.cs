@@ -65,38 +65,13 @@ namespace HPADesign.Models.Component
 
         public void addPartWing(PartWing partWing)
         {
-            
-            Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-                h => partWing.PropertyChanged += h,
-                h => partWing.PropertyChanged -= h)
-                .Subscribe(e =>
-                {
-                    RaisePropertyChanged(nameof(PartWings));
-                    RaisePropertyChanged(nameof(Children));
-                });
-                
-            PartWings.Add(partWing);
+
         }
 
         //TODO
         public void Update()
         {
-            //Ribs
-            Ribs.Clear();
-            //データバインディング上あまりよろしくないができないよりはいいのでつけとくぜ
-            foreach(PartWing p in PartWings)
-            {
-                foreach(WingRib r in p.Ribs)
-                {
-                    Ribs.Add(r);
-                }
-            }
 
-
-            for (int i = 1; i < partwings.Count; i++)
-            {
-                partwings[i].StartPos = partwings[i - 1].EndPos;
-            }
         }
         
     }

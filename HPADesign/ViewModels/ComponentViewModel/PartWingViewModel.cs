@@ -1,6 +1,6 @@
 ﻿using Reactive.Bindings;
 
-using HPADesign.Models;
+using HPADesign.Models.Component;
 using Reactive.Bindings.Extensions;
 
 namespace HPADesign.ViewModels

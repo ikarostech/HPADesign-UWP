@@ -10,8 +10,6 @@ namespace HPADesign.Calculations
     /// </summary>
     public class WingElement
     {
-        
-
         public Airfoil airfoil;
         public Pos lf { get; set; }
         public Pos lr { get; set; }

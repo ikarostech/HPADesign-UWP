@@ -23,11 +23,11 @@ namespace HPADesign.Views
         AirfoilViewModel airfoilviewmodel { get; } 
         
 
-        public Project project { get; set; }
+       
         public MainPage()
         {
             //MainViewModel ViewModel => DataContext as MainViewModel;
-            project = new Project();
+            var project = Singleton<Project>.Instance;
 
             
             //new AeroDynamicsView(this);

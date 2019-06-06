@@ -1,6 +1,7 @@
 ﻿using Prism.Mvvm;
 
 using System.Collections.ObjectModel;
+using HPADesign.Models.Component;
 
 
 namespace HPADesign.Models

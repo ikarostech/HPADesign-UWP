@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HPADesign.Models;
-namespace HPADesign.ViewModels
+
+namespace HPADesign.Models.Component
 {
-    interface IPageViewModel
+    public class Plane : Component
     {
-        Project project { get; }
+        public Plane(Project project) : base(project) { }
     }
 }

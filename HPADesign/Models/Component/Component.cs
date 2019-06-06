@@ -10,31 +10,41 @@ namespace HPADesign.Models.Component
 {
     public interface IComponent
     {
-        IComponent Parent { get; set; }
-        ObservableCollection<IComponent> Children { get; set; }
+        Component Parent { get; set; }
+        ObservableCollection<Component> Children { get; set; }
 
-        Project Project { get; }
+        
 
-        int GlobalPos { get; set; }
-        int LocalPos { get; set; }
+        Pos GlobalPos { get; set; }
+        Pos LocalPos { get; set; }
 
         double Mass { get; set; }
     }
-
     public interface IElement
     {
+        double Name { get; }
+        double Volume { get; set; }
+        double Mass { get; }
 
+        IMaterial Material { get; set; }
     }
 
+    public interface IMaterial
+    {
+        double Name { get; }
+
+        double Density { get; }
+
+    }
     public class Component : BindableBase, IComponent
     {
-        public IComponent Parent { get; set; }
-        public ObservableCollection<IComponent> Children { get; set; }
+        public Component Parent { get; set; }
+        public ObservableCollection<Component> Children { get; set; }
 
-        public Project Project { get; }
+        private Project Project { get; }
 
-        private int globalpos;
-        public int GlobalPos
+        private Pos globalpos;
+        public Pos GlobalPos
         {
             get
             {
@@ -56,8 +66,8 @@ namespace HPADesign.Models.Component
             }
         }
 
-        private int localpos;
-        public int LocalPos
+        private Pos localpos;
+        public Pos LocalPos
         {
             get
             {
@@ -94,7 +104,7 @@ namespace HPADesign.Models.Component
         public Component(Project project)
         {
             Project = project;
-            Children = new ObservableCollection<IComponent>();
+            Children = new ObservableCollection<Component>();
         }
     }
 }

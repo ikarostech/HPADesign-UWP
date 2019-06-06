@@ -12,19 +12,17 @@ using Windows.UI.Xaml.Media;
 
 namespace HPADesign.ViewModels
 {
-    class AirfoilViewModel : Observable, IPageViewModel
+    class AirfoilViewModel : PageViewModel
     {
-        public Project project { get; }
-
         public ReadOnlyReactiveCollection<Airfoil> AirfoilList { get; set; }
         public ReactiveProperty<Airfoil> SelectedAirfoil { get; set; }
 
         public ReactiveProperty<PointCollection> AirfoilPoints { get; set; }
 
 
-        public AirfoilViewModel(Project project)
+        public AirfoilViewModel(Project project) : base(project)
         {
-            this.project = project;
+            
             
             
             AirfoilList = project.Airfoils.ToReadOnlyReactiveCollection(x => x);

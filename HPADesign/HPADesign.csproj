@@ -152,6 +152,7 @@
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Models\Component\Component.cs" />
     <Compile Include="Models\Component\PartWing.cs" />
+    <Compile Include="Models\Component\Plane.cs" />
     <Compile Include="Models\Component\Propeller.cs" />
     <Compile Include="Models\Concept.cs" />
     <Compile Include="Models\Project.cs" />
@@ -178,7 +179,7 @@
     <Compile Include="ViewModels\PageViewModel\AeroDynamicsViewModel.cs" />
     <Compile Include="ViewModels\PageViewModel\AirfoilViewModel.cs" />
     <Compile Include="ViewModels\PageViewModel\ConceptViewModel.cs" />
-    <Compile Include="ViewModels\PageViewModel\IPageViewModel.cs" />
+    <Compile Include="ViewModels\PageViewModel\PageViewModel.cs" />
     <Compile Include="ViewModels\ComponentViewModel\PartWingViewModel.cs" />
     <Compile Include="ViewModels\ComponentViewModel\RibViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">

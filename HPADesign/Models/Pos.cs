@@ -44,21 +44,65 @@ namespace HPADesign.Models
 
         public new int N { get { return 3; } }
 
-        public Pos() : base(new double[3])
+        public Pos() : base(new double[3] { 0, 0, 0 }) { }
+
+        public Pos(double[] Entry) : base(new double[3] { Entry[0], Entry[1], Entry[2] }) { }
+
+        public Pos(Vector vector) : base(new double[3] { vector.Entry[0], vector.Entry[1], vector.Entry[2] }) { }
+
+        //public Pos(double x, double y) : base(new double[3] { x, y, 0 }){}
+        public Pos(double x,double y):base(new double[3] { x, y, 0 }) { }
+        public Pos(double x, double y, double z) : base(new double[3] { x, y, z }) { }
+
+        public static Pos operator +(Pos A, Pos B)
         {
-            x = 0;
-            y = 0;
-            z = 0;
+            Pos result = new Pos();
+            for (int i = 0; i < A.N; i++)
+            {
+                result.Entry[i] = A.Entry[i] + B.Entry[i];
+            }
+            return result;
         }
-        public Pos(double x, double y) : base(new double[3])
+
+        public static Pos operator -(Pos A, Pos B)
         {
-            this.x = x;
-            this.y = y;
-            z = 0;
+            Pos result = new Pos();
+            for (int i = 0; i < A.N; i++)
+            {
+                result.Entry[i] = A.Entry[i] - B.Entry[i];
+            }
+            return result;
         }
-        public Pos(double x, double y, double z) : base(new double[3])
+
+        public static Pos operator *(double A, Pos B)
         {
-            Entry = new double[3] { x, y, z };
+            Pos result = new Pos(B.Entry);
+            for (int i = 0; i < B.N; i++)
+            {
+                result.Entry[i] *= A;
+            }
+            return result;
+        }
+        public static Pos operator *(Matrix A, Pos x)
+        {
+            //xを計算のためにMatrixに変換
+            Matrix X = new Matrix(1, x.N);
+            Matrix Y = A * X;
+            Pos result = new Pos();
+            for (int i = 0; i < x.N; i++)
+            {
+                result.Entry[i] = Y.Entry[1, i];
+            }
+            return result;
+        }
+        public static Pos operator /(Pos B, double A)
+        {
+            Pos result = new Pos(B.Entry);
+            for (int i = 0; i < B.N; i++)
+            {
+                result.Entry[i] /= A;
+            }
+            return result;
         }
 
         public bool is2D { get; set; }
