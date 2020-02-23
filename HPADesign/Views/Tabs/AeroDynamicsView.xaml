@@ -9,14 +9,19 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="RibTable" Source="{x:Bind aerodynamicsviewmodel.PartWings}" IsSourceGrouped="True" ItemsPath="Ribs" >
 
+        </CollectionViewSource>
+    </UserControl.Resources>
     <Grid Height="Auto" Width="Auto">
 
-        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs ,Mode=TwoWay}"  AutoGenerateColumns="False" Margin="14,9,836,196">
+        <Custom:DataGrid x:Name="dg" ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs.View }"  AutoGenerateColumns="False" Margin="14,9,836,196" >
+
             <Custom:DataGrid.Columns>
 
-                <Custom:DataGridTextColumn Header="翼根からの位置" Binding="{Binding GlobalPos.Value}" />
-                <Custom:DataGridTextColumn Header="翼弦長" Binding="{Binding Chord.Value}" />
+                <Custom:DataGridTextColumn Header="翼根からの位置" Binding="{Binding GlobalPos}" />
+                <Custom:DataGridTextColumn Header="翼弦長" Binding="{Binding Chord}" />
                 <Custom:DataGridTemplateColumn Header="翼型" Width="80">
 
                     <Custom:DataGridTemplateColumn.CellTemplate>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HPADesign.Models;
+using HPADesign.Models.Component;
 
 namespace HPADesign.Calculations
 {
@@ -9,8 +10,6 @@ namespace HPADesign.Calculations
     /// </summary>
     public class WingElement
     {
-        
-
         public Airfoil airfoil;
         public Pos lf { get; set; }
         public Pos lr { get; set; }

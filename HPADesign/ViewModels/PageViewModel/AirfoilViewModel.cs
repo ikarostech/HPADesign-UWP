@@ -5,29 +5,25 @@ using System.IO;
 using Windows.Storage;
 using HPADesign.Services;
 using HPADesign.Utilities;
-using Reactive.Bindings;
 using HPADesign.Helpers;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
+using Prism.Mvvm;
 
 namespace HPADesign.ViewModels
 {
-    class AirfoilViewModel : Observable, IPageViewModel
+    class AirfoilViewModel : BindableBase
     {
-        public Project project { get; }
-
         public ReadOnlyReactiveCollection<Airfoil> AirfoilList { get; set; }
         public ReactiveProperty<Airfoil> SelectedAirfoil { get; set; }
 
         public ReactiveProperty<PointCollection> AirfoilPoints { get; set; }
 
+        public ReactiveCommand addAirfoil { get; set; }
 
-        public AirfoilViewModel(Project project)
+        public AirfoilViewModel()
         {
-            this.project = project;
-            
-            
-            AirfoilList = project.Airfoils.ToReadOnlyReactiveCollection(x => x);
+            //addAirfoil.Subscribe(_ => { });
             AirfoilPoints = new ReactiveProperty<PointCollection>();
             AirfoilPoints.Value = new PointCollection();
             
@@ -42,7 +38,6 @@ namespace HPADesign.ViewModels
                 Stream stream = await file.OpenStreamForReadAsync();
                 AirfoilReader ar = new AirfoilReader(stream);
                 Airfoil airfoil = ar.Read();
-                project.Airfoils.Add(airfoil);
             }
         }
         public void ChangeSelectedAirfoil()

@@ -21,15 +21,13 @@ namespace HPADesign.Views.Tabs
 {
     public sealed partial class AeroDynamicsView : UserControl
     {
-        public AeroDynamicsViewModel aerodynamicsviewmodel { get; set; }
-        public Project Project { get; set; }
+        public AeroDynamicsViewModel aerodynamicsviewmodel { get; }
         public AeroDynamicsView()
         {
+            aerodynamicsviewmodel = new AeroDynamicsViewModel();
             this.InitializeComponent();
-        }
-        public void Activate()
-        {
-            aerodynamicsviewmodel = new AeroDynamicsViewModel(Project);
+            
+            DataContext = aerodynamicsviewmodel;
         }
     }
 }
