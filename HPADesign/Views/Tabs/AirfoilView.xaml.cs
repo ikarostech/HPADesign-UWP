@@ -22,15 +22,10 @@ namespace HPADesign.Views.Tabs
     public sealed partial class AirfoilView : UserControl
     {
         AirfoilViewModel airfoilviewmodel { get; set; }
-        public Project Project { get; set; }
+        
         public AirfoilView()
         {
             this.InitializeComponent();
-        }
-
-        public void Activate()
-        {
-            airfoilviewmodel = new AirfoilViewModel(Project);
         }
     }
 }

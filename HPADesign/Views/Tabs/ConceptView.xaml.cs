@@ -22,15 +22,14 @@ namespace HPADesign.Views.Tabs
     public sealed partial class ConceptView : UserControl
     {
         ConceptViewModel conceptviewmodel { get; set; }
-        public Project Project { get; set; }
+        
         public ConceptView()
         {
             this.InitializeComponent();
+            conceptviewmodel = new ConceptViewModel();
+            DataContext = conceptviewmodel;
+            
         }
 
-        public void Activate()
-        {
-            conceptviewmodel = new ConceptViewModel(Project);
-        }
     }
 }

@@ -13,7 +13,7 @@
     <Grid Height="Auto" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Left">
         <Button Height="100" Width="100" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Click="{x:Bind airfoilviewmodel.AddAirfoil}"/>
 
-        <Custom:DataGrid Height="200" Width="400" ItemsSource="{x:Bind airfoilviewmodel.project.Airfoils,Mode=TwoWay}" AutoGenerateColumns="False">
+        <Custom:DataGrid Height="200" Width="400"  AutoGenerateColumns="False">
             <Custom:DataGrid.Columns>
                 <Custom:DataGridTextColumn Header="名前" Binding="{Binding Name}" />
 

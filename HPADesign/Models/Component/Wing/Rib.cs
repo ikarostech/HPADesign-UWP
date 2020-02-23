@@ -6,74 +6,35 @@ using Prism.Mvvm;
 
 namespace HPADesign.Models.Component
 {
-    public abstract class Rib : Component
+    public class Rib : Component
     {
+        /// <summary>
+        /// 翼型
+        /// </summary>
         public Airfoil Airfoil { get; set; }
 
-        public Rib(Project project) : base(project) { }
-    }
-    public class WingRib : Rib
-    {
-        //リブの名前
-        public string Name { get; set; }
+        /// <summary>
+        /// 翼弦長
+        /// </summary>
+        public int Chord { get; set; }
 
         
+        /// <summary>
+        /// リブ名
+        /// </summary>
+        public string Name { get; set; }
 
-        public int GlobalPosition
-        {
-            get
-            {
-                return localpos;
-            }
-
-            set
-            {
-                //localpos = value - Parent.StartPos;
-                RaisePropertyChanged(nameof(LocalPosition));
-                RaisePropertyChanged(nameof(GlobalPosition));
-
-            }
-        }
-
-        private int localpos;
-        public int LocalPosition
-        {
-            get
-            {
-                return localpos;
-            }
-
-            set
-            {
-                localpos = value;
-                RaisePropertyChanged(nameof(LocalPosition));
-                RaisePropertyChanged(nameof(GlobalPosition));
-            }
-        }
-
-        private double chord;
-        //翼弦長(mm)
-        public double Chord
-        {
-            get
-            {
-                return chord;
-            }
-            set
-            {
-                chord = value;
-                RaisePropertyChanged(nameof(Chord));
-                
-                
-            }
-        }
-
-        //ねじり角(deg)
+        /// <summary>
+        /// ねじり角
+        /// </summary>
         public double Twist { get; set; }
-        //たわみ角(deg)
+
+        /// <summary>
+        /// たわみ角
+        /// </summary>
         public double Dihedral { get; set; }
 
-        //プランク厚(mm)
+        
         public double PlankThin { get; set; }
 
         //プランク取付位置
@@ -96,6 +57,12 @@ namespace HPADesign.Models.Component
         //桁穴位置
         public Pos Sparholepos { get; set; }
 
+        // public Rib(Project project) : base(project) { }
+    }
+    public class WingRib : Rib
+    {
+        
+
 
         public Airfoil Airfoil { get; set; }
 
@@ -111,7 +78,7 @@ namespace HPADesign.Models.Component
             }
         }
 
-        public WingRib(Project project) : base(project) { }
+        //public WingRib(Project project) : base(project) { }
 
         
 

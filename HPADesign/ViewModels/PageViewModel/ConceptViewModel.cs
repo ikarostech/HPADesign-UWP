@@ -4,36 +4,43 @@ using HPADesign.Models.Component;
 using HPADesign.Helpers;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Prism.Mvvm;
 
 namespace HPADesign.ViewModels
 {
-    public class ConceptViewModel : PageViewModel
+    public class ConceptViewModel : BindableBase
     {
-        public Project project { get; }
         public ReactiveProperty<double> TheoricalSpeed { get; set; } = new ReactiveProperty<double>(10);
 
-        /// <summary>
-        /// 編集をかけるときはこっち
-        /// </summary>
-        
-        
+        //public ObservableCollection<PartWing> partWings;
         public ReadOnlyReactiveCollection<PartWing> PartWings { get; set; }
-        
+        //public ReadOnlyReactiveCollection<PartWing> PartWings { get; set; }
+        public ReactiveProperty<int> SelectedItem { get; set; }
 
 
         public ReactiveCommand ReadFoil { get; set; }
-        public ReactiveCommand AddWingSection { get; set; }
+        public ReactiveCommand AddWingSection { get; set; } = new ReactiveCommand();
         public ReactiveCommand DelWingSection { get; set; }
 
-        public RelayCommand EditPartWing { get; set; }
-        public ReactiveCommand EditWingSection { get; set; }
-
         //Bindingの初期設定など
-        public ConceptViewModel(Project project)
+        public ConceptViewModel()
         {
+            PartWings = Project.Plane.Wing.Value.PartWings.ToReadOnlyReactiveCollection();
             
+            AddWingSection.Subscribe(_ =>
+            {
+                AddPartWing();
+            });
         }
 
-
+        public void AddPartWing()
+        {
+            PartWing pw = new PartWing();
+            pw.Length = 3000;
+            pw.RibCount = 10;
+            Project.Plane.Wing.Value.PartWings.Add(pw);
+        }
     }
 }

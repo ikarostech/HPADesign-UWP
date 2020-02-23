@@ -12,6 +12,6 @@ namespace HPADesign.Models.Component
 {
     public class Propeller : Component
     {
-       public Propeller(Project project) : base(project) { }
+       //public Propeller(Project project) : base(project) { }
     }
 }

@@ -1,8 +1,10 @@
-﻿using Prism.Mvvm;
+﻿using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,23 +12,23 @@ namespace HPADesign.Models.Component
 {
     public interface IComponent
     {
-        Component Parent { get; set; }
-        ObservableCollection<Component> Children { get; set; }
+        ReactiveProperty<Component> Parent { get; set; }
+        ReactiveCollection<Component> Children { get; set; }
 
-        
 
-        Pos GlobalPos { get; set; }
-        Pos LocalPos { get; set; }
 
-        double Mass { get; set; }
+        ReactiveProperty<Pos> GlobalPos { get; set; }
+        ReactiveProperty<Pos> LocalPos { get; set; }
+
+        ReactiveProperty<double> Mass { get; set; }
     }
     public interface IElement
     {
-        double Name { get; }
-        double Volume { get; set; }
-        double Mass { get; }
+        ReactiveProperty<double> Name { get; }
+        ReactiveProperty<double> Volume { get; set; }
+        ReactiveProperty<double> Mass { get; }
 
-        IMaterial Material { get; set; }
+        ReactiveProperty<IMaterial> Material { get; set; }
     }
 
     public interface IMaterial
@@ -36,75 +38,39 @@ namespace HPADesign.Models.Component
         double Density { get; }
 
     }
-    public class Component : BindableBase, IComponent
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Component : IComponent
     {
-        public Component Parent { get; set; }
-        public ObservableCollection<Component> Children { get; set; }
+        public ReactiveProperty<Component> Parent { get; set; }
+        public ReactiveCollection<Component> Children { get; set; }
 
-        private Project Project { get; }
+        public ReactiveProperty<Pos> GlobalPos { get; set; }
+        public ReactiveProperty<Pos> LocalPos { get; set; }
 
-        private Pos globalpos;
-        public Pos GlobalPos
+        public ReactiveProperty<double> Mass { get; set; }
+        public Component()
         {
-            get
-            {
-                return globalpos;
-            }
-            set
-            {
-                globalpos = value;
-                if (Parent == null)
-                {
-                    localpos = value;
-                }
-                else
-                {
-                    localpos = globalpos - Parent.GlobalPos;
-                }
-                RaisePropertyChanged(nameof(LocalPos));
-                RaisePropertyChanged(nameof(GlobalPos));
-            }
-        }
+            //Parent = new ReactiveProperty<Component>();
+            Children = new ReactiveCollection<Component>();
 
-        private Pos localpos;
-        public Pos LocalPos
-        {
-            get
+            
+            GlobalPos.Subscribe( x =>
             {
-                return localpos;
-            }
-            set
-            {
-                localpos = value;
-                if (Parent == null)
-                {
-                    globalpos = value;
-                }
-                else
-                {
-                    globalpos = Parent.GlobalPos + localpos;
-                }
-                RaisePropertyChanged(nameof(LocalPos));
-                RaisePropertyChanged(nameof(GlobalPos));
-            }
-        }
+                LocalPos.Value = x - Parent.Value.GlobalPos.Value;
+            });
 
-        public double Mass
-        {
-            get
-            {
-                return 0;
-            }
-            set
-            {
-                
-            }
-        }
+            LocalPos.Subscribe(x =>
+           {
+               GlobalPos.Value = Parent.Value.GlobalPos.Value + x;
+           });
 
-        public Component(Project project)
-        {
-            Project = project;
-            Children = new ObservableCollection<Component>();
+            Children.ObserveElementObservableProperty(x => x.Mass)
+                .Subscribe(x =>
+               {
+                   Mass.Value = Children.Sum(y => y.Mass.Value);
+               });
         }
     }
 }

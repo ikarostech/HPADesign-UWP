@@ -6,6 +6,7 @@ using Prism.Mvvm;
 using System.Collections.Generic;
 using HPADesign.Models.Component;
 using IComponent = HPADesign.Models.Component.IComponent;
+using Reactive.Bindings;
 
 namespace HPADesign.Models.Component
 {
@@ -61,17 +62,14 @@ namespace HPADesign.Models.Component
             }
         }
 
-        public Wing(Project project) :base(project) { }
+        //public Wing() :base() { }
 
-        public void addPartWing(PartWing partWing)
-        {
-
-        }
+        public ReactiveCollection<PartWing> PartWings { get; set; } = new ReactiveCollection<PartWing>();
 
         //TODO
         public void Update()
         {
-
+            
         }
         
     }

@@ -9,16 +9,8 @@ namespace HPADesign.Models
     /// <summary>
     /// 
     /// </summary>
-    public class Project : BindableBase
+    public static class Project
     {
-        public Wing Wing { get; set; }
-
-        public ObservableCollection<Airfoil> Airfoils { get; set; }
-
-        public Project()
-        {
-            Wing = new Wing(this);
-            Airfoils = new ObservableCollection<Airfoil>();
-        }
+        public static Plane Plane { get; set; }
     }
 }
