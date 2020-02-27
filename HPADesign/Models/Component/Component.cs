@@ -15,29 +15,20 @@ namespace HPADesign.Models.Component
         ReactiveProperty<Component> Parent { get; set; }
         ReactiveCollection<Component> Children { get; set; }
 
-
+        ReactiveProperty<string> Name { get; set; }
 
         ReactiveProperty<Pos> GlobalPos { get; set; }
         ReactiveProperty<Pos> LocalPos { get; set; }
 
         ReactiveProperty<double> Mass { get; set; }
     }
-    public interface IElement
+    public interface IElement : IComponent
     {
-        ReactiveProperty<double> Name { get; }
-        ReactiveProperty<double> Volume { get; set; }
-        ReactiveProperty<double> Mass { get; }
+        new ReactiveProperty<double> Mass { get; set; }
 
         ReactiveProperty<IMaterial> Material { get; set; }
     }
 
-    public interface IMaterial
-    {
-        double Name { get; }
-
-        double Density { get; }
-
-    }
     /// <summary>
     /// 
     /// </summary>
@@ -46,24 +37,31 @@ namespace HPADesign.Models.Component
         public ReactiveProperty<Component> Parent { get; set; }
         public ReactiveCollection<Component> Children { get; set; }
 
-        public ReactiveProperty<Pos> GlobalPos { get; set; }
-        public ReactiveProperty<Pos> LocalPos { get; set; }
+        public ReactiveProperty<string> Name { get; set; }
+
+        public ReactiveProperty<Pos> GlobalPos { get; set; } = new ReactiveProperty<Pos>();
+        public ReactiveProperty<Pos> LocalPos { get; set; } = new ReactiveProperty<Pos>();
 
         public ReactiveProperty<double> Mass { get; set; }
         public Component()
         {
             //Parent = new ReactiveProperty<Component>();
             Children = new ReactiveCollection<Component>();
-
             
             GlobalPos.Subscribe( x =>
             {
-                LocalPos.Value = x - Parent.Value.GlobalPos.Value;
+                if (Parent != null)
+                {
+                    LocalPos.Value = x - Parent.Value.GlobalPos.Value;
+                }
             });
 
             LocalPos.Subscribe(x =>
            {
-               GlobalPos.Value = Parent.Value.GlobalPos.Value + x;
+               if (Parent != null)
+               {
+                   GlobalPos.Value = Parent.Value.GlobalPos.Value + x;
+               }
            });
 
             Children.ObserveElementObservableProperty(x => x.Mass)

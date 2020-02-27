@@ -13,9 +13,10 @@ namespace HPADesign.Models.Component
 
         public Plane()
         {
+            Children = new ReactiveCollection<Component>();
             Wing = new ReactiveProperty<Wing>(new Wing());
             Children.Add(Wing.Value);
         }
-        //public Plane(Project project) : base(project) { }
+        
     }
 }

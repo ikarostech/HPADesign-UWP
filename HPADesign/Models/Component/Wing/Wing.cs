@@ -21,16 +21,9 @@ namespace HPADesign.Models.Component
 
         
 
-        private double cruisevel;
-        public double CruiseVel
-        { 
-            get { return this.cruisevel; }
-            set
-            {
-                cruisevel = value;
-                RaisePropertyChanged(nameof(CruiseVel));
-            }
-        }
+        
+        public ReactiveProperty<double> CruiseVel { get; set; }
+        
         
 
         /// <summary>

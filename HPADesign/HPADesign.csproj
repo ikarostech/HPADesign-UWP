@@ -145,14 +145,14 @@
     <Compile Include="Calculations\Solver.cs" />
     <Compile Include="Calculations\TR797.cs" />
     <Compile Include="Calculations\VLM.cs" />
+    <Compile Include="Calculations\XFoil.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Models\Component\Component.cs" />
+    <Compile Include="Models\Component\Material.cs" />
     <Compile Include="Models\Component\Wing\PartWing.cs" />
     <Compile Include="Models\Component\Plane.cs" />
     <Compile Include="Models\Component\Propeller.cs" />
-    <Compile Include="Models\Component\Wing\Plank.cs" />
-    <Compile Include="Models\Component\Wing\Stringer.cs" />
     <Compile Include="Models\Concept.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Component\Wing\Rib.cs" />

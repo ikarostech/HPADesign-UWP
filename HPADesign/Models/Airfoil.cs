@@ -280,6 +280,95 @@ namespace HPADesign.Models
             return result;
         }
 
+        public double Area
+        {
+            get
+            {
+                double result = 0;
+                for (int i = 0; i < Coordinate321.Count - 1; i++)
+                {
+                    result += Pos.CrossProduct(Coordinate321[i], Coordinate321[i + 1]).Entry[3] / 2;
+                }
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// 翼型の幾何中心
+        /// </summary>
+        public Pos Centroid {
+            get
+            {
+                Pos result = new Pos();
+
+                for(int i=0; i<Coordinate321.Count-1; i++)
+                {
+                    result += Pos.CrossProduct(Coordinate321[i], Coordinate321[i + 1]).Entry[3] *
+                        (Coordinate321[i + 1] + Coordinate321[i])  / 6;
+                }
+                result /= Area;
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// 原点を中心とした慣性行列
+        /// </summary>
+        public Matrix InertiaMatrix
+        {
+            get
+            {
+                Matrix result = new Matrix(3, 3);
+                double Ixx = 0;
+                double Ixy = 0;
+                double Iyy = 0;
+                for (int i = 0; i < Coordinate321.Count - 1; i++)
+                {
+                    Pos diff = Coordinate321[i + 1] - Coordinate321[i];
+                    Pos Avg = Coordinate321[i + 1] + Coordinate321[i] / 2;
+
+                    //ストークスの定理からそれぞれ求められる
+                    double dArea = Avg.y * diff.x;
+                    Ixx += Avg.x * Avg.x * dArea;
+                    Ixy += Avg.x * Avg.y * dArea / 2;
+                    Iyy += Avg.y * Avg.y * dArea / 3;
+                }
+                result.Entry = new double[3, 3]
+                    {
+                        { Ixx, Ixy, 0 },
+                        { Ixy, Iyy, 0 },
+                        { 0, 0, 0 }
+                    };
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// 重心を中心とした慣性行列
+        /// </summary>
+        public Matrix PrincipalInertiaMatrix
+        {
+            get
+            {
+                Matrix result = InertiaMatrix;
+                result.Entry[0, 0] -= Centroid.x * Centroid.x * Area;
+                result.Entry[0, 1] -= Centroid.x * Centroid.y * Area;
+                result.Entry[1, 0] = result.Entry[0, 1];
+                result.Entry[1, 1] -= Centroid.y * Centroid.y * Area;
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// 主慣性軸
+        /// </summary>
+        public Pos PrincipalAxisAngle
+        {
+            get {
+                throw new NotImplementedException();
+                return null;
+            }
+        }
     }
 
 

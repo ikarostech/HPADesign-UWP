@@ -19,6 +19,7 @@ namespace HPADesign.ViewModels
         //public ReadOnlyReactiveCollection<PartWing> PartWings { get; set; }
         public ReactiveProperty<int> SelectedItem { get; set; }
 
+        
 
         public ReactiveCommand ReadFoil { get; set; }
         public ReactiveCommand AddWingSection { get; set; } = new ReactiveCommand();
@@ -28,6 +29,7 @@ namespace HPADesign.ViewModels
         public ConceptViewModel()
         {
             PartWings = Project.Plane.Wing.Value.PartWings.ToReadOnlyReactiveCollection();
+
             
             AddWingSection.Subscribe(_ =>
             {
@@ -38,8 +40,8 @@ namespace HPADesign.ViewModels
         public void AddPartWing()
         {
             PartWing pw = new PartWing();
-            pw.Length = 3000;
-            pw.RibCount = 10;
+            pw.Length.Value = 3000;
+            pw.RibCount.Value = 10;
             Project.Plane.Wing.Value.PartWings.Add(pw);
         }
     }
