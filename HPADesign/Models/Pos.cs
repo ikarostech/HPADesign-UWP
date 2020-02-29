@@ -344,7 +344,57 @@ namespace HPADesign.Models
             return result;
         }
 
-        
+        public Matrix Map(Func<double,double> func)
+        {
+            var result = this;
+            for(int i=0; i<M; i++)
+            {
+                for(int j=0; j<N; i++)
+                {
+                    Entry[i, j] = func(Entry[i, j]);
+                }
+            }
+            return result;
+        }
+
+        public static Matrix Rotation2DMatrix(double arg)
+        {
+            return new Matrix(new double[,]
+            {
+                { Cal.Cos(arg), -Cal.Sin(arg) ,0 },
+                { Cal.Sin(arg),Cal.Cos(arg) ,0 },
+                { 0,0,0 }
+            });
+        }
+        /// <summary>
+        /// オイラー角における3D回転
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        public static Matrix Rotation3DMatrix(Pos arg)
+        {
+            Matrix Rx = new Matrix(new double[,]
+            {
+                { 1,0,0 },
+                { 0, Cal.Cos(arg.x),-Cal.Sin(arg.x) },
+                { 0, Cal.Sin(arg.x), Cal.Cos(arg.x) }
+            });
+
+            Matrix Ry = new Matrix(new double[,]
+            {
+                { Cal.Cos(arg.y), 0 ,Cal.Sin(arg.y) },
+                { 0,1,0},
+                { -Cal.Sin(arg.y), 0, Cal.Cos(arg.y) }
+            });
+
+            Matrix Rz = new Matrix(new double[,]
+            {
+                { Cal.Cos(arg.z), -Cal.Sin(arg.z) ,0 },
+                { Cal.Sin(arg.z),Cal.Cos(arg.z) ,0 },
+                { 0,0,1 }
+            });
+            return Rz * Rx * Ry;
+        }
 
         public Matrix LUSeparate
         {
@@ -519,6 +569,17 @@ namespace HPADesign.Models
                 result.Add(p.Entry[axis]);
             }
             return result;
+        }
+
+        public Vector Map(Func<double,double> func)
+        {
+            var result = this;
+            for(int i=0; i<N; i++)
+            {
+                Entry[i] = func(Entry[i]);
+            }
+            return result;
+
         }
     }
 }
