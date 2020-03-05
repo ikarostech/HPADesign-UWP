@@ -147,6 +147,7 @@
     <Compile Include="Calculations\VLM.cs" />
     <Compile Include="Calculations\XFoil.cs" />
     <Compile Include="Helpers\Json.cs" />
+    <Compile Include="Helpers\LinqExtentions.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Models\Component\Component.cs" />
     <Compile Include="Models\Component\Material.cs" />

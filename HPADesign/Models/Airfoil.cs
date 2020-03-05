@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using HPADesign.Helpers;
 
 namespace HPADesign.Models
 {
@@ -30,7 +32,16 @@ namespace HPADesign.Models
         //Pos Value(double x, AirfoilSide airfoilSide);
     }
 
-    public class SeligCoordinate : ICoordinate
+    public abstract class Coordinate
+    {
+        
+
+        public List<Pos> Coordinate321 { get; set; }
+
+        List<Pos> Coordinate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    }
+
+    public class SeligCoordinate : Coordinate
     {
         public CoordinateType Type { get { return CoordinateType.Selig; } }
         public List<Pos> Coordinate { get; set; }
@@ -175,8 +186,9 @@ namespace HPADesign.Models
         public string Name { get; set; } = "None";
 
         public ICoordinate Coordinate { get; set; }
-        public List<Pos> Coordinate321 { get { return Coordinate.Coordinate321; } }
 
+        public static int N { get { return 321; } }
+        public List<Pos> Coordinate321 { get { return Coordinate.Coordinate321; } }
 
         public Distribution Camber
         {
@@ -284,15 +296,17 @@ namespace HPADesign.Models
         {
             get
             {
-                double result = 0;
-                for (int i = 0; i < Coordinate321.Count - 1; i++)
-                {
-                    result += Pos.CrossProduct(Coordinate321[i], Coordinate321[i + 1]).Entry[3] / 2;
-                }
-                return result;
+                return Coordinate321.Diff((x, y) => Pos.CrossProduct(x, y)).Sum(x => x.Entry[3] / 2);
             }
         }
 
+        public double ArcLength
+        {
+            get
+            {
+                return Coordinate321.Diff((x, y) => (Pos)x.DirectionVector(y)).Sum(x => x.Magnitude);
+            }
+        }
         /// <summary>
         /// 翼型の幾何中心
         /// </summary>

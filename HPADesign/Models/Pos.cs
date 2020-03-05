@@ -125,6 +125,14 @@ namespace HPADesign.Models
         }
 
         /// <summary>
+        /// 回転
+        /// </summary>
+        public static Pos Rotation(double theta)
+        {
+            return new Pos(Cal.Cos(theta), Cal.Sin(theta));
+        }
+
+        /// <summary>
         /// 2Dベクトルの原点中心の回転を行います
         /// </summary>
         /// <param name="theta"></param>
@@ -145,12 +153,17 @@ namespace HPADesign.Models
         public Pos NormalVector(Pos To)
         {
             Pos Direction = (Pos)DirectionVector(To);
-            return new Pos(-Direction.y, Direction.x, 0);
+            return new Pos(Direction.y, -Direction.x, 0);
         }
         public Pos NormalUnitVector(Pos To)
         {
             Pos Normal = NormalVector(To);
-            return (Pos)(Normal / Normal.Magnitude);
+            return (Normal / Normal.Magnitude);
+        }
+
+        public Pos Inverse()
+        {
+            return new Pos(y, -x, 0);
         }
 
         public int CompareTo(object obj)
@@ -441,6 +454,25 @@ namespace HPADesign.Models
         {
             Vector y = new Vector(x.N);
             return y;
+        }
+
+        public Vector Row(int index)
+        {
+            var result = new Vector(M);
+            for(int i=0; i<M; i++)
+            {
+                result.Entry[i] = Entry[i, index];
+            }
+            return result;
+        }
+        public Vector Columns (int index)
+        {
+            var result = new Vector(N);
+            for(int i=0; i<N; i++)
+            {
+                result.Entry[i] = Entry[index, i];
+            }
+            return result;
         }
     }
 
