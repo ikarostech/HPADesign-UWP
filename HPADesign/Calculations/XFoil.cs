@@ -248,9 +248,14 @@ namespace HPADesign.Calculations
             get
             {
                 var result = new List<Pos>(Airfoil.N);
+                return result;
             }
          }
-
+        private List<double> gamma { get { return gammaU.Select(x=>Vector.InnerProduct(x,Pos.Rotation(Alpha))).ToList(); } }
+        private double _gamma = 1.4;
+        public List<Pos> QU { get { throw new NotImplementedException(); } }
+        private List<double> Q { get { return QU.Select(x => Vector.InnerProduct(x, Pos.Rotation(Alpha))).ToList(); } }
+    
         public XFoil_Raw(double Re,double alpha,double Mach,
             double NCrit, double XtrTop, double XtrBot, int reType, int maType, bool bViscous)
         {
@@ -265,12 +270,82 @@ namespace HPADesign.Calculations
                 throw new Exception();
             }
         }
-
+        
         public void specal()
         {
+            //プロパティにより gamu qaijは自動計算
+            //ggcalc
 
+            //gam もプロパティで自動計算
+
+            double psi = Vector.InnerProduct(gammaU[gammaU.Count - 1] , Pos.Rotation(Alpha));
+
+            //tecalc()
+            double sigte = (gamma[gamma.Count - 1] - gamma[0]) / 2;
+            double gamte = 0;
+
+            //mrcl() maType = 1, minf = minf1 = Mach, reType = 1
+            double clm = 1;
+            double minf = Mach;
+            double m_cls = 0;
+
+            double reinf = 0;
+            double r_cls = 0;
+
+
+            //comset() karman-tsien parameter
+            double cpstar = -999;
+            double qstar = 999;
+
+            //clcalc xref = 0.25 yref = 0
+            double cl = 0;
+            double cm = 0;
+            double cdp = 0;
+            double xcp = 0;
+
+            double beta = 0;
+            double bfac = 0;
+
+            Vector cginc = new Vector(gamma.Select(x => { return 1.0 - Math.Pow(x / Qinf, 2); }).ToList());
+            Vector cpg = cginc.Map(x => { return x / (beta + bfac * x); });
+            Pos Ref = new Pos(0.25, 0);
+            for (int i = 0; i < Airfoil.N - 1; i++)
+            {
+                Pos diff = Foil.Coordinate321[i + 1] - Foil.Coordinate321[i];
+                Pos avg = Foil.Coordinate321[i + 1] + Foil.Coordinate321[i] / 2;
+                Pos ds = diff.Rotation2DVector(-Alpha);
+                double cpgDiff = (cpg.Entry[i + 1] - cpg.Entry[i]);
+                double cpgAvg = (cpg.Entry[i + 1] + cpg.Entry[i]) / 2;
+
+                cl += ds.x * cpgDiff;
+                cdp -= ds.y * cpgDiff;
+                Pos a = cpgDiff * new Pos(
+                    Vector.InnerProduct(avg - Ref, Pos.Rotation(Alpha)),
+                    // -sina*x + cosa*y = cos(270-a)*x + sin(270-a)*y
+                    Vector.InnerProduct(avg - Ref, Pos.Rotation(270-Alpha))
+                    );
+
+                
+                cm -= Vector.InnerProduct(ds, (a + cpgAvg * ds / 12));
+
+                xcp += cpgAvg * ds.x * avg.x;
+                xcp /= cl;
+                //C_M -= Pos.InnerProduct(ds, )
+            }
+
+            bool bConv = false; //計算が収束済みかを定義
+            //マッハ数による影響を考える場合はニュートン法でCLの収束を計算する必要がある。
+            /*
+            for(int i=0; i<20; i++)
+            {
+
+            }
+            */
+
+            //cpcalc(n,qinv,qinf,minf,cpi)
+            Vector cpi = new Vector(Airfoil.N);
         }
-        
+
     }
 
 }

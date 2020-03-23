@@ -166,6 +166,7 @@ namespace HPADesign.Models
             return new Pos(y, -x, 0);
         }
 
+
         public int CompareTo(object obj)
         {
             return x.CompareTo(obj);
@@ -487,6 +488,10 @@ namespace HPADesign.Models
         public Vector(double[] vs)
         {
             Entry = vs;
+        }
+        public Vector(List<double> vs)
+        {
+            Entry = vs.ToArray();
         }
 
         public static Vector operator + (Vector A ,Vector B)

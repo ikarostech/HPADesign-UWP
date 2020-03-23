@@ -66,5 +66,45 @@ namespace HPADesign.Models
             double result = Math.Sin(arg / 180 * Math.PI);
             return result;
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns> dx / dy </returns>
+        public static List<double> Differential(List<Pos> data)
+        {
+            var result = new List<double>(data.Count);
+            Func<int, int, double> diff = (i, j) => { return (data[j].y - data[i].y) / (data[j].x - data[i].x); };
+            result.Add(diff(0,1));
+
+            for(int i=1; i<data.Count-1; i++)
+            {
+                result.Add(diff(i-1,i+1));
+            }
+            result.Add(diff(data.Count - 2, data.Count - 1));
+            return result;
+        }
+
+        public static List<double> Differential(List<double> x , List<double> y)
+        {
+            if(x.Count != y.Count)
+            {
+                throw new Exception();
+            }
+            int N = x.Count;
+            var result = new List<double>(N);
+            Func<int, int, double> diff = (i, j) => { return (y[j] - y[i]) / (x[j] - x[i]); };
+            result.Add(diff(0, 1));
+
+            for (int i = 1; i < N - 1; i++)
+            {
+                result.Add(diff(i - 1, i + 1));
+            }
+            result.Add(diff(N - 2, N - 1));
+            return result;
+        }
+        
     }
 }
