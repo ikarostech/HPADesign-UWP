@@ -5,6 +5,7 @@ namespace HPADesign.Models
 {  
     static class Cal
     {
+        public static double eps = 1e-6;
         public static double rho { get { return 1.19; } }
         //線形補完関数
         public static double Lerp(double data1, double data2, double rate)

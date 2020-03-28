@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace HPADesign.Models
@@ -48,7 +49,7 @@ namespace HPADesign.Models
 
         public Pos(double[] Entry) : base(new double[3] { Entry[0], Entry[1], Entry[2] }) { }
 
-        public Pos(Vector vector) : base(new double[3] { vector.Entry[0], vector.Entry[1], vector.Entry[2] }) { }
+        public Pos(Vector vector) : base(new double[3] { vector[0], vector[1], vector[2] }) { }
 
         //public Pos(double x, double y) : base(new double[3] { x, y, 0 }){}
         public Pos(double x,double y):base(new double[3] { x, y, 0 }) { }
@@ -91,7 +92,7 @@ namespace HPADesign.Models
             Pos result = new Pos();
             for (int i = 0; i < x.N; i++)
             {
-                result.Entry[i] = Y.Entry[1, i];
+                result.Entry[i] = Y[1, i];
             }
             return result;
         }
@@ -172,9 +173,9 @@ namespace HPADesign.Models
             return x.CompareTo(obj);
         }
     }
-    public class Matrix
+    public class Matrix 
     {
-        public double[,] Entry { get; set; }
+        private double[,] Entry { get; set; }
         public int M { get { return Entry.GetLength(0); } }
         public int N { get { return Entry.GetLength(1); } }
 
@@ -451,6 +452,19 @@ namespace HPADesign.Models
                 return result;
             }
         }
+
+        public bool IsFixedSize => Entry.IsFixedSize;
+
+        public bool IsReadOnly => Entry.IsReadOnly;
+
+        public int Count => ((IList)Entry).Count;
+
+        public bool IsSynchronized => Entry.IsSynchronized;
+
+        public object SyncRoot => Entry.SyncRoot;
+
+        public double this[int i,int j] { get => Entry[i,j]; set => Entry[i,j] = value; }
+
         private Vector Lforward(Vector x)
         {
             Vector y = new Vector(x.N);
@@ -462,7 +476,7 @@ namespace HPADesign.Models
             var result = new Vector(M);
             for(int i=0; i<M; i++)
             {
-                result.Entry[i] = Entry[i, index];
+                result[i] = Entry[i, index];
             }
             return result;
         }
@@ -471,15 +485,17 @@ namespace HPADesign.Models
             var result = new Vector(N);
             for(int i=0; i<N; i++)
             {
-                result.Entry[i] = Entry[index, i];
+                result[i] = Entry[index, i];
             }
             return result;
         }
+
+        
     }
 
-    public class Vector
+    public class Vector : IList<double>
     {
-        public double[] Entry { get; set; }
+        protected double[] Entry { get; set; }
         public int N { get { return Entry.Length; } }
         public Vector(int n)
         {
@@ -539,7 +555,7 @@ namespace HPADesign.Models
             Vector result = new Vector(x.N);
             for(int i=0; i<x.N; i++)
             {
-                result.Entry[i] = Y.Entry[1, i];
+                result[i] = Y[1, i];
             }
             return result;
         }
@@ -589,6 +605,18 @@ namespace HPADesign.Models
             }
         }
 
+        public bool IsFixedSize => Entry.IsFixedSize;
+
+        public bool IsReadOnly => Entry.IsReadOnly;
+
+        public int Count => ((IList)Entry).Count;
+
+        public bool IsSynchronized => Entry.IsSynchronized;
+
+        public object SyncRoot => Entry.SyncRoot;
+
+        public double this[int index] { get { return Entry[index]; } set => ((IList)Entry)[index] = value; }
+
         public Vector DirectionVector(Vector To)
         {
             return this - To;
@@ -617,6 +645,56 @@ namespace HPADesign.Models
             }
             return result;
 
+        }
+
+        public int IndexOf(double item)
+        {
+            return ((IList<double>)Entry).IndexOf(item);
+        }
+
+        public void Insert(int index, double item)
+        {
+            ((IList<double>)Entry).Insert(index, item);
+        }
+
+        public void Add(double item)
+        {
+            ((IList<double>)Entry).Add(item);
+        }
+
+        public bool Contains(double item)
+        {
+            return ((IList<double>)Entry).Contains(item);
+        }
+
+        public void CopyTo(double[] array, int arrayIndex)
+        {
+            ((IList<double>)Entry).CopyTo(array, arrayIndex);
+        }
+
+        public bool Remove(double item)
+        {
+            return ((IList<double>)Entry).Remove(item);
+        }
+
+        IEnumerator<double> IEnumerable<double>.GetEnumerator()
+        {
+            return ((IList<double>)Entry).GetEnumerator();
+        }
+
+        public void RemoveAt(int index)
+        {
+            ((IList<double>)Entry).RemoveAt(index);
+        }
+
+        public void Clear()
+        {
+            ((IList<double>)Entry).Clear();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return ((IList<double>)Entry).GetEnumerator();
         }
     }
 }

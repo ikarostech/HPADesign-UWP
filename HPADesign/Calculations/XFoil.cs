@@ -200,7 +200,7 @@ namespace HPADesign.Calculations
             {
                 Pos diff = CurrentFoil.Coordinate321[i + 1] - CurrentFoil.Coordinate321[i];
                 Pos ds = diff.Rotation2DVector(-Alpha);
-                double cpgAvg = (cpg.Entry[i + 1] - cpg.Entry[i]) / 2;
+                double cpgAvg = (cpg[i + 1] - cpg[i]) / 2;
 
                 C_L += ds.x * cpgAvg;
                 //C_M -= Pos.InnerProduct(ds, )
@@ -254,8 +254,9 @@ namespace HPADesign.Calculations
         private List<double> gamma { get { return gammaU.Select(x=>Vector.InnerProduct(x,Pos.Rotation(Alpha))).ToList(); } }
         private double _gamma = 1.4;
         public List<Pos> QU { get { throw new NotImplementedException(); } }
-        private List<double> Q { get { return QU.Select(x => Vector.InnerProduct(x, Pos.Rotation(Alpha))).ToList(); } }
-    
+        private Vector Q { get { return new Vector(QU.Select(x => Vector.InnerProduct(x, Pos.Rotation(Alpha))).ToList()); } }
+        private Vector Qvis { get { throw new Exception(); } }
+
         public XFoil_Raw(double Re,double alpha,double Mach,
             double NCrit, double XtrTop, double XtrBot, int reType, int maType, bool bViscous)
         {
@@ -314,8 +315,8 @@ namespace HPADesign.Calculations
                 Pos diff = Foil.Coordinate321[i + 1] - Foil.Coordinate321[i];
                 Pos avg = Foil.Coordinate321[i + 1] + Foil.Coordinate321[i] / 2;
                 Pos ds = diff.Rotation2DVector(-Alpha);
-                double cpgDiff = (cpg.Entry[i + 1] - cpg.Entry[i]);
-                double cpgAvg = (cpg.Entry[i + 1] + cpg.Entry[i]) / 2;
+                double cpgDiff = (cpg[i + 1] - cpg[i]);
+                double cpgAvg = (cpg[i + 1] + cpg[i]) / 2;
 
                 cl += ds.x * cpgDiff;
                 cdp -= ds.y * cpgDiff;
@@ -333,7 +334,7 @@ namespace HPADesign.Calculations
                 //C_M -= Pos.InnerProduct(ds, )
             }
 
-            bool bConv = false; //計算が収束済みかを定義
+            //bool bConv = false; //計算が収束済みかを定義
             //マッハ数による影響を考える場合はニュートン法でCLの収束を計算する必要がある。
             /*
             for(int i=0; i<20; i++)
@@ -344,8 +345,43 @@ namespace HPADesign.Calculations
 
             //cpcalc(n,qinv,qinf,minf,cpi)
             Vector cpi = new Vector(Airfoil.N);
+            //beta = (1-minf*minf) ^ 0.5 (前の処理で定義済み)
+
+            //bfac
+
+            cpi = new Vector(gamma.Select(x =>
+            {
+                double cpinc = 1 - Math.Pow(x / Qinf, 2);
+                double den = beta + bfac * cpinc;
+                return cpinc / den;
+            }).ToList());
+            Vector cpv = new Vector(Airfoil.N);
+            cpv = new Vector(Qvis.Select(x =>
+            {
+                double cpvnc = 1 - Math.Pow(x / Qinf, 2);
+                double den = beta + bfac * cpvnc;
+                return cpvnc / den;
+            }).ToList());
         }
 
+        //iterationを開始
+        public void iterate()
+        {
+            for(int i=0; i<20; i++)
+            {
+
+            }
+        }
+        public void InitBL()
+        {
+            //set forced transition arc length position (使わない）
+
+        }
+        public void ViscousIter()
+        {
+            //setbl
+
+        }
     }
 
 }
