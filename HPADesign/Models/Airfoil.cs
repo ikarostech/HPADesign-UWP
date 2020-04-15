@@ -32,13 +32,14 @@ namespace HPADesign.Models
         //Pos Value(double x, AirfoilSide airfoilSide);
     }
 
-    public abstract class Coordinate
+    public abstract class Coordinate : ICoordinate
     {
         
 
         public List<Pos> Coordinate321 { get; set; }
 
         List<Pos> Coordinate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        List<Pos> Coordinate321 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 
     public class SeligCoordinate : Coordinate
