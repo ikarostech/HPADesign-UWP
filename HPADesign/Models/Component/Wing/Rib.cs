@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using Prism.Mvvm;
 using Reactive.Bindings;
 
 namespace HPADesign.Models.Component
@@ -12,7 +11,7 @@ namespace HPADesign.Models.Component
         /// <summary>
         /// 翼型
         /// </summary>
-        public ReactiveProperty<Airfoil> Airfoil { get; set; } = new ReactiveProperty<Airfoil>();
+        public Airfoil Airfoil { get; set; } = new Airfoil();
 
         /// <summary>
         /// 翼弦長

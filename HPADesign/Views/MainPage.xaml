@@ -54,11 +54,12 @@
                 <PivotItem Header="Lift and Drag">
                     <View:AeroDynamicsView x:Name="aerodynamics" />
                 </PivotItem>
-                <PivotItem Header="Spar and Deflection"/>
+                
                 <PivotItem Header="Airfoil" HorizontalAlignment="Left" VerticalAlignment="Top">
                     <View:AirfoilView x:Name="airfoil" />
                 </PivotItem>
-                
+                <PivotItem Header="Spar and Deflection"/>
+
             </Pivot>
 
         </Grid>

@@ -25,7 +25,9 @@ namespace HPADesign.Views.Tabs
         
         public AirfoilView()
         {
+            airfoilviewmodel = new AirfoilViewModel();
             this.InitializeComponent();
+            
         }
     }
 }

@@ -45,15 +45,27 @@ namespace HPADesign.Models
 
         public new int N { get { return 3; } }
 
-        public Pos() : base(new double[3] { 0, 0, 0 }) { }
+        //public Pos() : base(new double[3] { 0, 0, 0 }) { }
 
-        public Pos(double[] Entry) : base(new double[3] { Entry[0], Entry[1], Entry[2] }) { }
+        //public Pos(double[] Entry) : base(new List<double>(new double[3] { Entry[0], Entry[1], Entry[2] })) {
+        public Pos()
+        {
+            Entry = new List<double>(new double[3]);
+        }
+        public Pos(Vector vector) : base(new List<double>(new double[] { vector[0], vector[1], vector[2] })) { }
 
-        public Pos(Vector vector) : base(new double[3] { vector[0], vector[1], vector[2] }) { }
+        
+        public Pos(double x,double y)
+        {
+            Entry = new List<double>(new double[] { x, y, 0 });
+            
+        }
 
-        //public Pos(double x, double y) : base(new double[3] { x, y, 0 }){}
-        public Pos(double x,double y):base(new double[3] { x, y, 0 }) { }
-        public Pos(double x, double y, double z) : base(new double[3] { x, y, z }) { }
+        public Pos(double x, double y, double z) : base(3)
+        {
+            Entry = new List<double>(new double[] { x, y, z });
+        }
+
 
         public static Pos operator +(Pos A, Pos B)
         {
@@ -77,7 +89,7 @@ namespace HPADesign.Models
 
         public static Pos operator *(double A, Pos B)
         {
-            Pos result = new Pos(B.Entry);
+            Pos result = new Pos(B);
             for (int i = 0; i < B.N; i++)
             {
                 result.Entry[i] *= A;
@@ -98,7 +110,7 @@ namespace HPADesign.Models
         }
         public static Pos operator /(Pos B, double A)
         {
-            Pos result = new Pos(B.Entry);
+            Pos result = new Pos(B);
             for (int i = 0; i < B.N; i++)
             {
                 result.Entry[i] /= A;
@@ -173,89 +185,24 @@ namespace HPADesign.Models
             return x.CompareTo(obj);
         }
     }
-    public class Matrix 
+
+    public class Matrix
     {
-        private double[,] Entry { get; set; }
-        public int M { get { return Entry.GetLength(0); } }
+        protected double[,] Entry { get; set; }
+        public virtual int M { get { return Entry.GetLength(0); } }
         public int N { get { return Entry.GetLength(1); } }
-
-        /// <summary>
-        /// TODO SVM法により行列の回数を求めます
-        /// </summary>
-        public int rank
-        {
-            get; set;
-        }
-        public double det
-        {
-            get
-            {
-                Matrix tmp = new Matrix(Entry);
-                if(M!=N)
-                {
-                    //正則行列以外では行列式を定義できない
-                    return double.NaN;
-                }
-
-                //計算しやすいように行列を入れ替えていくぜ
-                for(int i=0; i<N; i++)
-                {
-                    if(tmp.Entry[i,i]!=0)
-                    {
-                        continue;
-                    }
-                    int j;
-                    for(j=0; j<N; j++)
-                    {
-                        if (tmp.Entry[j, i] != 0)
-                        {
-                            break;
-                        }
-                    }
-                    if(j==N)
-                    {
-                        //ある列がすべて0→detA=0
-                        return 0;
-                    }
-                    for(int k=0; k<N; k++)
-                    {
-                        tmp.Entry[i, k] += tmp.Entry[j, k];
-                    }
-                }
-                double result = 1;
-                
-                for(int i=0; i<N; i++)
-                {
-                    for(int j=0; j<N; j++)
-                    {
-                        if (i == j)
-                        {
-                            continue;
-                        }
-                        double buf = tmp.Entry[j, i] / tmp.Entry[i, i];
-                        
-                        for(int k=0; k<N; k++)
-                        {
-                            tmp.Entry[j,k] -= buf * tmp.Entry[i,k];
-                        }
-                    }
-                }
-                for(int i=0; i<N; i++)
-                {
-                    result *= tmp.Entry[i, i];
-                }
-                return result;
-            }
-        }
 
         public Matrix(int m, int n)
         {
-            Entry = new double[m, n];
+            Entry = new double[m,n];
         }
         public Matrix(double[,] vs)
         {
             Entry = vs;
         }
+
+        public double this[int i, int j] { get => Entry[i, j]; set => Entry[i, j] = value; }
+
 
         public static Matrix Zero(int M,int N)
         {
@@ -264,7 +211,7 @@ namespace HPADesign.Models
             {
                 for(int j=0; j<N; j++)
                 {
-                    result.Entry[i, j] = 0;
+                    result[i, j] = 0;
                 }
             }
             return result;
@@ -274,7 +221,7 @@ namespace HPADesign.Models
             var result = Zero(N, N);
             for(int i=0; i<N; i++)
             {
-                result.Entry[i, i] = 1;
+                result[i, i] = 1;
             }
             return result;
         }
@@ -283,14 +230,14 @@ namespace HPADesign.Models
         {
             if (A.M != B.M || A.N != B.N)
             {
-                throw new InvalidOperationException();
+                throw new NotSameShapeException();
             }
             var result = new Matrix(A.Entry);
             for (int i = 0; i < A.M; i++)
             {
                 for (int j = 0; j < A.N; j++)
                 {
-                    result.Entry[i, j] += B.Entry[i, j];
+                    result[i, j] += B[i, j];
                 }
             }
             return result;
@@ -299,14 +246,14 @@ namespace HPADesign.Models
         {
             if (A.M != B.M || A.N != B.N)
             {
-                throw new InvalidOperationException();
+                throw new NotSameShapeException();
             }
             var result = new Matrix(A.Entry);
             for (int i = 0; i < A.M; i++)
             {
                 for (int j = 0; j < A.N; j++)
                 {
-                    result.Entry[i, j] -= B.Entry[i, j];
+                    result[i, j] -= B[i, j];
                 }
             }
             return result;
@@ -319,19 +266,19 @@ namespace HPADesign.Models
             {
                 for(int j=0; i<A.N; i++)
                 {
-                    result.Entry[i,j] *= scaler;
+                    result[i,j] *= scaler;
                 }
             }
             return result;
         }
-        public static Matrix operator /(Matrix A, double scaler)
+        public static Matrix operator / (Matrix A, double scaler)
         {
             var result = new Matrix(A.Entry);
             for (int i = 0; i < A.M; i++)
             {
                 for (int j = 0; i < A.N; i++)
                 {
-                    result.Entry[i, j] /= scaler;
+                    result[i, j] /= scaler;
                 }
             }
             return result;
@@ -341,7 +288,7 @@ namespace HPADesign.Models
         {
             if(A.N!=B.M)
             {
-                throw new InvalidOperationException();
+                throw new NotSameShapeException();
             }
             var result = Zero(A.M,B.N);
 
@@ -352,7 +299,7 @@ namespace HPADesign.Models
                 {
                     for(int k=0; k< A.N; k++)
                     {
-                        result.Entry[i, j] += A.Entry[i, k] * B.Entry[k, j];
+                        result[i, j] += A[i, k] * B[k, j];
                     }
                 }
             }
@@ -366,117 +313,20 @@ namespace HPADesign.Models
             {
                 for(int j=0; j<N; i++)
                 {
-                    Entry[i, j] = func(Entry[i, j]);
+                    result[i, j] = func(result[i, j]);
                 }
             }
             return result;
         }
 
-        public static Matrix Rotation2DMatrix(double arg)
-        {
-            return new Matrix(new double[,]
-            {
-                { Cal.Cos(arg), -Cal.Sin(arg) ,0 },
-                { Cal.Sin(arg),Cal.Cos(arg) ,0 },
-                { 0,0,0 }
-            });
-        }
-        /// <summary>
-        /// オイラー角における3D回転
-        /// </summary>
-        /// <param name="arg"></param>
-        /// <returns></returns>
-        public static Matrix Rotation3DMatrix(Pos arg)
-        {
-            Matrix Rx = new Matrix(new double[,]
-            {
-                { 1,0,0 },
-                { 0, Cal.Cos(arg.x),-Cal.Sin(arg.x) },
-                { 0, Cal.Sin(arg.x), Cal.Cos(arg.x) }
-            });
-
-            Matrix Ry = new Matrix(new double[,]
-            {
-                { Cal.Cos(arg.y), 0 ,Cal.Sin(arg.y) },
-                { 0,1,0},
-                { -Cal.Sin(arg.y), 0, Cal.Cos(arg.y) }
-            });
-
-            Matrix Rz = new Matrix(new double[,]
-            {
-                { Cal.Cos(arg.z), -Cal.Sin(arg.z) ,0 },
-                { Cal.Sin(arg.z),Cal.Cos(arg.z) ,0 },
-                { 0,0,1 }
-            });
-            return Rz * Rx * Ry;
-        }
-
-        public Matrix LUSeparate
-        {
-            get
-            {
-                if (M != N)
-                {
-                    //正則行列でない場合はエラー
-                    return Zero(M,N);
-                }
-
-                Matrix result = new Matrix(N, N);
-
-                //ここら辺は最適化できそう？？？
-                for(int i=0; i<N; i++)
-                {
-                    //L要素の算出
-                    for (int j=0; j<=i; j++)
-                    {
-                        double lu = Entry[i, j];
-                        for(int k=0; k<j; k++)
-                        {
-                            lu -= Entry[i, k] * Entry[k, j];
-                        }
-                        result.Entry[i, j] = lu;
-                    }
-                    //U要素の算出
-                    for (int j =i+1; j<N; j++)
-                    {
-                        double lu = Entry[i, j];
-                        for(int k=0; k<i; k++)
-                        {
-                            lu -= Entry[i, k] * Entry[k, j];
-                        }
-                        //ここがおっかない
-                        ///TODO
-                        result.Entry[i, j] = lu / Entry[i, i];
-                    }
-                }
-                return result;
-            }
-        }
-
-        public bool IsFixedSize => Entry.IsFixedSize;
-
-        public bool IsReadOnly => Entry.IsReadOnly;
-
-        public int Count => ((IList)Entry).Count;
-
-        public bool IsSynchronized => Entry.IsSynchronized;
-
-        public object SyncRoot => Entry.SyncRoot;
-
-        public double this[int i,int j] { get => Entry[i,j]; set => Entry[i,j] = value; }
-
-        private Vector Lforward(Vector x)
-        {
-            Vector y = new Vector(x.N);
-            return y;
-        }
+        
 
         public Vector Row(int index)
         {
             var result = new Vector(M);
             for(int i=0; i<M; i++)
             {
-                result[i] = Entry[i, index];
+                result[i] = Entry[i,index];
             }
             return result;
         }
@@ -485,29 +335,222 @@ namespace HPADesign.Models
             var result = new Vector(N);
             for(int i=0; i<N; i++)
             {
-                result[i] = Entry[index, i];
+                result[i] = Entry[index,i];
             }
             return result;
         }
 
+        public override bool Equals(object obj)
+        {
+            if(!(obj is Matrix))
+            {
+                return false;
+            }
+            Matrix counter = obj as Matrix;
+            if(M!=counter.M || N!=counter.N)
+            {
+                return false;
+            }
+            for(int i=0; i<M; i++)
+            {
+                for(int j=0; j<N; j++)
+                {
+                    if (Math.Abs(Entry[i, j] - counter[i, j]) > 1e-6)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+    }
+    public class RegularMatrix : Matrix
+    {
+        public override int M { get { return N; } }
+        public RegularMatrix(double[,] vs) : base(vs)
+        {
+            
+            if(vs.GetLength(0)!=vs.GetLength(1))
+            {
+                throw new NotRegularException();
+            }
+        }
+        public RegularMatrix(int N) : base(N,N)
+        {
+            
+        }
+
+        /// <summary>
+        /// TODO SVM法により行列の階数を求めます
+        /// </summary>
+        public int rank
+        {
+            get; set;
+        }
+        public double det
+        {
+            get
+            {
+                RegularMatrix tmp = new RegularMatrix(Entry);
+                
+
+                //計算しやすいように行列を入れ替えていくぜ
+                for (int i = 0; i < N; i++)
+                {
+                    if (tmp[i, i] != 0)
+                    {
+                        continue;
+                    }
+                    int j;
+                    for (j = 0; j < N; j++)
+                    {
+                        if (tmp[j, i] != 0)
+                        {
+                            break;
+                        }
+                    }
+                    if (j == N)
+                    {
+                        //ある列がすべて0→detA=0
+                        return 0;
+                    }
+                    for (int k = 0; k < N; k++)
+                    {
+                        tmp[i, k] += tmp[j, k];
+                    }
+                }
+                double result = 1;
+
+                for (int i = 0; i < N; i++)
+                {
+                    for (int j = 0; j < N; j++)
+                    {
+                        if (i == j)
+                        {
+                            continue;
+                        }
+                        double buf = tmp[j, i] / tmp[i, i];
+
+                        for (int k = 0; k < N; k++)
+                        {
+                            tmp[j, k] -= buf * tmp[i, k];
+                        }
+                    }
+                }
+                for (int i = 0; i < N; i++)
+                {
+                    result *= tmp[i, i];
+                }
+                return result;
+            }
+        }
+        public static Matrix Rotation2DMatrix(double arg)
+        {
+            return new Matrix(new double[,]
+            {
+                { Cal.Cos(arg), -Cal.Sin(arg), 0 },
+                { Cal.Sin(arg), Cal.Cos(arg), 0 },
+                { 0, 0, 0 }
+            });
+        }
+        /// <summary>
+        /// オイラー角における3D回転
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        public static RegularMatrix Rotation3DMatrix(Pos arg)
+        {
+            RegularMatrix Rx = new RegularMatrix(new double[,]
+            {
+                { 1,0,0 },
+                { 0, Cal.Cos(arg.x),-Cal.Sin(arg.x) },
+                { 0, Cal.Sin(arg.x), Cal.Cos(arg.x) }
+            });
+
+            RegularMatrix Ry = new RegularMatrix(new double[,]
+            {
+                { Cal.Cos(arg.y), 0 ,Cal.Sin(arg.y) },
+                { 0,1,0},
+                { -Cal.Sin(arg.y), 0, Cal.Cos(arg.y) }
+            });
+
+            RegularMatrix Rz = new RegularMatrix(new double[,]
+            {
+                { Cal.Cos(arg.z), -Cal.Sin(arg.z) ,0 },
+                { Cal.Sin(arg.z),Cal.Cos(arg.z) ,0 },
+                { 0,0,1 }
+            });
+            return (RegularMatrix)(Rz * Rx * Ry);
+        }
+
+        public RegularMatrix LUSeparate
+        {
+            get
+            {
+                RegularMatrix result = new RegularMatrix(N);
+
+                //ここら辺は最適化できそう？？？
+                for (int i = 0; i < N; i++)
+                {
+                    //L要素の算出
+                    for (int j = 0; j <= i; j++)
+                    {
+                        double lu = Entry[i, j];
+                        for (int k = 0; k < j; k++)
+                        {
+                            lu -= Entry[i, k] * Entry[k, j];
+                        }
+                        result[i, j] = lu;
+                    }
+                    //U要素の算出
+                    for (int j = i + 1; j < N; j++)
+                    {
+                        double lu = Entry[i, j];
+                        for (int k = 0; k < i; k++)
+                        {
+                            lu -= Entry[i, k] * Entry[k, j];
+                        }
+                        //ここがおっかない
+                        ///TODO
+                        result[i, j] = lu / Entry[i, i];
+                    }
+                }
+                return result;
+            }
+        }
+
         
+
+        private Vector Lforward(Vector x)
+        {
+            Vector y = new Vector(x.N);
+            return y;
+        }
     }
 
-    public class Vector : IList<double>
+    public class NotRegularException : Exception { }
+    public class NotSameShapeException : Exception { }
+    public class Vector 
     {
-        protected double[] Entry { get; set; }
-        public int N { get { return Entry.Length; } }
-        public Vector(int n)
+        protected List<double> Entry { get; set; }
+        public int N { get { return Entry.Count; } }
+
+        protected Vector()
         {
-            Entry = new double[n];
+            Entry = new List<double>();
         }
         public Vector(double[] vs)
         {
-            Entry = vs;
+            Entry = new List<double>(vs);
         }
         public Vector(List<double> vs)
         {
-            Entry = vs.ToArray();
+            Entry = vs;
+        }
+        public Vector(int n)
+        {
+            Entry = new List<double>(new double[n]);
         }
 
         public static Vector operator + (Vector A ,Vector B)
@@ -523,7 +566,6 @@ namespace HPADesign.Models
             }
             return result;
         }
-
         public static Vector operator -(Vector A, Vector B)
         {
             if (A.N != B.N)
@@ -537,7 +579,6 @@ namespace HPADesign.Models
             }
             return result;
         }
-
         public static Vector operator *(double A, Vector B)
         {
             Vector result = new Vector(B.Entry);
@@ -605,17 +646,7 @@ namespace HPADesign.Models
             }
         }
 
-        public bool IsFixedSize => Entry.IsFixedSize;
-
-        public bool IsReadOnly => Entry.IsReadOnly;
-
-        public int Count => ((IList)Entry).Count;
-
-        public bool IsSynchronized => Entry.IsSynchronized;
-
-        public object SyncRoot => Entry.SyncRoot;
-
-        public double this[int index] { get { return Entry[index]; } set => ((IList)Entry)[index] = value; }
+        public double this[int index] { get { return Entry[index]; } set => Entry[index] = value; }
 
         public Vector DirectionVector(Vector To)
         {
@@ -634,62 +665,6 @@ namespace HPADesign.Models
                 result.Add(p.Entry[axis]);
             }
             return result;
-        }
-
-        public Vector Map(Func<double,double> func)
-        {
-            var result = this;
-            for(int i=0; i<N; i++)
-            {
-                Entry[i] = func(Entry[i]);
-            }
-            return result;
-
-        }
-
-        public int IndexOf(double item)
-        {
-            return ((IList<double>)Entry).IndexOf(item);
-        }
-
-        public void Insert(int index, double item)
-        {
-            ((IList<double>)Entry).Insert(index, item);
-        }
-
-        public void Add(double item)
-        {
-            ((IList<double>)Entry).Add(item);
-        }
-
-        public bool Contains(double item)
-        {
-            return ((IList<double>)Entry).Contains(item);
-        }
-
-        public void CopyTo(double[] array, int arrayIndex)
-        {
-            ((IList<double>)Entry).CopyTo(array, arrayIndex);
-        }
-
-        public bool Remove(double item)
-        {
-            return ((IList<double>)Entry).Remove(item);
-        }
-
-        IEnumerator<double> IEnumerable<double>.GetEnumerator()
-        {
-            return ((IList<double>)Entry).GetEnumerator();
-        }
-
-        public void RemoveAt(int index)
-        {
-            ((IList<double>)Entry).RemoveAt(index);
-        }
-
-        public void Clear()
-        {
-            ((IList<double>)Entry).Clear();
         }
 
         public IEnumerator GetEnumerator()

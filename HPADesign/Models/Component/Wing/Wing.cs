@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using Prism.Mvvm;
 using System.Collections.Generic;
 using HPADesign.Models.Component;
 using IComponent = HPADesign.Models.Component.IComponent;

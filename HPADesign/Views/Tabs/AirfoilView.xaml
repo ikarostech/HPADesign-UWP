@@ -7,19 +7,18 @@
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="1200" Height="700">
 
-    <Grid Height="Auto" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Left">
-        <Button Height="100" Width="100" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Click="{x:Bind airfoilviewmodel.AddAirfoil}"/>
+    <Grid Height="Auto" Width="1200" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Button Height="53" Width="53" Content="Add" VerticalAlignment="Top" Click="{x:Bind airfoilviewmodel.AddAirfoil}" Margin="296,126,0,0"/>
 
-        <Custom:DataGrid Height="200" Width="400"  AutoGenerateColumns="False">
+        <Custom:DataGrid Height="200" Width="400" ItemsSource="{x:Bind airfoilviewmodel.AirfoilList}" AutoGenerateColumns="False">
             <Custom:DataGrid.Columns>
                 <Custom:DataGridTextColumn Header="名前" Binding="{Binding Name}" />
 
             </Custom:DataGrid.Columns>
         </Custom:DataGrid>
         <Polygon Stroke="Red" Margin="200,400"  Points="{x:Bind airfoilviewmodel.AirfoilPoints.Value,Mode=TwoWay}"/>
-        
+
     </Grid>
 </UserControl>

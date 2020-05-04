@@ -2,56 +2,123 @@
 using System.Collections.Generic;
 using System.Linq;
 using HPADesign.Helpers;
+using Reactive.Bindings;
 
 namespace HPADesign.Models
 {
-    public enum AirfoilSide { Upper = 1, Downer = -1 }
-    public enum CoordinateType { Selig,Lednicer,Null=-1 }
+
+    public enum AirfoilType { Selig, Lednicer, Null }
     public interface IAirfoil
     {
-        string Name { get; set; }
-        //CoordinateType Type { get; }
-        ICoordinate Coordinate { get; set; }
-        List<Pos> Coordinate321 { get; }
-        double yValue(double xPos, int AirfoilSide);
-        Pos yValue(Pos x, int AirfoilSide);
-
-        Distribution Camber { get; }
-
-        double MaxThickness { get;  }
-        double AtMaxThickness { get; }
-        double MaxCamber { get;  }
-        double AtMaxCamber { get; }
+        ReactiveProperty<string> Name { get; set; }
     }
 
-    public interface ICoordinate
+    public class AirfoilPerformance : AerodynamicsPerformance
     {
-        CoordinateType Type { get; }
-        List<Pos> Coordinate { get; set; }
-        List<Pos> Coordinate321 { get; }
-        //Pos Value(double x, AirfoilSide airfoilSide);
-    }
 
-    public abstract class Coordinate
+    }
+    public interface IAirfoilCoordinate : ICoordinate
+    {
+        AirfoilType Type { get; }
+        int N { get; set; }
+        /// <summary>
+        /// Selig形式によるN点からなる翼型データを提供します
+        /// </summary>
+        List<Pos> NormalPoints { get; }
+
+        IAirfoilCoordinate Leap(IAirfoilCoordinate a, IAirfoilCoordinate b, double rate);
+        Distribution Camber { get; }
+        Distribution Upper { get; }
+        Distribution Downer { get; }
+        Distribution Thickness { get; }
+    }
+    public abstract class AirfoilCoordinate : Coordinate
+    {
+        public abstract AirfoilType Type { get; }
+        public abstract List<Pos> NormalPoints { get; }
+        public int N { get; set; }
+
+        public Distribution Upper
+        {
+            get
+            {
+                List<Pos> result = new List<Pos>((N + 1) / 2);
+                for (int i = (N + 1) / 2; i >= 0; i--)
+                {
+                    result.Add(NormalPoints[i]);
+                }
+                return new Distribution(result);
+            }
+        }
+        public Distribution Downer
+        {
+            get
+            {
+                List<Pos> result = new List<Pos>((N + 1) / 2);
+                for (int i = (N + 1) / 2; i < N; i++)
+                {
+                    result.Add(NormalPoints[i]);
+                }
+                return new Distribution(result);
+            }
+        }
+        public Distribution Camber
+        {
+            get
+            {
+                List<Pos> result = new List<Pos>((N + 1) / 2);
+                for (int i = 0; i < (N + 1) / 2; i++)
+                {
+                    result.Add((NormalPoints[i] + NormalPoints[N - i - 1]) / 2);
+                }
+                return new Distribution(result);
+            }
+        }
+        public Distribution Thickness
+        {
+            get
+            {
+                List<Pos> result = new List<Pos>((N + 1) / 2);
+                for (int i = 0; i < (N + 1) / 2; i++)
+                {
+                    result.Add(new Pos((NormalPoints[i].x + NormalPoints[N - i - 1].x) / 2, (NormalPoints[i].y - NormalPoints[N - i - 1].y)));
+                }
+                return new Distribution(result);
+            }
+        }
+        public static IAirfoilCoordinate Lerp(IAirfoilCoordinate A, IAirfoilCoordinate B, double rate)
+        {
+            if(A.N != B.N)
+            {
+                B.N = A.N;
+            }
+            var result = new SeligCoordinate();
+
+            
+            for (int i = 0; i < A.N; i++)
+            {
+                result.Points.Add(new Pos(A.NormalPoints[i].x, Cal.Lerp(A.NormalPoints[i].y, B.NormalPoints[i].y, rate)));
+            }
+
+            return (IAirfoilCoordinate)result;
+        }
+    }
+    public interface IAirfoilPerformance
     {
         
-
-        public List<Pos> Coordinate321 { get; set; }
-
-        List<Pos> Coordinate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
-
-    public class SeligCoordinate : Coordinate
+    public class SeligCoordinate : AirfoilCoordinate
     {
-        public CoordinateType Type { get { return CoordinateType.Selig; } }
+        public override AirfoilType Type { get { return AirfoilType.Selig; } }
         public List<Pos> Coordinate { get; set; }
-        public List<Pos> Coordinate321          
+        
+        public override List<Pos> NormalPoints
         {
             get
             {
                 var result = new List<Pos>();
                 int pr = 0;
-                const int N = 160;
+                int N = (this.N + 1) / 2;
                 for (int i = N; i >= 0; i--)
                 {
                     double x = (double)i / N;
@@ -77,10 +144,7 @@ namespace HPADesign.Models
                 return result;
             }
         }
-        public Pos Value(double x,AirfoilSide airfoilSide)
-        {
-            return null;
-        }
+
         /// <summary>
         /// 1->0->1の座標点を0->1,0->1の座標点形式に変換します
         /// </summary>
@@ -88,7 +152,7 @@ namespace HPADesign.Models
         public LednicerCoordinate Selig2Lednicer()
         {
             var result = new LednicerCoordinate();
-            
+
             //プロパティに直接ぶち込むと正規化されて座標が狂うのでまとめて代入する
             var poses = new List<Pos>();
             int i = 0;
@@ -101,22 +165,21 @@ namespace HPADesign.Models
             {
                 poses.Add(Coordinate[i]);
             }
-            result.Coordinate = poses;
+            result.Points = poses;
             return result;
         }
     }
-    public class LednicerCoordinate : ICoordinate
+    public class LednicerCoordinate : AirfoilCoordinate
     {
-        public CoordinateType Type { get { return CoordinateType.Lednicer; } }
-        public List<Pos> Coordinate { get; set; }
-        public List<Pos> Coordinate321
+        public override AirfoilType Type { get { return AirfoilType.Lednicer; } }
+        public override List<Pos> NormalPoints
         {
             get
             {
                 var selig = Lednicer2Selig();
                 var result = new List<Pos>();
                 int pr = 0;
-                const int N = 160;
+                int N = (this.N + 1) / 2;
                 for (int i = N; i >= 0; i--)
                 {
                     double x = (double)i / N;
@@ -131,12 +194,12 @@ namespace HPADesign.Models
                 for (int i = 1; i <= N; i++)
                 {
                     double x = (double)i / N;
-                    while ((Coordinate[pr + 1].x <= x || selig.Coordinate[pr].x > x) && pr + 2 != Coordinate.Count)
+                    while ((Points[pr + 1].x <= x || selig.Coordinate[pr].x > x) && pr + 2 != Points.Count)
                     {
                         pr++;
                     }
                     //Lerpする
-                    double y = Cal.Lerp(Coordinate[pr], Coordinate[pr + 1], x);
+                    double y = Cal.Lerp(Points[pr], Points[pr + 1], x);
                     result.Add(new Pos(x, y));
                 }
                 return result;
@@ -146,12 +209,12 @@ namespace HPADesign.Models
         {
             var result = new SeligCoordinate();
             int state = 0;
-            double tx = Coordinate[0].x;
-            result.Coordinate.Add(Coordinate[0]);
-            for (int i = 1; i < Coordinate.Count; i++)
+            double tx = Points[0].x;
+            result.Coordinate.Add(Points[0]);
+            for (int i = 1; i < Points.Count; i++)
             {
                 //state切り替え
-                if (state == 0 && tx > Coordinate[i].x)
+                if (state == 0 && tx > Points[i].x)
                 {
                     state = 1;
                 }
@@ -159,231 +222,36 @@ namespace HPADesign.Models
                 //点の補充
                 if (state == 0)
                 {
-                    result.Coordinate.Insert(0, Coordinate[i]);
+                    result.Coordinate.Insert(0, Points[i]);
                 }
                 if (state == 1)
                 {
-                    result.Coordinate.Add(Coordinate[i]);
+                    result.Coordinate.Add(Points[i]);
                 }
-                tx = Coordinate[i].x;
+                tx = Points[i].x;
             }
             return result;
         }
     }
-    public class NullCoordinate : ICoordinate
+    public class NullCoordinate : AirfoilCoordinate
     {
-        public CoordinateType Type
+        public override AirfoilType Type
         {
-            get { return CoordinateType.Null; }
+            get { return AirfoilType.Null; }
         }
         public List<Pos> Coordinate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public List<Pos> Coordinate321 { get { return null; } }
+        public override List<Pos> NormalPoints { get { return null; } }
     }
 
     public class Airfoil : IAirfoil
     {
-        public string Name { get; set; } = "None";
+        public ReactiveProperty<string> Name { get; set; } = new ReactiveProperty<string>("None");
 
-        public ICoordinate Coordinate { get; set; }
-
-        public static int N { get { return 321; } }
-        public List<Pos> Coordinate321 { get { return Coordinate.Coordinate321; } }
-
-        public Distribution Camber
-        {
-            get
-            {
-                var result = new List<Pos>();
-                for(int i=0; i<160; i++)
-                {
-                    result.Insert(0, new Pos(Coordinate321[i].x, (Coordinate321[i].y + Coordinate321[320 - i].y)/2));
-                }
-                return null;
-            }
-        }
-
-        public double MaxThickness
-        {
-            get
-            {
-                double result = 0;
-                const int N = 160;
-                for (int i = 0; i < N; i++)
-                {
-                    double temp = Coordinate321[i].y - Coordinate321[Coordinate321.Count - i - 1].y;
-
-                    if (temp > result)
-                    {
-                        result = temp;
-                    }
-                }
-                return result;
-            }
-        }
-
-        public double AtMaxThickness
-        {
-            get
-            {
-                double result = 0;
-                const int N = 160;
-                for (int i = 0; i < N; i++)
-                {
-                    double temp = Coordinate321[i].y - Coordinate321[Coordinate321.Count - i - 1].y;
-
-                    if (temp > result)
-                    {
-                        result = (double)i / N;
-                    }
-                }
-                return result;
-            }
-        }
-
-        public double MaxCamber
-        {
-            get
-            {
-                double result = 0;
-                const int N = 160;
-                for (int i = 0; i < N; i++)
-                {
-                    double temp = Coordinate321[i].y + Coordinate321[Coordinate321.Count - i - 1].y;
-                    temp /= 2;
-                    if (temp > result)
-                    {
-                        result = temp;
-                    }
-                }
-                return result;
-            }
-        }
-
-        //TODO
-        public double AtMaxCamber
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public double yValue(double xPos, int AirfoilSide)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Pos yValue(Pos x, int AirfoilSide)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static Airfoil Lerp(Airfoil A,Airfoil B,double rate)
-        {
-            var result = new Airfoil();
-
-            result.Coordinate = new SeligCoordinate();
-            for (int i = 0; i < A.Coordinate321.Count; i++)
-            {
-                result.Coordinate.Coordinate.Add(new Pos(A.Coordinate321[i].x, Cal.Lerp(A.Coordinate321[i].y, B.Coordinate321[i].y, rate)));
-            }
-
-            return result;
-        }
-
-        public double Area
-        {
-            get
-            {
-                return Coordinate321.Diff((x, y) => Pos.CrossProduct(x, y)).Sum(x => x.Entry[3] / 2);
-            }
-        }
-
-        public double ArcLength
-        {
-            get
-            {
-                return Coordinate321.Diff((x, y) => (Pos)x.DirectionVector(y)).Sum(x => x.Magnitude);
-            }
-        }
-        /// <summary>
-        /// 翼型の幾何中心
-        /// </summary>
-        public Pos Centroid {
-            get
-            {
-                Pos result = new Pos();
-
-                for(int i=0; i<Coordinate321.Count-1; i++)
-                {
-                    result += Pos.CrossProduct(Coordinate321[i], Coordinate321[i + 1]).Entry[3] *
-                        (Coordinate321[i + 1] + Coordinate321[i])  / 6;
-                }
-                result /= Area;
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// 原点を中心とした慣性行列
-        /// </summary>
-        public Matrix InertiaMatrix
-        {
-            get
-            {
-                Matrix result = new Matrix(3, 3);
-                double Ixx = 0;
-                double Ixy = 0;
-                double Iyy = 0;
-                for (int i = 0; i < Coordinate321.Count - 1; i++)
-                {
-                    Pos diff = Coordinate321[i + 1] - Coordinate321[i];
-                    Pos Avg = Coordinate321[i + 1] + Coordinate321[i] / 2;
-
-                    //ストークスの定理からそれぞれ求められる
-                    double dArea = Avg.y * diff.x;
-                    Ixx += Avg.x * Avg.x * dArea;
-                    Ixy += Avg.x * Avg.y * dArea / 2;
-                    Iyy += Avg.y * Avg.y * dArea / 3;
-                }
-                result.Entry = new double[3, 3]
-                    {
-                        { Ixx, Ixy, 0 },
-                        { Ixy, Iyy, 0 },
-                        { 0, 0, 0 }
-                    };
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// 重心を中心とした慣性行列
-        /// </summary>
-        public Matrix PrincipalInertiaMatrix
-        {
-            get
-            {
-                Matrix result = InertiaMatrix;
-                result.Entry[0, 0] -= Centroid.x * Centroid.x * Area;
-                result.Entry[0, 1] -= Centroid.x * Centroid.y * Area;
-                result.Entry[1, 0] = result.Entry[0, 1];
-                result.Entry[1, 1] -= Centroid.y * Centroid.y * Area;
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// 主慣性軸
-        /// </summary>
-        public Pos PrincipalAxisAngle
-        {
-            get {
-                throw new NotImplementedException();
-                return null;
-            }
-        }
+        public AirfoilCoordinate Coordinate { get; set; } = new SeligCoordinate();
+        public AirfoilPerformance AirfoilPerformance { get; set; } = new AirfoilPerformance();
     }
 
 
 }
+

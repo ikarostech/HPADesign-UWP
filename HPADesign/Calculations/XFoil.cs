@@ -40,7 +40,7 @@ namespace HPADesign.Calculations
     public class XFoilAnalyzer
     {
         public XFoil Parent { get; }
-        private int N { get { return Parent.CurrentFoil.Coordinate321.Count; } }
+        private int N { get { return Parent.CurrentFoil.Coordinate.N; } }
         public double Alpha { get; set; }
         private double _mach;
         public double Mach
@@ -73,10 +73,10 @@ namespace HPADesign.Calculations
         {
             get
             {
-                var result = new List<Pos>(Parent.CurrentFoil.Coordinate321.Count + 1);
+                var result = new List<Pos>(Parent.CurrentFoil.Coordinate.NormalPoints.Count + 1);
                 for (int i = 0; i < result.Count; i++)
                 {
-                    result[i] = Qinf * Parent.CurrentFoil.Coordinate321[i].Inverse();
+                    result[i] = Qinf * Parent.CurrentFoil.Coordinate.NormalPoints[i].Inverse();
                 }
                 result[result.Count] = new Pos(0, 0);
                 return result;
@@ -105,7 +105,7 @@ namespace HPADesign.Calculations
         {
             get
             {
-                int N = Parent.CurrentFoil.Coordinate321.Count;
+                int N = Parent.CurrentFoil.Coordinate.NormalPoints.Count;
                 var result = new Matrix(N, N);
                 Vector dzdg = new Vector(N);
                 Vector dzdn = new Vector(N);
@@ -113,7 +113,7 @@ namespace HPADesign.Calculations
                 Vector dzdm = new Vector(N);
                 Vector dqdm = new Vector(N);
 
-                List<Pos> r = Parent.CurrentFoil.Coordinate321
+                List<Pos> r = Parent.CurrentFoil.Coordinate.NormalPoints
                     .Select(x => x - new Pos(1, 0))
                     .ToList();
 
@@ -140,7 +140,7 @@ namespace HPADesign.Calculations
             {
                 for (int j = 0; j < N; j++)
                 {
-                    if (Parent.CurrentFoil.Coordinate321[j].Equals(Parent.CurrentFoil.Coordinate321[(j + 1) % N]))
+                    if (Parent.CurrentFoil.Coordinate.NormalPoints[j].Equals(Parent.CurrentFoil.Coordinate.NormalPoints[(j + 1) % N]))
                     {
                         continue;
                     }
@@ -192,20 +192,20 @@ namespace HPADesign.Calculations
 
             C_L = 0;
             C_M = 0;
-
+            /*
             Vector cginc = qvis.Map(x => { return 1.0 - Math.Pow(x / Qinf, 2); });
             Vector cpg = cginc.Map(x => { return x / (beta + bfac * x); });
-
-            for (int i = 0; i < CurrentFoil.Coordinate321.Count - 1; i++)
+            
+            for (int i = 0; i < CurrentFoil.Coordinate.NormalPoints.Count - 1; i++)
             {
-                Pos diff = CurrentFoil.Coordinate321[i + 1] - CurrentFoil.Coordinate321[i];
+                Pos diff = CurrentFoil.Coordinate.NormalPoints[i + 1] - CurrentFoil.Coordinate.NormalPoints[i];
                 Pos ds = diff.Rotation2DVector(-Alpha);
                 double cpgAvg = (cpg[i + 1] - cpg[i]) / 2;
 
                 C_L += ds.x * cpgAvg;
                 //C_M -= Pos.InnerProduct(ds, )
             }
-
+            */
         }
         List<double> q { get; set; }
         List<double> C_P { get; set; }
@@ -247,7 +247,7 @@ namespace HPADesign.Calculations
         private List<Pos> gammaU {
             get
             {
-                var result = new List<Pos>(Airfoil.N);
+                var result = new List<Pos>(Foil.Coordinate.N);
                 return result;
             }
          }
@@ -308,12 +308,12 @@ namespace HPADesign.Calculations
             double bfac = 0;
 
             Vector cginc = new Vector(gamma.Select(x => { return 1.0 - Math.Pow(x / Qinf, 2); }).ToList());
-            Vector cpg = cginc.Map(x => { return x / (beta + bfac * x); });
+            Vector cpg = new Vector(3);// = cginc.Map(x => { return x / (beta + bfac * x); });
             Pos Ref = new Pos(0.25, 0);
-            for (int i = 0; i < Airfoil.N - 1; i++)
+            for (int i = 0; i < Foil.Coordinate.N - 1; i++)
             {
-                Pos diff = Foil.Coordinate321[i + 1] - Foil.Coordinate321[i];
-                Pos avg = Foil.Coordinate321[i + 1] + Foil.Coordinate321[i] / 2;
+                Pos diff = Foil.Coordinate.NormalPoints[i + 1] - Foil.Coordinate.NormalPoints[i];
+                Pos avg = Foil.Coordinate.NormalPoints[i + 1] + Foil.Coordinate.NormalPoints[i] / 2;
                 Pos ds = diff.Rotation2DVector(-Alpha);
                 double cpgDiff = (cpg[i + 1] - cpg[i]);
                 double cpgAvg = (cpg[i + 1] + cpg[i]) / 2;
@@ -344,7 +344,7 @@ namespace HPADesign.Calculations
             */
 
             //cpcalc(n,qinv,qinf,minf,cpi)
-            Vector cpi = new Vector(Airfoil.N);
+            Vector cpi = new Vector(Foil.Coordinate.N);
             //beta = (1-minf*minf) ^ 0.5 (前の処理で定義済み)
 
             //bfac
@@ -355,13 +355,15 @@ namespace HPADesign.Calculations
                 double den = beta + bfac * cpinc;
                 return cpinc / den;
             }).ToList());
-            Vector cpv = new Vector(Airfoil.N);
+            Vector cpv = new Vector(Foil.Coordinate.N);
+            /*
             cpv = new Vector(Qvis.Select(x =>
             {
                 double cpvnc = 1 - Math.Pow(x / Qinf, 2);
                 double den = beta + bfac * cpvnc;
                 return cpvnc / den;
             }).ToList());
+            */
         }
 
         //iterationを開始

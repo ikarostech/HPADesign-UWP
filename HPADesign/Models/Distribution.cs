@@ -1,17 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using HPADesign.Calculations;
+using System;
+using System.Collections.Generic;
 
 
 namespace HPADesign.Models
 {
-    
+    public interface IDistribution
+    {
+        Pos Max { get; }
+        Pos Min { get; }
+        List<Pos> Data { get; set; }
+        Pos Value(double x);
+        Pos dydx(double x);
+    }
+
     /// <summary>
     /// 座標点に関する演算を定義します。
     /// </summary>
     /// <summary>
     /// 分布を保管し、自動で線形補完します
     /// </summary>
-    public class Distribution
+    public class Distribution : IDistribution
     {
+        public Distribution(List<Pos> data)
+        {
+            Data = data;
+        }
+        public Distribution()
+        {
+
+        }
         /// <summary>
         /// 座標点データ
         /// </summary>
@@ -67,6 +85,22 @@ namespace HPADesign.Models
                 }
             }
             return result;
+        }
+
+        private IOptimizer optimizer;
+        public Pos Max
+        {
+            get
+            {
+                return optimizer.Optimize();
+            }
+        }
+        public Pos Min
+        {
+            get
+            {
+                return optimizer.Optimize();
+            }
         }
     }
     

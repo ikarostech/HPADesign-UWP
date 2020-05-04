@@ -1,5 +1,4 @@
 ﻿using HPADesign.Models.Component;
-using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Linq;
@@ -50,6 +49,7 @@ namespace HPADesign.Models.Component
             {
                 var wr = new Rib();
                 wr.Chord.Value = 1200;
+                
                 Ribs.AddOnScheduler(wr);
             }
         }

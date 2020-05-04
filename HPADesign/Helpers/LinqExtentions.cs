@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HPADesign.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,16 @@ namespace HPADesign.Helpers
             for (int i = 0; i < source.Count - 1; i++)
             {
                 result.Add(f(source[i + 1], source[i]));
+            }
+            return result;
+        }
+
+        public static Pos Sum(this List<Pos> source)
+        {
+            var result = new Pos();
+            for(int i=0; i<source.Count; i++)
+            {
+                result += source[i];
             }
             return result;
         }

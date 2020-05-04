@@ -6,11 +6,11 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Prism.Mvvm;
+
 
 namespace HPADesign.ViewModels
 {
-    public class ConceptViewModel : BindableBase
+    public class ConceptViewModel
     {
         public ReactiveProperty<double> TheoricalSpeed { get; set; } = new ReactiveProperty<double>(10);
 
@@ -28,7 +28,7 @@ namespace HPADesign.ViewModels
         //Bindingの初期設定など
         public ConceptViewModel()
         {
-            PartWings = Project.Plane.Wing.Value.PartWings.ToReadOnlyReactiveCollection();
+            PartWings = Project.Plane.Wing.PartWings.ToReadOnlyReactiveCollection();
 
             
             AddWingSection.Subscribe(_ =>
@@ -42,7 +42,7 @@ namespace HPADesign.ViewModels
             PartWing pw = new PartWing();
             pw.Length.Value = 3000;
             pw.RibCount.Value = 10;
-            Project.Plane.Wing.Value.PartWings.Add(pw);
+            Project.Plane.Wing.PartWings.Add(pw);
         }
     }
 }

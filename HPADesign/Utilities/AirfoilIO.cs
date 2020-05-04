@@ -8,9 +8,12 @@ using HPADesign.Models;
 
 namespace HPADesign.Utilities
 {
-    interface ICoordinateDetect
+    /// <summary>
+    /// TODO
+    /// </summary>
+    interface IAirfoilCoordinateDetect
     {
-        ICoordinate Detect();
+        AirfoilCoordinate Detect();
         void Close();
     }
     interface IAirfoilRead
@@ -22,7 +25,7 @@ namespace HPADesign.Utilities
     {
         
     }
-    public class CoordinateDetector : ICoordinateDetect
+    public class CoordinateDetector : IAirfoilCoordinateDetect
     {
         StreamReader sr;
         string file;
@@ -35,7 +38,7 @@ namespace HPADesign.Utilities
             sr = new StreamReader(stream);
             file = sr.ReadToEnd();
         }
-        public ICoordinate Detect()
+        public AirfoilCoordinate Detect()
         {
             string[] datstring = file.Split(' ');
             for (int i = 0; i < datstring.Length; i++)
@@ -96,10 +99,9 @@ namespace HPADesign.Utilities
 
         public Airfoil Read()
         {
-            
             var detector = new CoordinateDetector(file);
             var result = new Airfoil();
-            result.Name = name;
+            result.Name.Value = name;
             result.Coordinate = detector.Detect();
             detector.Close();
 
@@ -125,7 +127,7 @@ namespace HPADesign.Utilities
             {
                 Coordinate.Add(new Pos(posraw[2*i], posraw[2*i + 1]));
             }
-            result.Coordinate.Coordinate = Coordinate;
+            result.Coordinate.Points = Coordinate;
             return result;
         }
         public void Close()
