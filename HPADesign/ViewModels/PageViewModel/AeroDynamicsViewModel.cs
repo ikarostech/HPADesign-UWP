@@ -20,11 +20,7 @@ namespace HPADesign.ViewModels
         public ReadOnlyReactiveCollection<PartWingViewModel> PartWings { get; set; }
         public CollectionViewSource Ribs { get; set; }
         public ReadOnlyReactiveCollection<RibViewModel> RibGraph { get; set; }
-        /// <summary>
-        /// DataGridのバグでGroup化されたComponentが更新されないので更新用のCommandを別に用意
-        /// </summary>
-        
-        //public ReactiveProperty<CollectionViewSource> Ribs { get; set; }
+        public ReadOnlyReactiveCollection<Airfoil> Airfoils { get; set; }
 
         public AeroDynamicsViewModel()
         {
@@ -34,12 +30,14 @@ namespace HPADesign.ViewModels
             Ribs.IsSourceGrouped = true;
             Ribs.Source = Project.Plane.Wing.PartWings.ToReadOnlyReactiveCollection(x => new PartWingViewModel(x) );
             Ribs.ItemsPath = new Windows.UI.Xaml.PropertyPath("Ribs");
-            
+
+            Airfoils = Project.Airfoil.ToReadOnlyReactiveCollection();
         }
 
         public void Test()
         {
             var test = Ribs.View;
+            var test1 = Ribs.View[0];
             Console.WriteLine(test);
         }
 

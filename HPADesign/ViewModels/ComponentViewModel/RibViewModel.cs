@@ -18,22 +18,17 @@ namespace HPADesign.ViewModels.ComponentViewModel
             rib.Airfoil = new Airfoil();
             Chord = rib.Chord.ToReactiveProperty();
             Lrho = rib.Chord.CombineLatest(rib.Airfoil.AirfoilPerformance.CL, (x, y) => x * y).ToReactiveProperty();
-            rib.Airfoil.AirfoilPerformance.CL.Value = 1.1;
-
-            CL = rib.Airfoil.AirfoilPerformance.CL.ToReactiveProperty();
-            CD = rib.Airfoil.AirfoilPerformance.CD.ToReactiveProperty();
-            CM = rib.Airfoil.AirfoilPerformance.CM.ToReactiveProperty();
-
-            AirfoilName = rib.Airfoil.Name.ToReactiveProperty();
-            //CD = rib.Airfoil.Value.AirfoilPerformance.Value.CD.ToReactiveProperty();
+            
+            Airfoil = ReactiveProperty.FromObject(rib, x => x.Airfoil);
+            Airfoils = Project.Airfoil.ToReadOnlyReactiveCollection();
         }
-
+        public ReactiveProperty<double> GlobalPos { get;set; }
         public ReactiveProperty<int> Chord { get; set; }
-        public ReactiveProperty<string> AirfoilName { get; set; }
-        public ReactiveProperty<double> CL { get; set; }
-        public ReactiveProperty<double> CD { get; set; }
-        public ReactiveProperty<double> CM { get; set; }
-        public ReactiveProperty<double> Lrho { get; set; }
+        public ReactiveProperty<Airfoil> Airfoil { get; set; }
+        
+        //public ReactiveProperty<string> AirfoilName { get; set; }
 
+        public ReactiveProperty<double> Lrho { get; set; }
+        public ReadOnlyReactiveCollection<Airfoil> Airfoils { get; set; }
     }
 }

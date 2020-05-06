@@ -13,7 +13,7 @@ namespace HPADesign.Models.Component
     public interface IComponent
     {
         ReactiveProperty<Component> Parent { get; set; }
-        ReactiveCollection<Component> Children { get; set; }
+        ObservableCollection<Component> Children { get; set; }
 
         ReactiveProperty<string> Name { get; set; }
 
@@ -35,7 +35,7 @@ namespace HPADesign.Models.Component
     public class Component : IComponent
     {
         public ReactiveProperty<Component> Parent { get; set; }
-        public ReactiveCollection<Component> Children { get; set; }
+        public ObservableCollection<Component> Children { get; set; }
 
         public ReactiveProperty<string> Name { get; set; }
 
@@ -46,7 +46,7 @@ namespace HPADesign.Models.Component
         public Component()
         {
             //Parent = new ReactiveProperty<Component>();
-            Children = new ReactiveCollection<Component>();
+            Children = new ObservableCollection<Component>();
             
             GlobalPos.Subscribe( x =>
             {

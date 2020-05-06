@@ -26,17 +26,19 @@ namespace HPADesign.ViewModels
             //addAirfoil.Subscribe(_ => { });
             AirfoilPoints = new ReactiveProperty<PointCollection>();
             AirfoilPoints.Value = new PointCollection();
-            
+            AirfoilList = Project.Airfoil.ToReadOnlyReactiveCollection();
         }
         public async Task AddAirfoil()
         {
             var picker = new Windows.Storage.Pickers.FileOpenPicker();
             picker.FileTypeFilter.Add(".dat");
+            //ファイルを開く
             var files = await picker.PickMultipleFilesAsync();
             foreach (StorageFile file in files)
             {
                 Stream stream = await file.OpenStreamForReadAsync();
-                AirfoilReader ar = new AirfoilReader(stream);
+                string name = file.DisplayName;
+                AirfoilReader ar = new AirfoilReader(stream,name);
                 Airfoil airfoil = ar.Read();
 
                 Project.Airfoil.Add(airfoil);

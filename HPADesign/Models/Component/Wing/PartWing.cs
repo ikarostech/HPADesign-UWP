@@ -44,18 +44,18 @@ namespace HPADesign.Models.Component
 
         private void AutoRibsGenerate()
         {
-            Ribs.ClearOnScheduler();
+            Ribs.Clear();
             for (int i = 0; i < RibCount.Value; i++)
             {
                 var wr = new Rib();
                 wr.Chord.Value = 1200;
                 
-                Ribs.AddOnScheduler(wr);
+                Ribs.Add(wr);
             }
         }
 
         //TODO
-        public ReactiveCollection<Rib> Ribs { get; set; }
+        public ObservableCollection<Rib> Ribs { get; set; }
         
 
         public PartWing()

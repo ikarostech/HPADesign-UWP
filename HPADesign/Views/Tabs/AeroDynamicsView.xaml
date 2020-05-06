@@ -11,13 +11,27 @@
     d:DesignHeight="700"
     d:DesignWidth="1200" Background="White">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="RibTable" Source="{x:Bind aerodynamicsviewmodel.PartWings}" IsSourceGrouped="True" ItemsPath="Ribs" >
-
-        </CollectionViewSource>
+        <CollectionViewSource x:Key="Airfoils" Source="{x:Bind aerodynamicsviewmodel.Airfoils}" />
     </UserControl.Resources>
     <Grid Height="Auto" Width="Auto" Background="White" >
+        
+        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs.View ,Mode=OneWay}"  AutoGenerateColumns="False" Margin="14,9,465,351" >
+            <Custom:DataGrid.Columns>
+                <Custom:DataGridTextColumn Header="翼弦長" Binding="{Binding Chord.Value, Mode=TwoWay}" />
+                
+                <Custom:DataGridTemplateColumn Header="翼型" Width="80">
 
-        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs.View }"  AutoGenerateColumns="True" Margin="14,9,465,351" >
+                    <Custom:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Width="70" DisplayMemberPath="Name.Value" SelectedItem="{Binding Airfoil.Value,Mode=TwoWay}" ItemsSource="{Binding Airfoils}" />
+                        </DataTemplate>
+                    </Custom:DataGridTemplateColumn.CellTemplate>
+                </Custom:DataGridTemplateColumn>
+                <Custom:DataGridTextColumn Header="CL" Binding="{Binding Airfoil.Value.AirfoilPerformance.CL.Value,Mode=TwoWay}" IsReadOnly="True"/>
+                <Custom:DataGridTextColumn Header="CD" Binding="{Binding Airfoil.Value.AirfoilPerformance.CD.Value,Mode=TwoWay}" IsReadOnly="True"/>
+                <Custom:DataGridTextColumn Header="CM" Binding="{Binding Airfoil.Value.AirfoilPerformance.CM.Value,Mode=TwoWay}" IsReadOnly="True"/>
+            </Custom:DataGrid.Columns>
+            
             <!--
             <Custom:DataGrid.Columns>
 
@@ -42,12 +56,12 @@
         <TextBlock HorizontalAlignment="Left" Height="32" Margin="20,415,0,0" Text="主翼揚力" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" FontSize="20"/>
         <TextBlock HorizontalAlignment="Left" Height="32" Margin="20,445,0,0" Text="主翼抗力" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" FontSize="20"/>
         <lvc:CartesianChart Margin="31,507,639,10" >
-            <lvc:CartesianChart.AxisX>
+            <!--<lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="翼根からの距離" />
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="揚力線密度"/>
-            </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart.AxisY>-->
         </lvc:CartesianChart>
         <lvc:CartesianChart Margin="600,507,70,10"/>
         <Button Content="Button" Height="79" Margin="1077,349,0,0" VerticalAlignment="Top" Width="113" Click="{x:Bind aerodynamicsviewmodel.Test}"/>

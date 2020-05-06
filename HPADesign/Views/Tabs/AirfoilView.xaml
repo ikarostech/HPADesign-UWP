@@ -14,8 +14,15 @@
 
         <Custom:DataGrid Height="200" Width="400" ItemsSource="{x:Bind airfoilviewmodel.AirfoilList}" AutoGenerateColumns="False">
             <Custom:DataGrid.Columns>
-                <Custom:DataGridTextColumn Header="名前" Binding="{Binding Name}" />
-
+                <Custom:DataGridTextColumn Header="名前" Binding="{Binding Name.Value}" />
+                <Custom:DataGridTemplateColumn Header="CL">
+                    <Custom:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding AirfoilPerformance.CL.Value,Mode=TwoWay}" />
+                        </DataTemplate>
+                    </Custom:DataGridTemplateColumn.CellTemplate>
+                </Custom:DataGridTemplateColumn>
+                
             </Custom:DataGrid.Columns>
         </Custom:DataGrid>
         <Polygon Stroke="Red" Margin="200,400"  Points="{x:Bind airfoilviewmodel.AirfoilPoints.Value,Mode=TwoWay}"/>

@@ -250,6 +250,8 @@ namespace HPADesign.Models
 
         public AirfoilCoordinate Coordinate { get; set; } = new SeligCoordinate();
         public AirfoilPerformance AirfoilPerformance { get; set; } = new AirfoilPerformance();
+
+        
     }
 
 

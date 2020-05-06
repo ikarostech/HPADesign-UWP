@@ -87,7 +87,7 @@ namespace HPADesign.Utilities
             this.name = sr.ReadLine();
             this.file = sr.ReadToEnd();
         }
-        public AirfoilReader(Stream stream)
+        public AirfoilReader(Stream stream,string name)
         {
             
             //stream.CopyTo(this.stream);
