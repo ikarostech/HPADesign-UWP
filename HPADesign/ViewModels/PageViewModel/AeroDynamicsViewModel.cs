@@ -17,18 +17,20 @@ namespace HPADesign.ViewModels
     /// </summary>
     public class AeroDynamicsViewModel
     {        
-        public ReadOnlyReactiveCollection<PartWingViewModel> PartWings { get; set; }
+        
         public CollectionViewSource Ribs { get; set; }
+        public ReadOnlyReactiveCollection<PartWingViewModel> PartWingViewModels { get; set; }
         public ReadOnlyReactiveCollection<RibViewModel> RibGraph { get; set; }
         public ReadOnlyReactiveCollection<Airfoil> Airfoils { get; set; }
 
         public AeroDynamicsViewModel()
         {
-            //PartWings = Project.Plane.Wing.Value.PartWings.ToReadOnlyReactiveCollection( x => new PartWingViewModel(x) );
-
             Ribs = new CollectionViewSource();
+            PartWingViewModels = Project.Plane.Wing.PartWings.ToReadOnlyReactiveCollection(x => new PartWingViewModel(x));
+            
             Ribs.IsSourceGrouped = true;
-            Ribs.Source = Project.Plane.Wing.PartWings.ToReadOnlyReactiveCollection(x => new PartWingViewModel(x) );
+            Ribs.Source = Project.Plane.Wing.PartWings.ToReadOnlyReactiveCollection(x => new PartWingViewModel(x));
+            
             Ribs.ItemsPath = new Windows.UI.Xaml.PropertyPath("Ribs");
 
             Airfoils = Project.Airfoil.ToReadOnlyReactiveCollection();
@@ -36,7 +38,7 @@ namespace HPADesign.ViewModels
 
         public void Test()
         {
-            var test = Ribs.View;
+            var test = Ribs;
             var test1 = Ribs.View[0];
             Console.WriteLine(test);
         }

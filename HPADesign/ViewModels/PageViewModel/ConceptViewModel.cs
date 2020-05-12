@@ -6,7 +6,7 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using System.Threading.Tasks;
 
 namespace HPADesign.ViewModels
 {
@@ -19,8 +19,6 @@ namespace HPADesign.ViewModels
         //public ReadOnlyReactiveCollection<PartWing> PartWings { get; set; }
         public ReactiveProperty<int> SelectedItem { get; set; }
 
-        
-
         public ReactiveCommand ReadFoil { get; set; }
         public ReactiveCommand AddWingSection { get; set; } = new ReactiveCommand();
         public ReactiveCommand DelWingSection { get; set; }
@@ -28,13 +26,7 @@ namespace HPADesign.ViewModels
         //Bindingの初期設定など
         public ConceptViewModel()
         {
-            PartWings = Project.Plane.Wing.PartWings.ToReadOnlyReactiveCollection();
-
-            
-            AddWingSection.Subscribe(_ =>
-            {
-                AddPartWing();
-            });
+            PartWings = Project.Plane.Wing.PartWings.ToReadOnlyReactiveCollection();            
         }
 
         public void AddPartWing()
@@ -42,7 +34,9 @@ namespace HPADesign.ViewModels
             PartWing pw = new PartWing();
             pw.Length.Value = 3000;
             pw.RibCount.Value = 10;
-            Project.Plane.Wing.PartWings.Add(pw);
+
+            Project.Plane.Wing.PartWings.Add(pw);     
+            
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System;
+using System.Threading.Tasks;
 
 namespace HPADesign.Models.Component
 {
@@ -48,14 +49,19 @@ namespace HPADesign.Models.Component
             for (int i = 0; i < RibCount.Value; i++)
             {
                 var wr = new Rib();
-                wr.Chord.Value = 1200;
-                
+                wr.Chord.Value = MaxChord.Value - (MaxChord.Value - MinChord.Value) * i / (RibCount.Value -1) ;
+                /*
+                Task.Run(() =>
+                {
+                    Ribs.AddOnScheduler(wr);
+                });
+                */
                 Ribs.Add(wr);
             }
         }
 
         //TODO
-        public ObservableCollection<Rib> Ribs { get; set; }
+        public ReactiveCollection<Rib> Ribs { get; set; }
         
 
         public PartWing()

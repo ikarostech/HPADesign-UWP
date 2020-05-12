@@ -9,23 +9,20 @@
     mc:Ignorable="d"
     d:DesignWidth="1200" Height="700">
 
-    <Grid Height="Auto" Width="1200" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Button Height="53" Width="53" Content="Add" VerticalAlignment="Top" Click="{x:Bind airfoilviewmodel.AddAirfoil}" Margin="296,126,0,0"/>
+    <Grid Height="700" Width="1200" VerticalAlignment="Center" HorizontalAlignment="Center" Background="White">
+        <Button Height="53" Width="53" FontSize="24" Content="+" VerticalAlignment="Top" Click="{x:Bind airfoilviewmodel.AddAirfoil}" Margin="296,126,0,0"/>
 
-        <Custom:DataGrid Height="200" Width="400" ItemsSource="{x:Bind airfoilviewmodel.AirfoilList}" AutoGenerateColumns="False">
+        <Custom:DataGrid Height="200" Width="400" SelectedItem="{x:Bind airfoilviewmodel.SelectedAirfoil.Value,Mode=TwoWay}" ItemsSource="{x:Bind airfoilviewmodel.AirfoilList}" AutoGenerateColumns="False">
             <Custom:DataGrid.Columns>
                 <Custom:DataGridTextColumn Header="名前" Binding="{Binding Name.Value}" />
-                <Custom:DataGridTemplateColumn Header="CL">
-                    <Custom:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding AirfoilPerformance.CL.Value,Mode=TwoWay}" />
-                        </DataTemplate>
-                    </Custom:DataGridTemplateColumn.CellTemplate>
-                </Custom:DataGridTemplateColumn>
-                
+                <Custom:DataGridTextColumn Header="CL" Binding="{Binding AirfoilPerformance.CL.Value, Mode=TwoWay}" IsReadOnly="False"/>
+                <Custom:DataGridTextColumn Header="CD" Binding="{Binding AirfoilPerformance.CD.Value, Mode=TwoWay}" IsReadOnly="False"/>
+                <Custom:DataGridTextColumn Header="CM" Binding="{Binding AirfoilPerformance.CM.Value, Mode=TwoWay}" IsReadOnly="False"/>
             </Custom:DataGrid.Columns>
         </Custom:DataGrid>
-        <Polygon Stroke="Red" Margin="200,400"  Points="{x:Bind airfoilviewmodel.AirfoilPoints.Value,Mode=TwoWay}"/>
+        <TextBlock Text="Preview" Margin="800,330,296,336" />
+        <Polygon Stroke="Red" Width="400" Height="300" Points="{x:Bind airfoilviewmodel.AirfoilPoints.Value,Mode=TwoWay}" Margin="745,372,55,28"/>
+        
 
     </Grid>
 </UserControl>

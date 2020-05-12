@@ -9,31 +9,29 @@ namespace HPADesign.Models
 {
     public interface ICoordinate
     {
-
         List<Pos> Points { get; set; }
-        double Area { get; }
-        double ArcLength { get; }
-
+        List<double> Arc { get; }
     }
     /// <summary>
     /// 凹箇所がない
     /// </summary>
-    public class Coordinate : ICoordinate
+    public class Coordinate : Shape2D, ICoordinate
     {
         public List<Pos> Points { get; set; }
-        public double Area
+        public override double Area
         {
             get
             {
-                return Points.Diff((x, y) => Pos.CrossProduct(x, y)).Sum(x => x[3]) / 2;
+                return Points.DiffLoop((u, w) => (w.y + u.y) * (w.x - u.x)).Sum() / 2;
             }
         }
+        
 
-        public double ArcLength
+        public List<double> Arc
         {
             get
             {
-                return Points.Diff((x, y) => (Pos)x.DirectionVector(y)).Sum(x => x.Magnitude);
+                return Points.DiffLoop((x, y) => x.DirectionVector(y).Magnitude).ToList();
             }
         }
         /// <summary>
@@ -50,7 +48,10 @@ namespace HPADesign.Models
                 return result;
             }
         }
-
+        public override Pos GravityCenter
+        {
+            get { return Centroid; }
+        }
         /// <summary>
         /// 原点を中心とした慣性行列
         /// </summary>
@@ -108,6 +109,23 @@ namespace HPADesign.Models
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public override string Print()
+        {
+            var content = new List<KeyValuePair<int, string>>();
+            content.Add(new KeyValuePair<int, string>(0, "POLYLINE"));
+            content.Add(new KeyValuePair<int, string>(8, "0"));
+            content.Add(new KeyValuePair<int, string>(66, "1"));
+            content.Add(new KeyValuePair<int, string>(70, "1"));
+
+            
+            content.Add(new KeyValuePair<int, string>(0 ,"SEQEND"));
+            content.Add(new KeyValuePair<int, string>(8, "0"));
+            string result = "";
+            
+            
+            return result;
         }
     }
 }

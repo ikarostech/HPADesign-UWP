@@ -55,10 +55,11 @@ namespace HPADesign.Calculations
         public VLM(Wing wing)
         {
             //パネルデータ生成
+            /*
             Pos rf, rr, tf, tr;
 
             double yk, ck, osk, dk, ak, xnumk, ynumk, dam0, dam1, dam2, ykp1, ckp1, oskp1, dkp1, akp1, xnumkp1, ynumkp1;
-
+            */
             
         }
 

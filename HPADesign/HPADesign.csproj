@@ -11,20 +11,26 @@
     <AssemblyName>HPADesign</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateKeyFile>HPADesign_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>
+    </PackageCertificateKeyFile>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>8D4C2A1D7F82A9A0E48F6C3491A2A5B6ACDD9057</PackageCertificateThumbprint>
-    <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>42493F1EF735567326B63B8B9A8B140E4ED56B70</PackageCertificateThumbprint>
+    <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <AppInstallerUri>https://hpadesign.s3-ap-northeast-1.amazonaws.com/HPADesign_0.2.0.0_x64_Debug.appxsym</AppInstallerUri>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -138,26 +144,26 @@
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
     <Compile Include="BackgroundTasks\BackgroundTask.cs" />
-    <Compile Include="BackgroundTasks\BackgroundTask1.cs" />
     <Compile Include="Calculations\Optimizer.cs" />
     <Compile Include="Calculations\Solver.cs" />
     <Compile Include="Calculations\TR797.cs" />
     <Compile Include="Calculations\VLM.cs" />
     <Compile Include="Calculations\XFoil.cs" />
+    <Compile Include="Helpers\DXF.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\LinqExtentions.cs" />
     <Compile Include="Helpers\Observable.cs" />
+    <Compile Include="IO\DXFIO.cs" />
     <Compile Include="Models\Component\Component.cs" />
     <Compile Include="Models\Component\Material.cs" />
     <Compile Include="Models\Component\Wing\PartWing.cs" />
     <Compile Include="Models\Component\Plane.cs" />
     <Compile Include="Models\Component\Propeller.cs" />
     <Compile Include="Models\Concept.cs" />
-    <Compile Include="Models\Coordinate.cs" />
+    <Compile Include="Models\Shape\Coordinate.cs" />
     <Compile Include="Models\Performance.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Component\Wing\Rib.cs" />
-    <Compile Include="Services\PointCollectionConverter.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
@@ -165,11 +171,12 @@
     <Compile Include="Models\Distribution.cs" />
     <Compile Include="Models\Cal.cs" />
     <Compile Include="Models\Pos.cs" />
+    <Compile Include="Models\Shape\Shape.cs" />
     <Compile Include="Models\Structure.cs" />
     <Compile Include="Models\Component\Wing\Wing.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
-    <Compile Include="Utilities\AirfoilIO.cs" />
+    <Compile Include="IO\AirfoilIO.cs" />
     <Compile Include="Services\BackgroundTaskService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Calculations\ToplogyOptimization.cs" />

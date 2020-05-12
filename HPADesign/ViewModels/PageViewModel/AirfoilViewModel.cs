@@ -8,24 +8,36 @@ using HPADesign.Utilities;
 using HPADesign.Helpers;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
-
+using Windows.Foundation;
 
 namespace HPADesign.ViewModels
 {
     class AirfoilViewModel
     {
         public ReadOnlyReactiveCollection<Airfoil> AirfoilList { get; set; }
-        public ReactiveProperty<Airfoil> SelectedAirfoil { get; set; }
+        public ReactiveProperty<Airfoil> SelectedAirfoil { get; set; } = new ReactiveProperty<Airfoil>();
 
-        public ReactiveProperty<PointCollection> AirfoilPoints { get; set; }
+        public ReactiveProperty<PointCollection> AirfoilPoints { get; set; } = new ReactiveProperty<PointCollection>();
 
-        public ReactiveCommand addAirfoil { get; set; }
+        //public ReactiveCommand addAirfoil { get; set; }
 
         public AirfoilViewModel()
         {
             //addAirfoil.Subscribe(_ => { });
-            AirfoilPoints = new ReactiveProperty<PointCollection>();
-            AirfoilPoints.Value = new PointCollection();
+            
+            SelectedAirfoil.Subscribe(x =>
+            {
+                if(x==null)
+                {
+                    return;
+                }
+                AirfoilPoints.Value = new PointCollection();
+                x.Coordinate.NormalPoints.ForEach(point =>
+                {
+                    AirfoilPoints.Value.Add(new Point(50 + 300 * point.x, 150 - 300 * point.y));
+                });
+            });
+            
             AirfoilList = Project.Airfoil.ToReadOnlyReactiveCollection();
         }
         public async Task AddAirfoil()

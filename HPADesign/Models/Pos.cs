@@ -117,6 +117,7 @@ namespace HPADesign.Models
             }
             return result;
         }
+        
 
         public bool is2D { get; set; }
 
@@ -629,12 +630,7 @@ namespace HPADesign.Models
         {
             get
             {
-                double result = 0;
-                for(int i=0; i<N; i++)
-                {
-                    result += Math.Pow(Entry[i], 2);
-                }
-                return result;
+                return Math.Sqrt(Vector.InnerProduct(this, this));
             }
         }
 

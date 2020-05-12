@@ -20,6 +20,7 @@ namespace HPADesign.Models
     public interface IAirfoilCoordinate : ICoordinate
     {
         AirfoilType Type { get; }
+        
         int N { get; set; }
         /// <summary>
         /// Selig形式によるN点からなる翼型データを提供します
@@ -36,7 +37,7 @@ namespace HPADesign.Models
     {
         public abstract AirfoilType Type { get; }
         public abstract List<Pos> NormalPoints { get; }
-        public int N { get; set; }
+        public int N { get; set; } = 161;
 
         public Distribution Upper
         {
@@ -110,7 +111,7 @@ namespace HPADesign.Models
     public class SeligCoordinate : AirfoilCoordinate
     {
         public override AirfoilType Type { get { return AirfoilType.Selig; } }
-        public List<Pos> Coordinate { get; set; }
+        
         
         public override List<Pos> NormalPoints
         {
@@ -122,23 +123,23 @@ namespace HPADesign.Models
                 for (int i = N; i >= 0; i--)
                 {
                     double x = (double)i / N;
-                    while (Coordinate[pr + 1].x > x || Coordinate[pr].x < x)
+                    while (Points[pr + 1].x > x || Points[pr].x < x)
                     {
                         pr++;
                     }
                     //Lerpする
-                    double y = Cal.Lerp(Coordinate[pr], Coordinate[pr + 1], x);
+                    double y = Cal.Lerp(Points[pr], Points[pr + 1], x);
                     result.Add(new Pos(x, y));
                 }
                 for (int i = 1; i <= N; i++)
                 {
                     double x = (double)i / N;
-                    while ((Coordinate[pr + 1].x <= x || Coordinate[pr].x > x) && pr + 2 != Coordinate.Count)
+                    while ((Points[pr + 1].x <= x || Points[pr].x > x) && pr + 2 != Points.Count)
                     {
                         pr++;
                     }
                     //Lerpする
-                    double y = Cal.Lerp(Coordinate[pr], Coordinate[pr + 1], x);
+                    double y = Cal.Lerp(Points[pr], Points[pr + 1], x);
                     result.Add(new Pos(x, y));
                 }
                 return result;
@@ -156,14 +157,14 @@ namespace HPADesign.Models
             //プロパティに直接ぶち込むと正規化されて座標が狂うのでまとめて代入する
             var poses = new List<Pos>();
             int i = 0;
-            for (; i < Coordinate.Count; i++)
+            for (; i < Points.Count; i++)
             {
-                if (Coordinate[i].x < 0.001) break;
-                poses.Insert(0, Coordinate[i]);
+                if (Points[i].x < 0.001) break;
+                poses.Insert(0, Points[i]);
             }
-            for (; i < Coordinate.Count; i++)
+            for (; i < Points.Count; i++)
             {
-                poses.Add(Coordinate[i]);
+                poses.Add(Points[i]);
             }
             result.Points = poses;
             return result;
@@ -183,18 +184,18 @@ namespace HPADesign.Models
                 for (int i = N; i >= 0; i--)
                 {
                     double x = (double)i / N;
-                    while (selig.Coordinate[pr + 1].x > x || selig.Coordinate[pr].x < x)
+                    while (selig.Points[pr + 1].x > x || selig.Points[pr].x < x)
                     {
                         pr++;
                     }
                     //Lerpする
-                    double y = Cal.Lerp(selig.Coordinate[pr], selig.Coordinate[pr + 1], x);
+                    double y = Cal.Lerp(selig.Points[pr], selig.Points[pr + 1], x);
                     result.Add(new Pos(x, y));
                 }
                 for (int i = 1; i <= N; i++)
                 {
                     double x = (double)i / N;
-                    while ((Points[pr + 1].x <= x || selig.Coordinate[pr].x > x) && pr + 2 != Points.Count)
+                    while ((Points[pr + 1].x <= x || selig.Points[pr].x > x) && pr + 2 != Points.Count)
                     {
                         pr++;
                     }
@@ -210,7 +211,7 @@ namespace HPADesign.Models
             var result = new SeligCoordinate();
             int state = 0;
             double tx = Points[0].x;
-            result.Coordinate.Add(Points[0]);
+            result.Points.Add(Points[0]);
             for (int i = 1; i < Points.Count; i++)
             {
                 //state切り替え
@@ -222,11 +223,11 @@ namespace HPADesign.Models
                 //点の補充
                 if (state == 0)
                 {
-                    result.Coordinate.Insert(0, Points[i]);
+                    result.Points.Insert(0, Points[i]);
                 }
                 if (state == 1)
                 {
-                    result.Coordinate.Add(Points[i]);
+                    result.Points.Add(Points[i]);
                 }
                 tx = Points[i].x;
             }
@@ -239,7 +240,7 @@ namespace HPADesign.Models
         {
             get { return AirfoilType.Null; }
         }
-        public List<Pos> Coordinate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        
 
         public override List<Pos> NormalPoints { get { return null; } }
     }

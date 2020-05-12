@@ -19,7 +19,7 @@ namespace HPADesign.Views
     
     public sealed partial class MainPage : Page
     {
-       
+       Airfoil Airfoil { get; set; }
         public MainPage()
         {
             //MainViewModel ViewModel => DataContext as MainViewModel;

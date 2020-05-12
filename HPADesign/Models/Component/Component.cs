@@ -28,7 +28,7 @@ namespace HPADesign.Models.Component
 
         ReactiveProperty<IMaterial> Material { get; set; }
     }
-
+    
     /// <summary>
     /// 
     /// </summary>

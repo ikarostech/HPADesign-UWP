@@ -47,5 +47,14 @@ namespace HPADesignTest
 
             Assert.AreEqual(expect, actual);
         }
+
+        [TestMethod]
+        public void VectorMagnitudeのテスト()
+        {
+            Vector vector = new Vector(new double[] { 12, 4,3 });
+            double expect = 13;
+            double actual = vector.Magnitude;
+            Assert.AreEqual(expect, actual);
+        }
     }
 }

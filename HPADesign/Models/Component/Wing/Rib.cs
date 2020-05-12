@@ -8,6 +8,7 @@ namespace HPADesign.Models.Component
 {
     public class Rib : Component
     {
+        
         /// <summary>
         /// 翼型
         /// </summary>

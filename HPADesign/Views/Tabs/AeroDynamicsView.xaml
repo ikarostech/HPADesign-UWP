@@ -9,27 +9,27 @@
     xmlns:lvc="using:LiveCharts.Uwp"
     mc:Ignorable="d"
     d:DesignHeight="700"
-    d:DesignWidth="1200" Background="White">
+    d:DesignWidth="1200" Background="White"
+    
+    >
     <UserControl.Resources>
-        <CollectionViewSource x:Key="Airfoils" Source="{x:Bind aerodynamicsviewmodel.Airfoils}" />
+        <CollectionViewSource x:Key="RibCollectionView" Source="{x:Bind aerodynamicsviewmodel.PartWingViewModels,Mode=TwoWay}" IsSourceGrouped="True" ItemsPath="Ribs"/>
     </UserControl.Resources>
     <Grid Height="Auto" Width="Auto" Background="White" >
         
-        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs.View ,Mode=OneWay}"  AutoGenerateColumns="False" Margin="14,9,465,351" >
+        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs.View}"  AutoGenerateColumns="False" Margin="14,9,465,351" >
             <Custom:DataGrid.Columns>
                 <Custom:DataGridTextColumn Header="翼弦長" Binding="{Binding Chord.Value, Mode=TwoWay}" />
-                
                 <Custom:DataGridTemplateColumn Header="翼型" Width="80">
-
                     <Custom:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox Width="70" DisplayMemberPath="Name.Value" SelectedItem="{Binding Airfoil.Value,Mode=TwoWay}" ItemsSource="{Binding Airfoils}" />
                         </DataTemplate>
                     </Custom:DataGridTemplateColumn.CellTemplate>
                 </Custom:DataGridTemplateColumn>
-                <Custom:DataGridTextColumn Header="CL" Binding="{Binding Airfoil.Value.AirfoilPerformance.CL.Value,Mode=TwoWay}" IsReadOnly="True"/>
-                <Custom:DataGridTextColumn Header="CD" Binding="{Binding Airfoil.Value.AirfoilPerformance.CD.Value,Mode=TwoWay}" IsReadOnly="True"/>
-                <Custom:DataGridTextColumn Header="CM" Binding="{Binding Airfoil.Value.AirfoilPerformance.CM.Value,Mode=TwoWay}" IsReadOnly="True"/>
+                <Custom:DataGridTextColumn Header="CL" Binding="{Binding Airfoil.Value.AirfoilPerformance.CL.Value}" IsReadOnly="True"/>
+                <Custom:DataGridTextColumn Header="CD" Binding="{Binding Airfoil.Value.AirfoilPerformance.CD.Value}" IsReadOnly="True"/>
+                <Custom:DataGridTextColumn Header="CM" Binding="{Binding Airfoil.Value.AirfoilPerformance.CM.Value}" IsReadOnly="True"/>
             </Custom:DataGrid.Columns>
             
             <!--
