@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\IO\ParamOutTest.cs" />
+    <Compile Include="Models\IO\ShapeOutTest.cs" />
     <Compile Include="Models\PosTest.cs" />
     <Compile Include="Models\XFoilTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

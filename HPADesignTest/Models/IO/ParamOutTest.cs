@@ -25,7 +25,7 @@ namespace HPADesignTest.Models.IO
             param.Add(new KeyValuePair<int, string>(0, "ENDSEC"));
             param.Add(new KeyValuePair<int, string>(0, "EOF"));
 
-            StreamReader sr = new StreamReader("Resource/DxfMin.dxf");
+            StreamReader sr = new StreamReader("Resource/DXF/DxfMin.dxf");
 
             string except = sr.ReadToEnd();
             string actual = DXF.ParamToString(param);
@@ -36,10 +36,10 @@ namespace HPADesignTest.Models.IO
         [TestMethod]
         public void DXFの最小構成を構築()
         {
-            StreamReader sr = new StreamReader("Resource/DxfMin.dxf");
+            StreamReader sr = new StreamReader("Resource/DXF/DxfMin.dxf");
 
             string except = sr.ReadToEnd();
-            string actual = DXF.Header + DXF.Footer;
+            string actual = DXF.Construct(new List<KeyValuePair<int, string>>());
             sr.Close();
             Assert.AreEqual(except, actual, true);
         }

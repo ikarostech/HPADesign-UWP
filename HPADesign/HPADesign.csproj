@@ -154,12 +154,14 @@
     <Compile Include="Helpers\LinqExtentions.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="IO\DXFIO.cs" />
+    <Compile Include="IO\Component\ComponentPrinter.cs" />
     <Compile Include="Models\Component\Component.cs" />
     <Compile Include="Models\Component\Material.cs" />
     <Compile Include="Models\Component\Wing\PartWing.cs" />
     <Compile Include="Models\Component\Plane.cs" />
     <Compile Include="Models\Component\Propeller.cs" />
     <Compile Include="Models\Concept.cs" />
+    <Compile Include="Models\Shape\Circle.cs" />
     <Compile Include="Models\Shape\Coordinate.cs" />
     <Compile Include="Models\Performance.cs" />
     <Compile Include="Models\Project.cs" />

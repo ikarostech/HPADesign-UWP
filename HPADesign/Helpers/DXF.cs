@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HPADesign.IO.Component;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,6 @@ namespace HPADesign.Helpers
                 return ParamToString(param);
             }
         }
-
         private static string Footer
         {
             get
@@ -38,9 +38,18 @@ namespace HPADesign.Helpers
                 return ParamToString(param);
             }
         }
+
         public static string Construct(List<KeyValuePair<int, string>> param)
         {
             return Header + ParamToString(param) + Footer;
+        }
+        private static string Construct(string content)
+        {
+            return Header + content + Footer;
+        }
+        public static string Content(IPrintable printable)
+        {
+            return DXF.Construct(string.Join("", printable.Shapes.Select(x => x.Print()).ToList()));
         }
     }
 }

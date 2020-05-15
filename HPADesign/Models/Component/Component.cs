@@ -12,8 +12,8 @@ namespace HPADesign.Models.Component
 {
     public interface IComponent
     {
-        ReactiveProperty<Component> Parent { get; set; }
-        ObservableCollection<Component> Children { get; set; }
+        //ReactiveProperty<Component> Parent { get; set; }
+        //ObservableCollection<Component> Children { get; set; }
 
         ReactiveProperty<string> Name { get; set; }
 
@@ -34,8 +34,8 @@ namespace HPADesign.Models.Component
     /// </summary>
     public class Component : IComponent
     {
-        public ReactiveProperty<Component> Parent { get; set; }
-        public ObservableCollection<Component> Children { get; set; }
+        public virtual ReactiveProperty<Component> Parent { get; set; }
+        public virtual ObservableCollection<Component> Children { get; set; }
 
         public ReactiveProperty<string> Name { get; set; }
 

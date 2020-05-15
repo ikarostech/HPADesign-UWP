@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HPADesign.Models
+namespace HPADesign.Models.Shape
 {
     public interface ICoordinate
     {
@@ -119,13 +119,20 @@ namespace HPADesign.Models
             content.Add(new KeyValuePair<int, string>(66, "1"));
             content.Add(new KeyValuePair<int, string>(70, "1"));
 
+
+            Points.ForEach(pos =>
+            {
+                content.Add(new KeyValuePair<int, string>(0, "VERTEX"));
+                content.Add(new KeyValuePair<int, string>(8, "0"));
+                content.Add(new KeyValuePair<int, string>(10, pos.x.ToString()));
+                content.Add(new KeyValuePair<int, string>(20, pos.y.ToString()));
+                content.Add(new KeyValuePair<int, string>(30, pos.z.ToString()));
+                
+            });
             
             content.Add(new KeyValuePair<int, string>(0 ,"SEQEND"));
             content.Add(new KeyValuePair<int, string>(8, "0"));
-            string result = "";
-            
-            
-            return result;
+            return DXF.ParamToString(content);
         }
     }
 }

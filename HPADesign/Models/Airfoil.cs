@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using HPADesign.Helpers;
+using HPADesign.Models.Shape;
 using Reactive.Bindings;
 
 namespace HPADesign.Models
 {
-
+    public enum AirfoilSide { Uppder, Downer}
     public enum AirfoilType { Selig, Lednicer, Null }
     public interface IAirfoil
     {

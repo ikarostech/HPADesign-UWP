@@ -1,37 +1,42 @@
 ﻿using HPADesign.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using HPADesign.Helpers;
+using HPADesign.IO.Component;
 
 namespace HPADesign.IO
 {
     public interface IDXFWriter
     {
         //List<Coordinate> Coordinates { get; set; }
-        StorageFile File { get; set; }
+        //StorageFile File { get; set; }
+        void Write(IPrintable printable);
     }
     public interface IPrintableElement
     {
         string Print();
     }
-    public interface IPrintable
-    {
-        List<IPrintableElement> Shapes { get; set; }
-    }
+    
     public class DXFWriter : IDXFWriter
     {
-        public StorageFile File { get; set; }
+        private string path { get; }
         
         public DXFWriter(StorageFile file)
         {
-            this.File = file;
+            path = file.Path;
         }
+        
         public void Write(IPrintable printable)
         {
-            printable.Shapes.Select(async (x) => await FileIO.WriteTextAsync(File,x.Print()));
+            StreamWriter sw = new StreamWriter(path);
+            //sw.Write(DXF.Content(printable));
+            sw.Close();
         }
     }
+    
 }

@@ -18,8 +18,6 @@ namespace HPADesign.Models.Component
 
         public int Id { get; set; }
 
-
-
         public ReactiveProperty<int> Length { get; set; } = new ReactiveProperty<int>();
         //TODO
         public ReactiveProperty<Pos> StartPos { get; set; }
@@ -62,7 +60,9 @@ namespace HPADesign.Models.Component
 
         //TODO
         public ReactiveCollection<Rib> Ribs { get; set; }
-        
+
+        public Plank Plank { get; set; } = new Plank();
+        public ReactiveCollection<Stringer> Stringers { get; set; }
 
         public PartWing()
         {
@@ -81,8 +81,6 @@ namespace HPADesign.Models.Component
             });
 
             DifferentialChord = MaxChord.CombineLatest(MinChord, (x, y) => x - y).ToReactiveProperty();
-
-            
             //Ribs.Add(new WingRib());
 
         }

@@ -18,9 +18,6 @@ namespace HPADesign.Models.Component
         public int RN { get; set; }
         public double Lift { get; set; }
 
-        
-
-        
         public ReactiveProperty<double> CruiseVel { get; set; }
         
         
@@ -59,10 +56,6 @@ namespace HPADesign.Models.Component
         public ReactiveCollection<PartWing> PartWings { get; set; } = new ReactiveCollection<PartWing>();
 
         //TODO
-        public void Update()
-        {
-            
-        }
         
     }
 

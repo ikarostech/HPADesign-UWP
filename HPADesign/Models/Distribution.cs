@@ -87,19 +87,18 @@ namespace HPADesign.Models
             return result;
         }
 
-        private IOptimizer optimizer;
         public Pos Max
         {
             get
             {
-                return optimizer.Optimize();
+                return null;
             }
         }
         public Pos Min
         {
             get
             {
-                return optimizer.Optimize();
+                return null;
             }
         }
     }
