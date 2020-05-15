@@ -4,12 +4,12 @@
 
 ## 実行・開発環境
 Universal Windows Platform build 16299 (Fall Creators Update version 1709)
+
 動作には最新版のWindows 10が必要です
+
 開発には最新版のVisual Studioが必要です
 
 ## なぜ我々はこの環境を使うのか
-プログラマの多くはWindowsのみのサポートに驚かれるでしょう
-これにはいくつかの要因があります。
 
 ### 背景
  - ペルソナとして「機械工学を専攻中の学部1~3年生」を想定している
@@ -19,6 +19,7 @@ Universal Windows Platform build 16299 (Fall Creators Update version 1709)
 
 ### 結論
 まずプログラミングになじみのない人に触っていただくという点からGUIソフトウェアを開発するということ。比較的重い処理を扱うことができるという二点を重視しました。
+
 環境としてJava-Swing, C#-UWP, Python-Tkinter,C++-Visual C++/CLI, MATLABが候補に挙がりました。
 最終的には、既存の航空力学プログラム資産を活用でき、導入コストが低いC#-UWPを使うことになりました。C#-UWPはWindowsのみのサポートですが、SolidWorksをはじめとする機械工学用の専門ソフトがWindowsのみのサポートであることから問題ないと判断いたしました。
 
