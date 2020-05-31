@@ -2,6 +2,9 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{AEF7EB48-3552-4F46-9F78-4DCE35821A0B}</ProjectGuid>
@@ -153,6 +156,7 @@
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\LinqExtentions.cs" />
     <Compile Include="Helpers\Observable.cs" />
+    <Compile Include="Helpers\PriorityQueue.cs" />
     <Compile Include="IO\DXFIO.cs" />
     <Compile Include="IO\Component\ComponentPrinter.cs" />
     <Compile Include="Models\Component\Component.cs" />
@@ -184,6 +188,7 @@
     <Compile Include="Calculations\ToplogyOptimization.cs" />
     <Compile Include="Services\ViewLifetimeControl.cs" />
     <Compile Include="Services\WindowManagerService.cs" />
+    <Compile Include="Test\TestClass.cs" />
     <Compile Include="Utilities\RibGenerator.cs" />
     <Compile Include="ViewModels\ComponentViewModel\PartWingViewModel.cs" />
     <Compile Include="ViewModels\ComponentViewModel\RibViewModel.cs" />

@@ -16,6 +16,7 @@ using HPADesign.Models;
 using HPADesign.ViewModels;
 using LiveCharts.Uwp;
 using LiveCharts;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 // ユーザー コントロールの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=234236 を参照してください
 
@@ -30,6 +31,11 @@ namespace HPADesign.Views.Tabs
             this.InitializeComponent();
             
             DataContext = aerodynamicsviewmodel;
+        }
+
+        private void DataGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout(sender as DataGrid);
         }
     }
 }

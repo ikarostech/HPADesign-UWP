@@ -35,22 +35,22 @@ namespace HPADesign.Models.Component
     public class Component : IComponent
     {
         public virtual ReactiveProperty<Component> Parent { get; set; }
-        public virtual ObservableCollection<Component> Children { get; set; }
+        public virtual ComponentCollection<Component> Children { get; set; }
 
         public ReactiveProperty<string> Name { get; set; }
 
-        public ReactiveProperty<Pos> GlobalPos { get; set; } = new ReactiveProperty<Pos>();
-        public ReactiveProperty<Pos> LocalPos { get; set; } = new ReactiveProperty<Pos>();
+        public ReactiveProperty<Pos> GlobalPos { get; set; } = new ReactiveProperty<Pos>(new Pos());
+        public ReactiveProperty<Pos> LocalPos { get; set; } = new ReactiveProperty<Pos>(new Pos());
 
-        public ReactiveProperty<double> Mass { get; set; }
+        public ReactiveProperty<double> Mass { get; set; } = new ReactiveProperty<double>(0);
         public Component()
         {
-            //Parent = new ReactiveProperty<Component>();
-            Children = new ObservableCollection<Component>();
+            Parent = new ReactiveProperty<Component>();
+            Children = new ComponentCollection<Component>();
             
             GlobalPos.Subscribe( x =>
             {
-                if (Parent != null)
+                if (Parent.Value != null)
                 {
                     LocalPos.Value = x - Parent.Value.GlobalPos.Value;
                 }
@@ -58,7 +58,7 @@ namespace HPADesign.Models.Component
 
             LocalPos.Subscribe(x =>
            {
-               if (Parent != null)
+               if (Parent.Value != null)
                {
                    GlobalPos.Value = Parent.Value.GlobalPos.Value + x;
                }
@@ -71,4 +71,13 @@ namespace HPADesign.Models.Component
                });
         }
     }
+    public class ComponentCollection<T> : ReactiveCollection<T>
+    {
+        public void AddChild(Component parent, Component child)
+        {
+            parent.Children.Add(child);
+            child.Parent = new ReactiveProperty<Component>(parent);
+        }
+    }
+
 }

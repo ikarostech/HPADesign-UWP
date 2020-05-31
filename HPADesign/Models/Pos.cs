@@ -43,7 +43,7 @@ namespace HPADesign.Models
         }
 
 
-        public new int N { get { return 3; } }
+        public override int N { get { return 3; } }
 
         //public Pos() : base(new double[3] { 0, 0, 0 }) { }
 
@@ -166,20 +166,27 @@ namespace HPADesign.Models
         /// <returns></returns>
         public Pos NormalVector(Pos To)
         {
-            Pos Direction = (Pos)DirectionVector(To);
-            return new Pos(Direction.y, -Direction.x, 0);
+            Pos Direction = DirectionVector(To);
+            return new Pos(-Direction.y, Direction.x, 0);
         }
         public Pos NormalUnitVector(Pos To)
         {
             Pos Normal = NormalVector(To);
-            return (Normal / Normal.Magnitude);
+            return Normal.UnitVector;
         }
-
+        public Pos DirectionVector(Pos To)
+        {
+            return To - this;
+        }
+        public Pos DirectionUnitVector(Pos To)
+        {
+            return (To - this).UnitVector;
+        }
         public Pos Inverse()
         {
             return new Pos(y, -x, 0);
         }
-
+        public new Pos UnitVector { get { return this / Magnitude; } }
 
         public int CompareTo(object obj)
         {
@@ -535,7 +542,7 @@ namespace HPADesign.Models
     public class Vector 
     {
         protected List<double> Entry { get; set; }
-        public int N { get { return Entry.Count; } }
+        public virtual int N { get { return Entry.Count; } }
 
         protected Vector()
         {
@@ -638,7 +645,7 @@ namespace HPADesign.Models
         {
             get
             {
-                return new Vector(Entry) / Magnitude;
+                return this / Magnitude;
             }
         }
 

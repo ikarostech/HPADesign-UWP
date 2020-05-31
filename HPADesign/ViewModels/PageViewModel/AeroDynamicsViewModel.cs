@@ -36,12 +36,5 @@ namespace HPADesign.ViewModels
             Airfoils = Project.Airfoil.ToReadOnlyReactiveCollection();
         }
 
-        public void Test()
-        {
-            var test = Ribs;
-            var test1 = Ribs.View[0];
-            Console.WriteLine(test);
-        }
-
     }
 }

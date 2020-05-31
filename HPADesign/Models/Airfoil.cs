@@ -7,7 +7,7 @@ using Reactive.Bindings;
 
 namespace HPADesign.Models
 {
-    public enum AirfoilSide { Uppder, Downer}
+    public enum AirfoilSide { Upper, Downer}
     public enum AirfoilType { Selig, Lednicer, Null }
     public interface IAirfoil
     {
@@ -30,7 +30,10 @@ namespace HPADesign.Models
 
         IAirfoilCoordinate Leap(IAirfoilCoordinate a, IAirfoilCoordinate b, double rate);
         Distribution Camber { get; }
-        Distribution Upper { get; }
+        Distribution Upper
+        {
+            get;
+        }
         Distribution Downer { get; }
         Distribution Thickness { get; }
     }
@@ -44,11 +47,7 @@ namespace HPADesign.Models
         {
             get
             {
-                List<Pos> result = new List<Pos>((N + 1) / 2);
-                for (int i = (N + 1) / 2; i >= 0; i--)
-                {
-                    result.Add(NormalPoints[i]);
-                }
+                List<Pos> result = NormalPoints.Take(N/2 + 1).ToList();
                 return new Distribution(result);
             }
         }
@@ -56,11 +55,7 @@ namespace HPADesign.Models
         {
             get
             {
-                List<Pos> result = new List<Pos>((N + 1) / 2);
-                for (int i = (N + 1) / 2; i < N; i++)
-                {
-                    result.Add(NormalPoints[i]);
-                }
+                List<Pos> result = NormalPoints.Skip(N / 2).ToList();
                 return new Distribution(result);
             }
         }
@@ -120,7 +115,7 @@ namespace HPADesign.Models
             {
                 var result = new List<Pos>();
                 int pr = 0;
-                int N = (this.N + 1) / 2;
+                int N = (this.N) / 2;
                 for (int i = N; i >= 0; i--)
                 {
                     double x = (double)i / N;

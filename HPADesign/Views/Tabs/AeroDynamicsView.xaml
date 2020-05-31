@@ -13,11 +13,13 @@
     
     >
     <UserControl.Resources>
-        <CollectionViewSource x:Key="RibCollectionView" Source="{x:Bind aerodynamicsviewmodel.PartWingViewModels,Mode=TwoWay}" IsSourceGrouped="True" ItemsPath="Ribs"/>
+
     </UserControl.Resources>
     <Grid Height="Auto" Width="Auto" Background="White" >
+
+        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs.View}"  AutoGenerateColumns="False" Margin="14,9,465,351" RightTapped="DataGrid_RightTapped">
+            <Custom:DataGrid.Row
         
-        <Custom:DataGrid ItemsSource="{x:Bind aerodynamicsviewmodel.Ribs.View}"  AutoGenerateColumns="False" Margin="14,9,465,351" >
             <Custom:DataGrid.Columns>
                 <Custom:DataGridTextColumn Header="翼弦長" Binding="{Binding Chord.Value, Mode=TwoWay}" />
                 <Custom:DataGridTemplateColumn Header="翼型" Width="80">
@@ -31,6 +33,7 @@
                 <Custom:DataGridTextColumn Header="CD" Binding="{Binding Airfoil.Value.AirfoilPerformance.CD.Value}" IsReadOnly="True"/>
                 <Custom:DataGridTextColumn Header="CM" Binding="{Binding Airfoil.Value.AirfoilPerformance.CM.Value}" IsReadOnly="True"/>
             </Custom:DataGrid.Columns>
+
             
             <!--
             <Custom:DataGrid.Columns>
@@ -64,7 +67,7 @@
             </lvc:CartesianChart.AxisY>-->
         </lvc:CartesianChart>
         <lvc:CartesianChart Margin="600,507,70,10"/>
-        <Button Content="Button" Height="79" Margin="1077,349,0,0" VerticalAlignment="Top" Width="113" Click="{x:Bind aerodynamicsviewmodel.Test}"/>
+        <!--<Button Content="Button" Height="79" Margin="1077,349,0,0" VerticalAlignment="Top" Width="113" Click="{x:Bind aerodynamicsviewmodel.Test}"/>-->
 
     </Grid>
 </UserControl>

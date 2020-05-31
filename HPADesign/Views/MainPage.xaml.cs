@@ -13,13 +13,14 @@ using System.Collections.ObjectModel;
 using HPADesign.Models;
 using HPADesign.Views.Tabs;
 using HPADesign.Models.Component;
+using HPADesign.Test;
 
 namespace HPADesign.Views
 {
     
     public sealed partial class MainPage : Page
     {
-       Airfoil Airfoil { get; set; }
+       
         public MainPage()
         {
             //MainViewModel ViewModel => DataContext as MainViewModel;
@@ -30,7 +31,7 @@ namespace HPADesign.Views
             InitializeComponent();
 
             this.DataContext = this;
+            TestClass.TestMethod();
         }
-
     }
 }

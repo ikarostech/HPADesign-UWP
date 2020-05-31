@@ -120,6 +120,7 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\PriorityQueueTest.cs" />
     <Compile Include="Models\IO\ParamOutTest.cs" />
     <Compile Include="Models\IO\ShapeOutTest.cs" />
     <Compile Include="Models\PosTest.cs" />
