@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using HPADesign.Helpers;
-using HPADesign.IO.Component;
+using HPADesign.IO.Components;
 
 namespace HPADesign.IO
 {

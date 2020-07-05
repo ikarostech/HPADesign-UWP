@@ -9,3 +9,6 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 insert_final_newline = true
+
+# CS0184: 'is' Ž®‚ÌŽw’è‚³‚ê‚½Ž®‚ÍŽw’è‚³‚ê‚½Œ^‚Å‚Í‚ ‚è‚Ü‚¹‚ñ
+dotnet_diagnostic.CS0184.severity = none

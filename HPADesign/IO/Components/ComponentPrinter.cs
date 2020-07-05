@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
-using HPADesign.Models.Component;
+using HPADesign.Models.Components;
 using HPADesign.IO;
 using HPADesign.Helpers;
 
-namespace HPADesign.IO.Component
+namespace HPADesign.IO.Components
 {
     public interface IPrintable
     {

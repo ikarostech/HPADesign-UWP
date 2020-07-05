@@ -1,9 +1,10 @@
 ﻿using HPADesign.Helpers;
 using HPADesign.IO;
-using HPADesign.IO.Component;
+using HPADesign.IO.Components;
 using HPADesign.Models;
-using HPADesign.Models.Component;
+using HPADesign.Models.Components;
 using HPADesign.Models.Shape;
+using HPADesign.Models.Components.Wings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -67,34 +68,34 @@ namespace HPADesignTest.Models.IO
         [TestMethod]
         public void Ribの出力_リブ外形を構築()
         {
-            PartWing partWing = new PartWing();
+            WingSection partWing = new WingSection(null);
 
-            Plank plank = new Plank();
+            Plank plank = new Plank(partWing);
             plank.PlankThin.Value = 2;
             plank.PlankUpperPos.Value = 0.4;
             plank.PlankDownerPos.Value = 0.2;
 
-            Stringer stringer1 = new Stringer();
+            Stringer stringer1 = new Stringer(partWing);
             stringer1.AirfoilSide.Value = AirfoilSide.Upper;
             stringer1.StringerPos.Value = 0.4;
             stringer1.StringerHeight.Value = 4;
             stringer1.StringerWidth.Value = 2;
 
-            Stringer stringer2 = new Stringer();
+            Stringer stringer2 = new Stringer(partWing);
             stringer2.AirfoilSide.Value = AirfoilSide.Upper;
             stringer2.StringerPos.Value = 0.2;
             stringer2.StringerHeight.Value = 4;
             stringer2.StringerWidth.Value = 2;
 
-            Stringer stringer3 = new Stringer();
+            Stringer stringer3 = new Stringer(partWing);
             stringer3.AirfoilSide.Value = AirfoilSide.Downer;
             stringer3.StringerPos.Value = 0.2;
             stringer3.StringerHeight.Value = 4;
             stringer3.StringerWidth.Value = 2;
 
-            Rib rib = new Rib();
+            Rib rib = new Rib(partWing);
             rib.Chord.Value = 1000;
-            rib.RibCap.RibCapThin.Value = 1;
+            rib.RibCap.Value.RibCapThin.Value = 1;
             rib.Airfoil.Coordinate.Points = new List<Pos>()
             {
                 { new Pos(1.00000, 0.00060) },
@@ -251,11 +252,11 @@ namespace HPADesignTest.Models.IO
             };
 
 
-            partWing.Plank = plank;
+            partWing.Plank.Value = plank;
             partWing.Stringers.Add(stringer1);
             partWing.Stringers.Add(stringer2);
             partWing.Stringers.Add(stringer3);
-            partWing.TrainingEdge.TrainlingEdgeLength.Value = 25;
+            partWing.TrainingEdge.Value.TrainlingEdgeLength.Value = 25;
             //partWing.Children.Add(rib);
             rib.Parent.Value = partWing;
             string actual = DXF.Content(rib);

@@ -7,10 +7,18 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HPADesign.Models.Component
+namespace HPADesign.Models.Components
 {
     public class Propeller : Component
     {
+        private Propeller()
+        {
+            
+        }
+        public Propeller(Plane parent) : this()
+        {
+            parent.Propeller.Value = this;
+        }
        //public Propeller(Project project) : base(project) { }
     }
 }

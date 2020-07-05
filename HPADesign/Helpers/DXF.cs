@@ -1,4 +1,4 @@
-﻿using HPADesign.IO.Component;
+﻿using HPADesign.IO.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,13 +4,13 @@ using System.Text;
 using System.IO;
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings;
-using HPADesign.IO.Component;
+using HPADesign.IO.Components;
 using HPADesign.IO;
 using HPADesign.Models.Shape;
 using System.Linq;
 using HPADesign.Helpers;
 
-namespace HPADesign.Models.Component
+namespace HPADesign.Models.Components.Wings
 {
     public class Rib : Component, IPrintable
     {
@@ -42,16 +42,30 @@ namespace HPADesign.Models.Component
         /// <summary>
         /// リブキャップ
         /// </summary>
-        public RibCap RibCap { get; set; } = new RibCap();
+        public ReactiveProperty<RibCap> RibCap { get; set; } = new ReactiveProperty<RibCap>();
+
+        private Rib()
+        {
+            BindProperty(RibCap);
+        }
+        public Rib(WingSection parent) : this()
+        {
+            parent.Ribs.Add(this);
+        }
+        public Rib(WingSection parent, int index) : this()
+        {
+            parent.Ribs.Insert(index, this);
+        }
 
         private List<Pos> HalfShape(List<Pos> shape, PriorityQueue<double,Stringer> stringers, double plankPos, AirfoilSide side)
         {
             var result = new List<Pos>();
 
-            PartWing partWing = Parent.Value as PartWing;
-            Plank plank = partWing.Plank;
-            
-            TrainingEdge trainingEdge = partWing.TrainingEdge;
+            WingSection partWing = Parent.Value as WingSection;
+            Plank plank = partWing.Plank.Value as Plank;
+            TrainingEdge trainingEdge = partWing.TrainingEdge.Value as TrainingEdge;
+            RibCap ribCap = RibCap.Value as RibCap;
+
             double endPos = Chord.Value - trainingEdge.TrainlingEdgeLength.Value;
 
             result.Add(new Pos(endPos, 0));
@@ -91,7 +105,7 @@ namespace HPADesign.Models.Component
                 if (pos_x >= plankPos * Chord.Value)
                 {
                     Pos mark = shape[i]
-                        + reverse * RibCap.RibCapThin.Value * shape[i - 1].NormalUnitVector(shape[i + 1]);
+                        + reverse * ribCap.RibCapThin.Value * shape[i - 1].NormalUnitVector(shape[i + 1]);
                     result.Add(mark);
                 }
                 if (pos_x <= plankPos * Chord.Value)
@@ -106,7 +120,7 @@ namespace HPADesign.Models.Component
                 {
                     Stringer stringer = stringers.Take();
                     double initDepth = (stringer.StringerPos.Value <= plankPos) ?
-                        plank.PlankThin.Value : RibCap.RibCapThin.Value;
+                        plank.PlankThin.Value : ribCap.RibCapThin.Value;
 
                     //1点目、ストリンガーのx座標まで移動してマークする
                     Pos mark = new Pos(
@@ -150,10 +164,11 @@ namespace HPADesign.Models.Component
                 
                 //imos法で掘り下げていく
 
-                PartWing partWing = Parent.Value as PartWing;
-                Plank plank = partWing.Plank;
-                ReactiveCollection<Stringer> stringers = partWing.Stringers;
-                TrainingEdge trainingEdge = partWing.TrainingEdge;
+                WingSection partWing = Parent.Value as WingSection;
+                Plank plank = partWing.Plank.Value as Plank;
+                TrainingEdge trainingEdge = partWing.TrainingEdge.Value as TrainingEdge;
+                List<Stringer> stringers = partWing.Stringers.Select(x => (Stringer)x).ToList();
+                
                 
                 var upperBaseShape = Airfoil.Coordinate.Upper.Data
                     .Select(u => Chord.Value * u)
@@ -209,9 +224,25 @@ namespace HPADesign.Models.Component
         /// ストリンガー縦厚(mm)
         /// </summary>
         public ReactiveProperty<double> StringerHeight { get; set; } = new ReactiveProperty<double>();
+
+        private Stringer()
+        {
+            
+        }
+
+        public Stringer(WingSection parent) : this()
+        {
+            parent.Stringers.Add(this);
+        }
+        public Stringer(WingSection parent, int index) : this()
+        {
+            parent.Stringers.Insert(index, this);
+        }
     }
     public class Plank : Component
     {
+
+
         public ReactiveProperty<double> PlankThin { get; set; } = new ReactiveProperty<double>();
 
         /// <summary>
@@ -223,6 +254,16 @@ namespace HPADesign.Models.Component
         /// プランク下側取付位置(%)
         /// </summary>
         public ReactiveProperty<double> PlankDownerPos { get; set; } = new ReactiveProperty<double>();
+
+        private Plank()
+        {
+
+        }
+
+        public Plank(WingSection parent) : this()
+        {
+            parent.Plank.Value = this;
+        }
     }
 
     /// <summary>
@@ -230,14 +271,33 @@ namespace HPADesign.Models.Component
     /// </summary>
     public class TrainingEdge : Component
     {
+
         /// <summary>
         /// 後縁切り取り位置(mm)
         /// </summary>
         public ReactiveProperty<double> TrainlingEdgeLength { get; set; } = new ReactiveProperty<double>();
+
+        private TrainingEdge()
+        {
+
+        }
+        public TrainingEdge(WingSection parent) : this()
+        {
+            parent.TrainingEdge.Value = this;
+        }
     }
 
     public class RibCap : Component
     {
+        private RibCap()
+        {
+
+        }
+        public RibCap(Rib parent) : this()
+        {
+            parent.RibCap.Value = this;
+        }
+
         /// <summary>
         /// リブキャップ厚
         /// </summary>

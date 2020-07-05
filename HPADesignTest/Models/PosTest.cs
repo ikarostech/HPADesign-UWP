@@ -30,6 +30,25 @@ namespace HPADesignTest
             Matrix b = new Matrix(new double[1, 1] { { 1 } });
             Assert.AreEqual(a, b);
         }
+
+        [TestMethod]
+        public void VectorEqual()
+        {
+            Vector a = new Vector(new double[] { 1, 2 });
+            Vector b = new Vector(new double[] { 1, 2 });
+            Vector c = new Vector(new double[] { 2, 2 });
+            Assert.AreEqual(a, b);
+            Assert.AreNotEqual(a, c);
+        }
+
+        [TestMethod]
+        public void xyz座標の取得()
+        {
+            Pos a = new Pos(1, 2, 3);
+            Assert.AreEqual(1, a.x);
+            Assert.AreEqual(2, a.y);
+            Assert.AreEqual(3, a.z);
+        }
         [TestMethod]
         public void LU分解()
         {

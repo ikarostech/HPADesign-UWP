@@ -52,7 +52,7 @@
             <TextBlock Grid.Column="1" Grid.Row="4" FontSize="24" HorizontalAlignment="Left" Height="34" Margin="0,80,0,10" TextWrapping="Wrap" Text="翼分割構成" VerticalAlignment="Top" Width="306"/>
 
             <Button Click="{x:Bind conceptviewmodel.AddPartWing}" Content="+" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="0,0,0,-4"/>
-            <Button Command="{x:Bind Path=conceptviewmodel.DelWingSection}" Content="-" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="60,0,0,-4"/>
+            <Button Content="-" Grid.Column="2" HorizontalAlignment="Left" Height="47" Grid.Row="4" VerticalAlignment="Bottom" Width="47" Margin="60,0,0,-4"/>
 
             <Canvas Grid.ColumnSpan="3" Grid.Column="3" HorizontalAlignment="Left" Height="318" Grid.Row="5" VerticalAlignment="Top" Width="488" Margin="75,57,0,0"/>
 

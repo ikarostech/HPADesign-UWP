@@ -674,5 +674,38 @@ namespace HPADesign.Models
         {
             return ((IList<double>)Entry).GetEnumerator();
         }
+
+        public override bool Equals(object obj)
+        {
+            if(!(obj is Vector))
+            {
+                return false;
+            }
+            
+            Vector vector = obj as Vector;
+            if(vector.N != N)
+            {
+                return false;
+            }
+            for(int i=0; i<N; i++)
+            {
+                if(vector[i] != Entry[i])
+                {
+                    return false;
+                }
+            }
+            return true;   
+        }
+
+        public override string ToString()
+        {
+            string result = "(";
+            for(int i=0; i<N; i++)
+            {
+                result += Entry[i].ToString() + ",";
+            }
+            result += ")";
+            return result;
+        }
     }
 }

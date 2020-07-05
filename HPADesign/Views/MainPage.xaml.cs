@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using HPADesign.Models;
 using HPADesign.Views.Tabs;
-using HPADesign.Models.Component;
+using HPADesign.Models.Components;
 using HPADesign.Test;
 
 namespace HPADesign.Views

@@ -33,9 +33,10 @@ namespace HPADesign.Views.Tabs
             DataContext = aerodynamicsviewmodel;
         }
 
-        private void DataGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private void SymbolIcon_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            FlyoutBase.ShowAttachedFlyout(sender as DataGrid);
+            FlyoutBase.ShowAttachedFlyout(sender as SymbolIcon);
         }
+
     }
 }

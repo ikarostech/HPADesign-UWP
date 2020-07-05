@@ -3,24 +3,23 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Collections.Generic;
-using HPADesign.Models.Component;
-using IComponent = HPADesign.Models.Component.IComponent;
+using HPADesign.Models.Components;
 using Reactive.Bindings;
 
-namespace HPADesign.Models.Component
+namespace HPADesign.Models.Components.Wings
 {
     /// <summary>
     /// LLT解析とか翼全体を見たい時に使う
     /// </summary>
     public class Wing : Component
     {
+
+
         public int CN { get; set; }
         public int RN { get; set; }
         public double Lift { get; set; }
 
         public ReactiveProperty<double> CruiseVel { get; set; }
-        
-        
 
         /// <summary>
         /// 両翼スパン
@@ -53,10 +52,32 @@ namespace HPADesign.Models.Component
 
         //public Wing() :base() { }
 
-        public ReactiveCollection<PartWing> PartWings { get; set; } = new ReactiveCollection<PartWing>();
+        public ReactiveCollection<WingSection> PartWings { get; set; } = new ReactiveCollection<WingSection>();       
 
-        //TODO
-        
+        public void SectionAdd()
+        {
+            WingSection ws = new WingSection((Wing)Project.Plane.Wing.Value);
+            if(PartWings.Count == 0)
+            {
+                ws.GlobalPos.Value = new Pos(0, 0, 0);
+            }
+            else
+            {
+                WingSection lastSection = (WingSection)PartWings[PartWings.Count - 1];
+                ws.GlobalPos.Value = lastSection.GlobalPos.Value +
+                    new Pos(lastSection.Length.Value, 0, 0);
+            }
+            PartWings.Add(ws);
+        }
+
+        private Wing()
+        {
+            BindCollection(PartWings);
+        }
+        public Wing(Plane parent) : this()
+        {
+            parent.Wing.Value = this;
+        }
     }
 
 }
