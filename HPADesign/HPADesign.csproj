@@ -91,6 +91,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <CodeAnalysisRuleSet>GlobalizationRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -163,6 +164,10 @@
     <Compile Include="IO\Components\ComponentPrinter.cs" />
     <Compile Include="Models\Components\Component.cs" />
     <Compile Include="Models\Components\Material.cs" />
+    <Compile Include="Models\Components\Wings\Plank.cs" />
+    <Compile Include="Models\Components\Wings\RibCap.cs" />
+    <Compile Include="Models\Components\Wings\Stringer.cs" />
+    <Compile Include="Models\Components\Wings\TrainingEdge.cs" />
     <Compile Include="Models\Components\Wings\WingSection.cs" />
     <Compile Include="Models\Components\Plane.cs" />
     <Compile Include="Models\Components\Propeller.cs" />

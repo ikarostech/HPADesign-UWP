@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using Reactive.Bindings.Extensions;
 using Reactive.Bindings;
 using HPADesign.IO.Components;
 using HPADesign.IO;
@@ -200,108 +199,5 @@ namespace HPADesign.Models.Components.Wings
                 return result;
             }
         }
-
-        // public Rib(Project project) : base(project) { }
     }
-    public class Stringer : Component
-    {
-        /// <summary>
-        /// ストリンガー取付側
-        /// </summary>
-        public ReactiveProperty<AirfoilSide> AirfoilSide { get; set; } = new ReactiveProperty<AirfoilSide>();
-
-        /// <summary>
-        /// ストリンガー取付位置(%)
-        /// </summary>
-        public ReactiveProperty<double> StringerPos { get; set; } = new ReactiveProperty<double>();
-
-        /// <summary>
-        /// ストリンガー横厚(mm)
-        /// </summary>
-        public ReactiveProperty<double> StringerWidth { get; set; } = new ReactiveProperty<double>();
-
-        /// <summary>
-        /// ストリンガー縦厚(mm)
-        /// </summary>
-        public ReactiveProperty<double> StringerHeight { get; set; } = new ReactiveProperty<double>();
-
-        private Stringer()
-        {
-            
-        }
-
-        public Stringer(WingSection parent) : this()
-        {
-            parent.Stringers.Add(this);
-        }
-        public Stringer(WingSection parent, int index) : this()
-        {
-            parent.Stringers.Insert(index, this);
-        }
-    }
-    public class Plank : Component
-    {
-
-
-        public ReactiveProperty<double> PlankThin { get; set; } = new ReactiveProperty<double>();
-
-        /// <summary>
-        /// プランク上側取付位置(%)
-        /// </summary>
-        public ReactiveProperty<double> PlankUpperPos { get; set; } = new ReactiveProperty<double>();
-
-        /// <summary>
-        /// プランク下側取付位置(%)
-        /// </summary>
-        public ReactiveProperty<double> PlankDownerPos { get; set; } = new ReactiveProperty<double>();
-
-        private Plank()
-        {
-
-        }
-
-        public Plank(WingSection parent) : this()
-        {
-            parent.Plank.Value = this;
-        }
-    }
-
-    /// <summary>
-    /// 後縁材
-    /// </summary>
-    public class TrainingEdge : Component
-    {
-
-        /// <summary>
-        /// 後縁切り取り位置(mm)
-        /// </summary>
-        public ReactiveProperty<double> TrainlingEdgeLength { get; set; } = new ReactiveProperty<double>();
-
-        private TrainingEdge()
-        {
-
-        }
-        public TrainingEdge(WingSection parent) : this()
-        {
-            parent.TrainingEdge.Value = this;
-        }
-    }
-
-    public class RibCap : Component
-    {
-        private RibCap()
-        {
-
-        }
-        public RibCap(Rib parent) : this()
-        {
-            parent.RibCap.Value = this;
-        }
-
-        /// <summary>
-        /// リブキャップ厚
-        /// </summary>
-        public ReactiveProperty<double> RibCapThin { get; set; } = new ReactiveProperty<double>();
-    }
-
 }
