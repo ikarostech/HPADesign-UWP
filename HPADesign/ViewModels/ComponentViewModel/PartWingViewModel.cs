@@ -28,8 +28,8 @@ namespace HPADesign.ViewModels.ComponentViewModel
             CLPartGraphData = partWing.Ribs
                 .ToReadOnlyReactiveCollection(
                 x => new ObservablePoint(x.GlobalPos.Value.x,
-                //x.Chord.Value * x.Airfoil.AirfoilPerformance.CL.Value));
-                1000));
+                x.Chord.Value * x.Airfoil.AirfoilPerformance.CL.Value));
+                //1000));
             CLPartGraph.Subscribe(x =>
             {
                 CLPartGraph.Value.Values.Clear();

@@ -43,17 +43,23 @@ namespace HPADesign.Models.Components.Wings
         /// </summary>
         public ReactiveProperty<RibCap> RibCap { get; set; } = new ReactiveProperty<RibCap>();
 
-        private Rib()
+        private Rib() : base()
         {
             BindProperty(RibCap);
         }
         public Rib(WingSection parent) : this()
         {
-            parent.Ribs.Add(this);
+            if (parent != null)
+            {
+                parent.Ribs.Add(this);
+            }
         }
         public Rib(WingSection parent, int index) : this()
         {
-            parent.Ribs.Insert(index, this);
+            if (parent != null)
+            {
+                parent.Ribs.Insert(index, this);
+            }
         }
 
         private List<Pos> HalfShape(List<Pos> shape, PriorityQueue<double,Stringer> stringers, double plankPos, AirfoilSide side)

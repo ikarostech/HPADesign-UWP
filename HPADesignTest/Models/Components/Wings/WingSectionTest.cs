@@ -13,7 +13,24 @@ namespace HPADesignTest.Models.Components.Wings
     public class WingSectionTest
     {
         [TestMethod]
-        public void PlankをChildに連動させる()
+        public void Componentのコンストラクタを実行する()
+        {
+            WingSection wingSection = new WingSection(null);
+            wingSection.GlobalPos.Value = new Pos(1, 1, 1);
+            Assert.AreEqual(wingSection.GlobalPos.Value, wingSection.LocalPos.Value);
+        }
+
+        [TestMethod]
+        public void Ribを子に持つ()
+        {
+            WingSection wingSection = new WingSection(null);
+            Rib rib = new Rib(wingSection);
+
+            Assert.AreEqual(wingSection.Ribs.FirstOrDefault(),rib);
+        }
+
+        [TestMethod]
+        public void Plankを子に持つ()
         {
             WingSection wingSection = new WingSection(null);
             Plank plank = new Plank(wingSection);
@@ -22,7 +39,7 @@ namespace HPADesignTest.Models.Components.Wings
         }
 
         [TestMethod]
-        public void TrainingEdgeをChildに連動させる()
+        public void TrainingEdgeを子に持つ()
         {
             WingSection wingSection = new WingSection(null);
             TrainingEdge trainingEdge = new TrainingEdge(wingSection);

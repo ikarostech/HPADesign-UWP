@@ -16,8 +16,6 @@ namespace HPADesign.Models.Components.Wings
     /// </summary>
     public class WingSection : Component
     {
-
-
         public int Id { get; set; }
 
         public ReactiveProperty<int> Length { get; set; } = new ReactiveProperty<int>();
@@ -52,7 +50,7 @@ namespace HPADesign.Models.Components.Wings
                 var wr = new Rib(this);
                 wr.Parent.Value = this;
                 wr.Chord.Value = MaxChord.Value - (MaxChord.Value - MinChord.Value) * i / (RibCount.Value -1);
-                wr.LocalPos.Value.x = Length.Value * i / (RibCount.Value - 1);              
+                wr.LocalPos.Value = new Pos(Length.Value * i / (RibCount.Value - 1), 0);       
             }
         }
 
@@ -64,7 +62,7 @@ namespace HPADesign.Models.Components.Wings
         public ReactiveProperty<TrainingEdge> TrainingEdge { get; set; } = new ReactiveProperty<TrainingEdge>();
         
 
-        private WingSection()
+        private WingSection() : base()
         {
             BindProperty(Plank);
             BindProperty(TrainingEdge);

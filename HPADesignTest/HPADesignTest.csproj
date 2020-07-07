@@ -123,6 +123,8 @@
     <Compile Include="Helpers\PriorityQueueTest.cs" />
     <Compile Include="Models\Components\BindPropertyTest.cs" />
     <Compile Include="Models\Components\ComponentTest.cs" />
+    <Compile Include="Models\Components\PlaneTest.cs" />
+    <Compile Include="Models\Components\Wings\RibTest.cs" />
     <Compile Include="Models\Components\Wings\WingSectionTest.cs" />
     <Compile Include="Models\Components\Wings\WingTest.cs" />
     <Compile Include="Models\IO\ParamOutTest.cs" />

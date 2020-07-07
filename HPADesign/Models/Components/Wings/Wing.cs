@@ -13,8 +13,6 @@ namespace HPADesign.Models.Components.Wings
     /// </summary>
     public class Wing : Component
     {
-
-
         public int CN { get; set; }
         public int RN { get; set; }
         public double Lift { get; set; }
@@ -70,13 +68,16 @@ namespace HPADesign.Models.Components.Wings
             PartWings.Add(ws);
         }
 
-        private Wing()
+        private Wing() : base()
         {
             BindCollection(PartWings);
         }
         public Wing(Plane parent) : this()
         {
-            parent.Wing.Value = this;
+            if(parent != null)
+            {
+                parent.Wing.Value = this;
+            }
         }
     }
 
