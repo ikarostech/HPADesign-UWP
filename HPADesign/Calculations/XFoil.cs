@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HPADesign.Helpers;
+using HPADesign.Models.Airfoils;
+
 namespace HPADesign.Calculations
 {
     public class XFoil 

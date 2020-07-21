@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HPADesign.Models;
+using HPADesign.Models.Airfoils;
 
 namespace HPADesign.Utilities
 {

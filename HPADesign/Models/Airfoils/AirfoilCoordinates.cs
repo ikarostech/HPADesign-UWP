@@ -1,34 +1,23 @@
-﻿using System;
+﻿using HPADesign.Models.Shape;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using HPADesign.Helpers;
-using HPADesign.Models.Shape;
-using Reactive.Bindings;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace HPADesign.Models
+namespace HPADesign.Models.Airfoils
 {
-    public enum AirfoilSide { Upper, Downer}
-    public enum AirfoilType { Selig, Lednicer, Null }
-    public interface IAirfoil
-    {
-        ReactiveProperty<string> Name { get; set; }
-    }
-
-    public class AirfoilPerformance : AerodynamicsPerformance
-    {
-
-    }
     public interface IAirfoilCoordinate : ICoordinate
     {
         AirfoilType Type { get; }
-        
+
         int N { get; set; }
         /// <summary>
         /// Selig形式によるN点からなる翼型データを提供します
         /// </summary>
         List<Pos> NormalPoints { get; }
 
-        IAirfoilCoordinate Leap(IAirfoilCoordinate a, IAirfoilCoordinate b, double rate);
+        //IAirfoilCoordinate Leap(IAirfoilCoordinate a, IAirfoilCoordinate b, double rate);
         Distribution Camber { get; }
         Distribution Upper
         {
@@ -37,17 +26,18 @@ namespace HPADesign.Models
         Distribution Downer { get; }
         Distribution Thickness { get; }
     }
-    public abstract class AirfoilCoordinate : Coordinate
+
+    public abstract class AirfoilCoordinate : Coordinate, IAirfoilCoordinate
     {
         public abstract AirfoilType Type { get; }
         public abstract List<Pos> NormalPoints { get; }
         public int N { get; set; } = 161;
-
+        protected abstract List<Pos> Normalize(List<Pos> points);
         public Distribution Upper
         {
             get
             {
-                List<Pos> result = NormalPoints.Take(N/2 + 1).ToList();
+                List<Pos> result = NormalPoints.Take(N / 2 + 1).ToList();
                 return new Distribution(result);
             }
         }
@@ -85,13 +75,13 @@ namespace HPADesign.Models
         }
         public static IAirfoilCoordinate Lerp(IAirfoilCoordinate A, IAirfoilCoordinate B, double rate)
         {
-            if(A.N != B.N)
+            if (A.N != B.N)
             {
                 B.N = A.N;
             }
             var result = new SeligCoordinate();
 
-            
+
             for (int i = 0; i < A.N; i++)
             {
                 result.Points.Add(new Pos(A.NormalPoints[i].x, Cal.Lerp(A.NormalPoints[i].y, B.NormalPoints[i].y, rate)));
@@ -100,46 +90,80 @@ namespace HPADesign.Models
             return (IAirfoilCoordinate)result;
         }
     }
-    public interface IAirfoilPerformance
-    {
-        
-    }
     public class SeligCoordinate : AirfoilCoordinate
     {
         public override AirfoilType Type { get { return AirfoilType.Selig; } }
-        
-        
+
+
         public override List<Pos> NormalPoints
         {
             get
             {
-                var result = new List<Pos>();
+                List<Pos> result = Normalize(Points);
+                
+                
                 int pr = 0;
                 int N = (this.N) / 2;
                 for (int i = N; i >= 0; i--)
                 {
                     double x = (double)i / N;
-                    while (Points[pr + 1].x > x || Points[pr].x < x)
+                    while (result[pr + 1].x > x || result[pr].x < x)
                     {
                         pr++;
                     }
-                    //Lerpする
-                    double y = Cal.Lerp(Points[pr], Points[pr + 1], x);
+                    
+                    double y = Cal.Lerp(result[pr], result[pr + 1], x);
                     result.Add(new Pos(x, y));
                 }
                 for (int i = 1; i <= N; i++)
                 {
                     double x = (double)i / N;
-                    while ((Points[pr + 1].x <= x || Points[pr].x > x) && pr + 2 != Points.Count)
+                    while ((result[pr + 1].x <= x || result[pr].x > x) && pr + 2 != result.Count)
                     {
                         pr++;
                     }
-                    //Lerpする
-                    double y = Cal.Lerp(Points[pr], Points[pr + 1], x);
+
+                    double y = Cal.Lerp(result[pr], result[pr + 1], x); ;
                     result.Add(new Pos(x, y));
                 }
+                
                 return result;
             }
+        }
+
+        protected override List<Pos> Normalize(List<Pos> points)
+        {
+            List<Pos> result = new List<Pos>(points);
+
+            // 座標群が閉じていない場合、閉じさせる
+
+            if (result.First() != result.Last())
+            {
+                Pos edge = (result.First() + result.Last()) / 2;
+                result.Add(edge);
+                result.Insert(0, edge);
+            }
+
+            // 原点を作る(deposition)
+            int origin_index = Array.IndexOf(result.Select(x => x.Magnitude).ToArray(), result.Min(x => x.Magnitude));
+            Pos origin = result[origin_index];
+
+            result = result.Select(x => x - origin).ToList();
+
+            // 回転を修正(derotation)
+            double arg = points.First().Theta;
+            result = result.Select(x => x.Rotation2DVector(-arg)).ToList();
+
+            // 縮尺を修正(descale)
+            double scale = points.First().Magnitude;
+            result = result.Select(x => x / scale).ToList();
+
+            // 精度的に合わないので無理やり合わせる…
+            result[0] = new Pos(1, 0);
+            result[result.Count - 1] = new Pos(1, 0);
+
+            return result;
+            //throw new NotImplementedException();
         }
 
         /// <summary>
@@ -184,7 +208,7 @@ namespace HPADesign.Models
                     {
                         pr++;
                     }
-                    //Lerpする
+                    
                     double y = Cal.Lerp(selig.Points[pr], selig.Points[pr + 1], x);
                     result.Add(new Pos(x, y));
                 }
@@ -195,7 +219,7 @@ namespace HPADesign.Models
                     {
                         pr++;
                     }
-                    //Lerpする
+                    
                     double y = Cal.Lerp(Points[pr], Points[pr + 1], x);
                     result.Add(new Pos(x, y));
                 }
@@ -229,6 +253,11 @@ namespace HPADesign.Models
             }
             return result;
         }
+
+        protected override List<Pos> Normalize(List<Pos> points)
+        {
+            throw new NotImplementedException();
+        }
     }
     public class NullCoordinate : AirfoilCoordinate
     {
@@ -236,21 +265,15 @@ namespace HPADesign.Models
         {
             get { return AirfoilType.Null; }
         }
-        
+
 
         public override List<Pos> NormalPoints { get { return null; } }
-    }
 
-    public class Airfoil : IAirfoil
-    {
-        public ReactiveProperty<string> Name { get; set; } = new ReactiveProperty<string>("None");
-
-        public AirfoilCoordinate Coordinate { get; set; } = new SeligCoordinate();
-        public AirfoilPerformance AirfoilPerformance { get; set; } = new AirfoilPerformance();
-
-        
+        protected override List<Pos> Normalize(List<Pos> points)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 
 }
-

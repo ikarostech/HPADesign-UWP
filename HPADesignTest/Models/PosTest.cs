@@ -49,6 +49,30 @@ namespace HPADesignTest
             Assert.AreEqual(2, a.y);
             Assert.AreEqual(3, a.z);
         }
+
+        [TestMethod]
+        public void 二次元座標の回転()
+        {
+            Pos a = new Pos(1, 0);
+            Pos b = a.Rotation2DVector(45);
+
+            Assert.AreEqual(Math.Sqrt(2) * new Pos(1, 1) / 2, b);
+        }
+
+        [TestMethod]
+        public void 二次元回転角の取得()
+        {
+            Pos a = new Pos(1, 1);
+            Pos b = new Pos(-1, 1);
+            Pos c = new Pos(-1, -1);
+            Pos d = new Pos(1, -1);
+
+            Assert.AreEqual(45, a.Theta);
+            Assert.AreEqual(135, b.Theta);
+            Assert.AreEqual(225, c.Theta);
+            Assert.AreEqual(315, d.Theta);
+        }
+
         [TestMethod]
         public void LU分解()
         {

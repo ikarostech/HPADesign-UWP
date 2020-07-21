@@ -9,6 +9,7 @@ using HPADesign.Helpers;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
 using Windows.Foundation;
+using HPADesign.Models.Airfoils;
 
 namespace HPADesign.ViewModels
 {

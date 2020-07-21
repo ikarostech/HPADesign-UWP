@@ -8,6 +8,7 @@ using HPADesign.IO;
 using HPADesign.Models.Shape;
 using System.Linq;
 using HPADesign.Helpers;
+using HPADesign.Models.Airfoils;
 
 namespace HPADesign.Models.Components.Wings
 {

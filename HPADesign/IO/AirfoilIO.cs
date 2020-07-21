@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using HPADesign.Models;
+using HPADesign.Models.Airfoils;
 
 namespace HPADesign.Utilities
 {

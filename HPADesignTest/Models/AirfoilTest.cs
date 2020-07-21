@@ -1,105 +1,26 @@
-﻿using HPADesign.Helpers;
-using HPADesign.IO;
-using HPADesign.IO.Components;
-using HPADesign.Models;
-using HPADesign.Models.Components;
-using HPADesign.Models.Shape;
-using HPADesign.Models.Components.Wings;
+﻿using HPADesign.Models;
+using HPADesign.Models.Airfoils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.Pickers;
-using HPADesign.Models.Airfoils;
 
-namespace HPADesignTest.Models.IO
+namespace HPADesignTest.Models
 {
-    class TestPrintable : IPrintable
-    {
-        public List<IPrintableElement> Shapes { get; set; } = new List<IPrintableElement>();
-    }
     [TestClass]
-    public class ShapeOutTest
+    public class AirfoilTest
     {
-        [TestMethod]
-        public void Coordinateの出力_ボックスを構築()
+        private double delta = 1e-7;
+        private Airfoil Airfoil { get; set; }
+        [TestInitialize]
+        public void AirfoilInitialize()
         {
-            Coordinate coordinate = new Coordinate();
-            coordinate.Points = new List<Pos>()
+            //Clark_Yを読み込む
+            Airfoil = new Airfoil();
+            Airfoil.Coordinate.Points = new List<Pos>()
             {
-                new Pos(0,0,0),
-                new Pos(1,0,0),
-                new Pos(1,1,0),
-                new Pos(0,1,0)
-            };
-            TestPrintable testPrintable = new TestPrintable();
-            testPrintable.Shapes.Add(coordinate);
-            
-            StreamReader sr = new StreamReader("Resource/DXF/Box.dxf");
-            string expect = sr.ReadToEnd();
-            sr.Close();
-
-            string actual = DXF.Content(testPrintable);
-
-            Assert.AreEqual(expect, actual, true);
-            
-        }
-        [TestMethod]
-        public void Circleの出力_円を構築()
-        {
-            Circle circle = new Circle();
-            circle.Center = new Pos(0, 0, 0);
-            circle.Radius = 1;
-            TestPrintable testPrintable = new TestPrintable();
-            testPrintable.Shapes.Add(circle);
-
-            StreamReader sr = new StreamReader("Resource/DXF/Circle.dxf");
-            string expect = sr.ReadToEnd();
-            sr.Close();
-
-            string actual = DXF.Content(testPrintable);
-
-            Assert.AreEqual(expect, actual, true);
-        }
-
-        [TestMethod]
-        public void Ribの出力_リブ外形を構築()
-        {
-            WingSection partWing = new WingSection(null);
-
-            Plank plank = new Plank(partWing);
-            plank.PlankThin.Value = 2;
-            plank.PlankUpperPos.Value = 0.4;
-            plank.PlankDownerPos.Value = 0.2;
-
-            Stringer stringer1 = new Stringer(partWing);
-            stringer1.AirfoilSide.Value = AirfoilSide.Upper;
-            stringer1.StringerPos.Value = 0.4;
-            stringer1.StringerHeight.Value = 4;
-            stringer1.StringerWidth.Value = 2;
-
-            Stringer stringer2 = new Stringer(partWing);
-            stringer2.AirfoilSide.Value = AirfoilSide.Upper;
-            stringer2.StringerPos.Value = 0.2;
-            stringer2.StringerHeight.Value = 4;
-            stringer2.StringerWidth.Value = 2;
-
-            Stringer stringer3 = new Stringer(partWing);
-            stringer3.AirfoilSide.Value = AirfoilSide.Downer;
-            stringer3.StringerPos.Value = 0.2;
-            stringer3.StringerHeight.Value = 4;
-            stringer3.StringerWidth.Value = 2;
-
-            Rib rib = new Rib(partWing);
-            rib.Chord.Value = 1000;
-            rib.RibCap.Value.RibCapThin.Value = 1;
-            rib.Airfoil.Coordinate.Points = new List<Pos>()
-            {
-                { new Pos(1.00000, 0.00060) },
                 { new Pos(0.99344, 0.00216) },
                 { new Pos(0.98165, 0.00494) },
                 { new Pos(0.96782, 0.00820) },
@@ -249,17 +170,21 @@ namespace HPADesignTest.Models.IO
                 { new Pos(0.96680, -0.00182) },
                 { new Pos(0.98113, -0.00129) },
                 { new Pos(0.99325, -0.00085) },
-                { new Pos(1.00000, -0.00060) }
             };
-
-
-            partWing.TrainingEdge.Value.TrainlingEdgeLength.Value = 25;
-
-            string actual = DXF.Content(rib);
-            StreamReader sr = new StreamReader("Resource/DXF/Rib.dxf");
-            string expect = sr.ReadToEnd();
-            sr.Close();
-            Assert.AreEqual(actual, expect);
+            Airfoil.Coordinate.N = 604;
         }
+
+        [TestMethod]
+        public void 翼型座標の原点を揃える()
+        {
+            Assert.IsTrue(Airfoil.Coordinate.NormalPoints.Contains(new Pos(0, 0)));
+        }
+
+        [TestMethod]
+        public void 翼型座標のderotation()
+        {
+            Assert.AreEqual(0, Airfoil.Coordinate.NormalPoints.First().Theta);
+        }
+
     }
 }

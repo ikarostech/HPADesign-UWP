@@ -134,7 +134,7 @@ namespace HPADesign.Models
         {
             get
             {
-                return Math.Atan2(y, x);
+                return (Math.Atan2(y, x) * (180 / Math.PI) + 360) % 360;
             }
         }
 
@@ -190,7 +190,12 @@ namespace HPADesign.Models
 
         public int CompareTo(object obj)
         {
-            return x.CompareTo(obj);
+            if(!(obj is Pos))
+            {
+                throw new InvalidOperationException("Pos以外ではPosのCompareToは実行できません");
+            }
+            Pos counter = obj as Pos;
+            return x.CompareTo(counter.x);
         }
     }
 

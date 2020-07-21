@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HPADesign.Models;
-using HPADesign.Models.Components;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Reactive.Linq;
@@ -12,6 +11,7 @@ using HPADesign.Helpers;
 using Windows.Storage.Pickers;
 using Windows.Storage;
 using HPADesign.Models.Components.Wings;
+using HPADesign.Models.Airfoils;
 
 namespace HPADesign.ViewModels.ComponentViewModel
 {

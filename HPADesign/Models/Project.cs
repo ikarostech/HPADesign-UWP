@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using HPADesign.Models.Airfoils;
 using HPADesign.Models.Components;
 using HPADesign.Models.Config;
 using Reactive.Bindings;

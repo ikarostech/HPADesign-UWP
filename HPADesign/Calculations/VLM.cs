@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using HPADesign.Models;
+using HPADesign.Models.Airfoils;
 using HPADesign.Models.Components;
 using HPADesign.Models.Components.Wings;
 

@@ -1,4 +1,5 @@
 ﻿using HPADesign.Models;
+using HPADesign.Models.Airfoils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 

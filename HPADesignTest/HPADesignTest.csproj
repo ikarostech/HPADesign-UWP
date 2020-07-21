@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\PriorityQueueTest.cs" />
+    <Compile Include="Models\AirfoilTest.cs" />
     <Compile Include="Models\Components\BindPropertyTest.cs" />
     <Compile Include="Models\Components\ComponentTest.cs" />
     <Compile Include="Models\Components\PlaneTest.cs" />

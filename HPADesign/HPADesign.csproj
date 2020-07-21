@@ -162,6 +162,7 @@
     <Compile Include="Helpers\WingName.cs" />
     <Compile Include="IO\DXFIO.cs" />
     <Compile Include="IO\Components\ComponentPrinter.cs" />
+    <Compile Include="Models\Airfoils\AirfoilCoordinates.cs" />
     <Compile Include="Models\Components\Component.cs" />
     <Compile Include="Models\Components\Material.cs" />
     <Compile Include="Models\Components\Wings\Plank.cs" />
@@ -181,7 +182,7 @@
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\TaskExtensions.cs" />
-    <Compile Include="Models\Airfoil.cs" />
+    <Compile Include="Models\Airfoils\Airfoil.cs" />
     <Compile Include="Models\Distribution.cs" />
     <Compile Include="Models\Cal.cs" />
     <Compile Include="Models\Pos.cs" />

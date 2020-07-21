@@ -15,6 +15,7 @@ using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Uwp;
 using HPADesign.Models.Components.Wings;
+using HPADesign.Models.Airfoils;
 
 namespace HPADesign.ViewModels
 {
